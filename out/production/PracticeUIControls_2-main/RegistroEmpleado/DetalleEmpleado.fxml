@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane id="content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="354.0" prefWidth="658.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RegistroEmpleado.DetalleEmpleadoController">
+   <children>
+      <GridPane id="onRoot" hgap="10" layoutX="58.0" layoutY="33.0" prefHeight="236.0" prefWidth="522.0" styleClass="form-grid" stylesheets="@/util/css/formulario.css" vgap="10">
+         <padding>
+            <Insets bottom="20" left="20" right="20" top="20" />
+         </padding>
+         <children>
+            <Label styleClass="form-label" text="Nombre:" GridPane.rowIndex="1" />
+            <TextField fx:id="nameField" prefHeight="26.0" prefWidth="335.0" styleClass="form-input" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label styleClass="form-label" text="Correo:" GridPane.rowIndex="2" />
+            <TextField fx:id="emailField" styleClass="form-input" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label styleClass="form-label" text="Departamento:" GridPane.rowIndex="3" />
+            <TextField fx:id="deptField" styleClass="form-input" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label styleClass="form-label" text="Salario:" GridPane.rowIndex="4" />
+            <TextField fx:id="salaryField" prefHeight="26.0" prefWidth="127.0" styleClass="form-input" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button fx:id="guardarButton" onAction="#onGuardar" prefHeight="34.0" prefWidth="158.0" styleClass="guardar-button" text="Guardar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resource/images/save1.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints maxWidth="159.0" minWidth="78.79998779296875" prefWidth="159.0" />
+            <ColumnConstraints maxWidth="399.6000122070312" minWidth="303.0" prefWidth="303.0" />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+      </GridPane>
+   </children>
+</AnchorPane>
