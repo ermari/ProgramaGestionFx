@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Catalogo.RegistroCatalogoController"
+            prefWidth="470.0" prefHeight="260.0">
+
+    <children>
+        <GridPane layoutX="10" layoutY="10" hgap="10" vgap="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+
+            <Label text="Código:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="codigoField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+            <Label text="Valor:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="valorField" prefHeight="26.0" prefWidth="326.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="descripcionField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+            <Label text="Orden:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <TextField fx:id="ordenField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <Label text="Superior:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <ComboBox fx:id="comboSuperior" prefHeight="26.0" prefWidth="130.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+            <Button onAction="#guardarCatalogo" text="Guardar"
+                    GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.columnSpan="2" />
+
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+                <ColumnConstraints />
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+        </GridPane>
+    </children>
+</AnchorPane>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Catalogo.CatalogoController"
+            prefWidth="626.0" prefHeight="436.0">
+
+    <VBox spacing="10.0" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+
+        <TreeTableView fx:id="treeTableCatalogos">
+            <columns>
+                <TreeTableColumn fx:id="colCodigo" text="Código" />
+                <TreeTableColumn fx:id="colValor" text="Valor" />
+                <TreeTableColumn fx:id="colDescripcion" text="Descripción" />
+            </columns>
+        </TreeTableView>
+
+        <Button onAction="#nuevoCatalogo" text="Nuevo Catálogo" />
+    </VBox>
+
+</AnchorPane>

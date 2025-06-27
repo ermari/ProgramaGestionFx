@@ -27,8 +27,8 @@
                     <Image url="@/resource/icons/menu-hamburguesa.png" />
                 </image>
             </ImageView>
-            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Producto" />
-            <Button text="Ingresar" />
+            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Catalogo" />
+            <Button fx:id="btnCatalogo" onAction="#abrirCatalogo" text="Registro de Empleado" />
         </VBox>
 
         <VBox alignment="CENTER" prefWidth="150" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">

@@ -52,4 +52,35 @@ public class DashboardController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void abrirCatalogo() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Catalogo/catalogos.fxml"));
+            AnchorPane empleado = loader.load();
+
+            if (contentPane != null) {
+                contentPane.getChildren().setAll(empleado);
+                AnchorPane.setTopAnchor(empleado, 0.0);
+                AnchorPane.setBottomAnchor(empleado, 0.0);
+                AnchorPane.setLeftAnchor(empleado, 0.0);
+                AnchorPane.setRightAnchor(empleado, 0.0);
+            }
+
+            // ✅ Aquí movemos la llamada para cambiar el título después de cargar la vista
+            if (homeController != null) {
+                homeController.setTitulo("        Registro Catalogos");
+            } else {
+                System.err.println("⚠️ homeController es null en abrirCatalogo()");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
 }
