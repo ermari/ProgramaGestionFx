@@ -8,6 +8,12 @@ public class Catalogo {
     private String descripcion;
     private int orden;
 
+    private String expandible; // "S" o "N"
+
+    // Getters y Setters
+    public String getExpandible() { return expandible; }
+    public void setExpandible(String expandible) { this.expandible = expandible; }
+
     public int getCatalogoId() {
         return catalogoId;
     }
