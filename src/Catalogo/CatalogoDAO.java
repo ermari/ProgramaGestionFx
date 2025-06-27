@@ -1,5 +1,7 @@
 package Catalogo;
 
+import BD.BDconexion;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,4 +73,13 @@ public class CatalogoDAO {
         ps.setInt(6, cat.getCatalogoId());
         ps.executeUpdate();
     }
+
+    public void eliminar(int catalogoId) throws SQLException {
+        String sql = "DELETE FROM Catalogo WHERE catalogo_id = ?";
+        PreparedStatement ps = BD.BDconexion.getInstance().getConnection().prepareStatement(sql);
+        ps.setInt(1, catalogoId);
+        ps.executeUpdate();
+
+    }
+
 }

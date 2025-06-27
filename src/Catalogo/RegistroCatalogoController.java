@@ -26,6 +26,7 @@ public class RegistroCatalogoController {
         CatalogoDAO dao = new CatalogoDAO();
         List<Catalogo> lista = dao.obtenerTodos();
         comboSuperior.setItems(FXCollections.observableArrayList(lista));
+        comboSuperior.setDisable(true); // opcional
     }
 
     public void setCatalogo(Catalogo catalogo) {

@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class CatalogoController {
 
@@ -31,6 +32,12 @@ public class CatalogoController {
         colCodigo.setCellValueFactory(new TreeItemPropertyValueFactory<>("codigo"));
         colValor.setCellValueFactory(new TreeItemPropertyValueFactory<>("valor"));
         colDescripcion.setCellValueFactory(new TreeItemPropertyValueFactory<>("descripcion"));
+
+        colCodigo.setPrefWidth(250);
+        colValor.setPrefWidth(300);
+        colDescripcion.setPrefWidth(300);
+
+
         cargarDatos();
     }
 
@@ -77,14 +84,104 @@ public class CatalogoController {
             });
 
             ContextMenu menu = new ContextMenu();
+
             MenuItem editar = new MenuItem("Editar");
             editar.setOnAction(e -> abrirFormularioEdicion(row.getItem()));
-            menu.getItems().add(editar);
+
+            MenuItem crearHijo = new MenuItem("Crear hijo");
+            crearHijo.setOnAction(e -> abrirFormularioNuevo(row.getItem(), true)); // hijo
+
+            MenuItem crearHermano = new MenuItem("Crear hermano");
+            crearHermano.setOnAction(e -> abrirFormularioNuevo(row.getItem(), false)); // hermano
+
+            MenuItem eliminar = new MenuItem("Eliminar");
+            eliminar.setOnAction(e -> eliminarCatalogo(row.getItem()));
+
+            menu.getItems().addAll(editar, crearHijo, crearHermano,eliminar);
             row.setContextMenu(menu);
 
             return row;
         });
     }
+
+
+    private void abrirFormularioNuevo(Catalogo base, boolean esHijo) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Catalogo/registro_catalogo.fxml"));
+            AnchorPane pane = loader.load();
+
+            RegistroCatalogoController controller = loader.getController();
+            controller.setCatalogoController(this);
+
+            // Crear objeto nuevo con superior definido
+            Catalogo nuevo = new Catalogo();
+            if (esHijo) {
+                nuevo.setCatalogoSup(base.getCatalogoId());
+            } else {
+                nuevo.setCatalogoSup(base.getCatalogoSup()); // mismo padre que el hermano
+            }
+
+            controller.setCatalogo(nuevo);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(pane));
+            stage.setTitle(esHijo ? "Nuevo Hijo de " + base.getValor() : "Nuevo Hermano de " + base.getValor());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void eliminarCatalogo(Catalogo catalogo) {
+        try {
+            // Validar hijos
+            boolean tieneHijos = false;
+            for (TreeItem<Catalogo> item : treeTableCatalogos.getRoot().getChildren()) {
+                if (tieneHijos(item, catalogo.getCatalogoId())) {
+                    tieneHijos = true;
+                    break;
+                }
+            }
+
+            if (tieneHijos) {
+                Alert alerta = new Alert(Alert.AlertType.WARNING);
+                alerta.setTitle("No se puede eliminar");
+                alerta.setHeaderText("Este catálogo tiene elementos hijos.");
+                alerta.setContentText("Elimine o mueva sus hijos antes de eliminar este nodo.");
+                alerta.showAndWait();
+                return;
+            }
+
+            // Confirmación
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Confirmar eliminación");
+            confirm.setHeaderText("¿Eliminar catálogo '" + catalogo.getValor() + "'?");
+            Optional<ButtonType> result = confirm.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                catalogoDAO.eliminar(catalogo.getCatalogoId());
+                refrescar();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+  //verificar si tiene hijos al elminar
+    private boolean tieneHijos(TreeItem<Catalogo> padre, int id) {
+        if (padre.getValue().getCatalogoSup() != null && padre.getValue().getCatalogoSup() == id) {
+            return true;
+        }
+        for (TreeItem<Catalogo> hijo : padre.getChildren()) {
+            if (tieneHijos(hijo, id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private void abrirFormularioEdicion(Catalogo catalogo) {
         try {
@@ -116,12 +213,15 @@ public class CatalogoController {
             AnchorPane pane = loader.load();
 
             RegistroCatalogoController controller = loader.getController();
-            controller.setCatalogoController(this); // para refrescar
-            controller.setCatalogo(null); // nuevo
+            controller.setCatalogoController(this);
+
+            Catalogo nuevoPadre = new Catalogo();
+            nuevoPadre.setCatalogoSup(null); // sin padre → nodo raíz
+            controller.setCatalogo(nuevoPadre);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(pane));
-            stage.setTitle("Nuevo Catálogo");
+            stage.setTitle("Nuevo Catálogo Padre");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
 
@@ -129,6 +229,7 @@ public class CatalogoController {
             e.printStackTrace();
         }
     }
+
 
     public void refrescar() {
         cargarDatos();
