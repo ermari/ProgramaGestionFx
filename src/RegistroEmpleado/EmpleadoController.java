@@ -2,12 +2,8 @@ package RegistroEmpleado;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import Home.HomeController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -26,7 +22,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import util.MensajeUtil;
-import util.UtilControllers;
 import Constantes.constantes;
 
 
@@ -86,9 +81,13 @@ public class EmpleadoController implements Initializable {
         dataList=cargarTabla();
 
 
+
         FilteredList<Empleado> filteredData = new FilteredList<>(dataList, b -> true);
 
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+
+            System.out.println("Texto del filtro cambiado a: " + newValue); // <-- Añade esto
+
             filteredData.setPredicate(employee -> {
                 if (newValue == null || newValue.isEmpty()) return true;
                 String lowerCaseFilter = newValue.toLowerCase();
@@ -117,7 +116,7 @@ public class EmpleadoController implements Initializable {
 
 
                 // Icono de menú kebab (tres puntos)
-                ImageView kebabIcon = new ImageView(safeLoadImage("/resource/images/menu8.png"));
+                ImageView kebabIcon = new ImageView(safeLoadImage("/resources/images/menu8.png"));
                 kebabIcon.setFitWidth(18);
                 kebabIcon.setFitHeight(18);
 
@@ -130,7 +129,7 @@ public class EmpleadoController implements Initializable {
 
 
                 MenuItem editItem = new MenuItem("modificar");
-                editItem.setGraphic(resizeIcon("/resource/icons/edit.png"));
+                editItem.setGraphic(resizeIcon("/resources/icons/edit.png"));
                 editItem.setOnAction(e -> {
                     Empleado emp = getTableView().getItems().get(getIndex());
                     modificarEmpleado();
@@ -138,7 +137,7 @@ public class EmpleadoController implements Initializable {
                 });
 
                 MenuItem deleteItem = new MenuItem("eliminar");
-                deleteItem.setGraphic(resizeIcon("/resource/icons/delete.png"));
+                deleteItem.setGraphic(resizeIcon("/resources/icons/delete.png"));
                 deleteItem.setOnAction(e -> {
                     Empleado emp = getTableView().getItems().get(getIndex());
                     eliminarEmpleadoDeBD(emp);

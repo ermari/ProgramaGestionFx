@@ -1,3 +1,8 @@
 .targe/
 .idea/
 *.log
+# Ignorar el archivo face.txt
+face.txt
+
+# Ignorar el directorio de salida de compilación
+out/

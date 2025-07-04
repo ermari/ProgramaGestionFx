@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import static main.model.ConnectionPoolMySQL.EXCEPCIONES;
 import util.UtilControllers;
 
 /**
@@ -18,11 +17,10 @@ import util.UtilControllers;
  * @author JorgeLPR
  */
 public class CountryDAO {
-    
+    public   ArrayList<String> EXCEPCIONES =new ArrayList<>();
+
     public ArrayList<Country> selectCountries(){
-    
-        EXCEPCIONES = new ArrayList<>();        
-        
+
         Connection connection = null;
         PreparedStatement pst;
         ResultSet rs;
@@ -32,7 +30,7 @@ public class CountryDAO {
         
         try{
         
-            connection = ConnectionPoolMySQL.getInstance().getConnection();
+            connection =  BD.BDconexion.getInstance().getConnection();
             
             if(connection!=null){
             
@@ -62,7 +60,7 @@ public class CountryDAO {
         }finally{
             try{
                 if(connection != null){
-                    ConnectionPoolMySQL.getInstance().closeConnection(connection);            
+                   connection.close();
                 }            
             }catch(SQLException ex){
                 EXCEPCIONES.add(UtilControllers.enumSizeExcepcion(EXCEPCIONES)+"- "+ex.getMessage());

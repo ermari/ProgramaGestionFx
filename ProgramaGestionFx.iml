@@ -17,5 +17,15 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../javafx-sdk-17.0.13/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/../javafx-sdk-17.0.13/lib" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>

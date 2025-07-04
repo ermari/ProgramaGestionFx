@@ -12,7 +12,6 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -30,63 +29,44 @@ public class HomeController implements Initializable {
     private AnchorPane slider;
 
     @FXML
-    private  AnchorPane contentArea;
+    private AnchorPane contentArea;
 
     @FXML
-    private  Label titulo;
+    private Label titulo;
 
     public void setTitulo(String texto) {
         titulo.setText(texto);
         System.out.println("🏷 Título actualizado a: " + texto);
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setTitulo("Bienvenido al Sistema");
 
-
-        Exit.setOnMouseClicked(event -> {
-            System.exit(0);
-        });
-        //slider.setTranslateX(-176);
+        Exit.setOnMouseClicked(event -> System.exit(0));
 
         Menu.setOnMouseClicked(event -> {
-            TranslateTransition slide = new TranslateTransition();
-            slide.setDuration(Duration.seconds(0.4));
-            slide.setNode(slider);
-
+            TranslateTransition slide = new TranslateTransition(Duration.seconds(0.4), slider);
             slide.setToX(0);
             slide.play();
-
-            slider.setTranslateX(-176);
-
-            slide.setOnFinished((ActionEvent e)-> {
+            slide.setOnFinished((ActionEvent e) -> {
                 Menu.setVisible(false);
                 MenuClose.setVisible(true);
             });
         });
 
         MenuClose.setOnMouseClicked(event -> {
-            TranslateTransition slide = new TranslateTransition();
-            slide.setDuration(Duration.seconds(0.4));
-            slide.setNode(slider);
-
+            TranslateTransition slide = new TranslateTransition(Duration.seconds(0.4), slider);
             slide.setToX(-176);
             slide.play();
-
-            slider.setTranslateX(0);
-
-            slide.setOnFinished((ActionEvent e)-> {
+            slide.setOnFinished((ActionEvent e) -> {
                 Menu.setVisible(true);
                 MenuClose.setVisible(false);
             });
         });
 
-        slider.setVisible(true); // 👈 Esto asegura que esté visible al iniciar
-
+        slider.setVisible(true);
         setForm("Dashboard.fxml");
-
     }
 
     @FXML
@@ -111,11 +91,16 @@ public class HomeController implements Initializable {
 
     public void setForm(String fxml) {
         try {
+            FXMLLoader loader;
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home/" + fxml));
+            // Si empieza con "/", es ruta absoluta
+            if (fxml.startsWith("/")) {
+                loader = new FXMLLoader(getClass().getResource(fxml));
+            } else {
+                loader = new FXMLLoader(getClass().getResource("/Home/" + fxml));
+            }
+
             AnchorPane view = loader.load();
-
-            // Compara de forma segura, sin preocuparte por mayúsculas
             String nombre = fxml.toLowerCase();
 
             if (nombre.contains("dashboard")) {
@@ -129,7 +114,7 @@ public class HomeController implements Initializable {
                 controller.setHomeController(this);
                 setTitulo("       Bienvenido al Reportes");
             } else {
-                setTitulo("Vista desconocida");
+                setTitulo("Vista cargada");
             }
 
             contentArea.getChildren().setAll(view);
@@ -142,7 +127,4 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
     }
-
-
-
 }

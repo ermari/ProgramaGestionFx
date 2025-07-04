@@ -2,6 +2,7 @@ package main.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +22,7 @@ import javax.swing.JOptionPane;
 import javafx.stage.Stage;
 import main.model.Account;
 import main.model.AccountsDAO;
-import static main.model.ConnectionPoolMySQL.EXCEPCIONES;
+
 
 import util.UtilControllers;
 
@@ -31,7 +32,9 @@ import util.UtilControllers;
  * @author JorgeLPR
  */
 public class SignInFormController implements Initializable {
-    
+
+    public   ArrayList<String> EXCEPCIONES =new ArrayList<>();
+
     @FXML
     private TextField txtUserSignIn, txtPasswordSignInMask;
     
@@ -125,7 +128,7 @@ public class SignInFormController implements Initializable {
             stage.setScene(scene);
             stage.setTitle("Bienvenido");
             stage.setMaximized(true);
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resource/images/index.jpeg")));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/index.jpeg")));
             stage.show();
 
             // Cerrar la ventana actual

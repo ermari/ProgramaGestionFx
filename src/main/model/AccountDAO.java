@@ -14,21 +14,17 @@ import util.UtilControllers;
  */
 public class AccountDAO {
     
-    public  static ArrayList<String> EXCEPCIONES;
+    public   ArrayList<String> EXCEPCIONES =new ArrayList<>();
     
     public Account selectAccount(String value, String filter){
         
-        EXCEPCIONES = new ArrayList<>();
-        
-        Connection connection = null;
+        Connection connection = BD.BDconexion.getInstance().getConnection();
         PreparedStatement pst;
         ResultSet rs;        
         
         Account account=null;
 
         try{
-            
-            connection = ConnectionPoolMySQL.getInstance().getConnection();
             
             if(connection!=null){
         
@@ -82,7 +78,7 @@ public class AccountDAO {
             
             try{
                 if(connection != null){
-                    ConnectionPoolMySQL.getInstance().closeConnection(connection);            
+                   connection.close();
                 }            
             }catch(SQLException ex){
                 EXCEPCIONES.add(UtilControllers.enumSizeExcepcion(EXCEPCIONES)+"- "+ex.getMessage());
@@ -96,7 +92,7 @@ public class AccountDAO {
     
     public boolean insertAccount(Account account){
 
-        EXCEPCIONES = new ArrayList<>();
+
         boolean state = false;
         
         Connection connection = null;
@@ -104,7 +100,7 @@ public class AccountDAO {
         
         try{
             
-            connection = ConnectionPoolMySQL.getInstance().getConnection();
+            connection = BD.BDconexion.getInstance().getConnection();
             
             if(connection!=null){
                 
@@ -129,7 +125,7 @@ public class AccountDAO {
             
             try{
                 if(connection != null){
-                    ConnectionPoolMySQL.getInstance().closeConnection(connection);            
+                    connection.close();
                 }            
             }catch(SQLException ex){
                 EXCEPCIONES.add(UtilControllers.enumSizeExcepcion(EXCEPCIONES)+"- "+ex.getMessage());

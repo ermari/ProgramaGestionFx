@@ -24,12 +24,12 @@ public class MensajeUtil {
         // Estilo y gráfico según tipo
         switch (tipo) {
             case INFORMATION:
-                alert.setGraphic(cargarIcono("/resource/icons/check.png"));
+                alert.setGraphic(cargarIcono("/resources/icons/check.png"));
                 dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/util/css/estilos-alerta.css").toExternalForm());
                 dialogPane.getStyleClass().add("alerta-exito");
                 break;
             case ERROR:
-                alert.setGraphic(cargarIcono("/resource/icons/error.png"));
+                alert.setGraphic(cargarIcono("/resources/icons/error.png"));
                 dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/util/css/estilos-alerta.css").toExternalForm());
                 dialogPane.getStyleClass().add("alerta-error");
 
@@ -57,12 +57,12 @@ public class MensajeUtil {
                 }
                 break;
             case WARNING:
-                alert.setGraphic(cargarIcono("/resource/icons/warning.png"));
+                alert.setGraphic(cargarIcono("/resources/icons/warning.png"));
                 dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/util/css/estilos-alerta.css").toExternalForm());
                 dialogPane.getStyleClass().add("alerta-warning");
                 break;
             case CONFIRMATION:
-                alert.setGraphic(cargarIcono("/resource/icons/question.png"));
+                alert.setGraphic(cargarIcono("/resources/icons/question.png"));
                 dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/util/css/estilos-alerta.css").toExternalForm());
                 dialogPane.getStyleClass().add("alerta-confirmacion");
                 break;

@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 import main.model.Account;
 import main.model.AccountsDAO;
 
-import static main.model.ConnectionPoolMySQL.EXCEPCIONES;
 import main.model.Country;
 import main.model.CountryDAO;
 import util.UtilControllers;
@@ -33,6 +32,7 @@ import util.UtilControllers;
  */
 public class SignUpFormController implements Initializable {
 
+    public   ArrayList<String> EXCEPCIONES =new ArrayList<>();
     @FXML
     private TextField txtEmailSignUp, txtUserSignUp;
     

@@ -1,0 +1,103 @@
+/* Estilos generales del fondo del formulario */
+.form-background {
+    -fx-background-color: #f7f7f7; /* Un gris muy claro */
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 0); /* Sombra suave */
+}
+
+/* Título del formulario */
+.form-title {
+    -fx-text-fill: #333333;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10px 0;
+    -fx-border-color: transparent transparent #eeeeee transparent; /* Línea divisoria suave */
+    -fx-border-width: 1px;
+}
+
+/* Estilos para las etiquetas */
+.label {
+    -fx-text-fill: #555555;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Estilos para TextField y ComboBox */
+.text-field, .combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 10px;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: #4CAF50; /* Verde vibrante al enfocar */
+    -fx-background-insets: 0;
+    -fx-background-radius: 5px;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+.combo-box .arrow {
+    -fx-background-color: #555555;
+}
+
+/* Estilos para ToggleButton */
+.toggle-button {
+    -fx-background-color: #cccccc;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 5px 15px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #4CAF50; /* Verde cuando seleccionado */
+    -fx-text-fill: white;
+}
+
+/* Estilos para botones de acción */
+.button {
+    -fx-background-color: #007bff; /* Azul primario por defecto */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 15px;
+    -fx-cursor: hand; /* Cambia el cursor a una mano */
+}
+
+.button:hover {
+    -fx-background-color: #0056b3; /* Azul más oscuro al pasar el ratón */
+}
+
+/* Estilo específico para el botón de guardar */
+.primary-button {
+    -fx-background-color: #4CAF50; /* Verde para guardar */
+}
+
+.primary-button:hover {
+    -fx-background-color: #45a049; /* Verde más oscuro al pasar el ratón */
+}
+
+/* Estilo específico para el botón de cancelar */
+.secondary-button {
+    -fx-background-color: #f44336; /* Rojo para cancelar */
+}
+
+.secondary-button:hover {
+    -fx-background-color: #d32f2f; /* Rojo más oscuro al pasar el ratón */
+}
+
+/* Estilos para las imágenes dentro de los botones */
+.button .image-view {
+    -fx-effect: null; /* Eliminar cualquier efecto predeterminado en la imagen */
+}

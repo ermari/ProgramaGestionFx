@@ -38,10 +38,10 @@ public class RegistroCatalogoController {
 
     private void actualizarToggleEstilo(boolean isSelected) {
         if (isSelected) {
-            toggleExpandible.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
+           // toggleExpandible.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
             toggleExpandible.setText("SI");
         } else {
-            toggleExpandible.setStyle("-fx-background-color: lightgray; -fx-text-fill: black;");
+           // toggleExpandible.setStyle("-fx-background-color: lightgray; -fx-text-fill: black;");
             toggleExpandible.setText("NO");
         }
     }

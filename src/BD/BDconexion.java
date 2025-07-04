@@ -13,6 +13,7 @@ import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,6 +25,8 @@ public class BDconexion {
     private static final String URL = "jdbc:mysql://localhost:3306/" + DATABASE;
     private static final String USER = "root";
     private static final String PASSWORD = "123465";
+
+
 
     private BDconexion() {
         try {

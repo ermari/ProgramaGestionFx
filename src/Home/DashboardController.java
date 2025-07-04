@@ -1,11 +1,9 @@
 package Home;
 
-import Home.HomeController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,7 +22,7 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       // homeController.setTitulo("Bien Venido al Sistema");
+        // homeController.setTitulo("Bien Venido al Sistema");
     }
 
     @FXML
@@ -41,7 +39,6 @@ public class DashboardController implements Initializable {
                 AnchorPane.setRightAnchor(empleado, 0.0);
             }
 
-            // ✅ Aquí movemos la llamada para cambiar el título después de cargar la vista
             if (homeController != null) {
                 homeController.setTitulo("        Registro Empleado");
             } else {
@@ -57,17 +54,16 @@ public class DashboardController implements Initializable {
     public void abrirCatalogo() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Catalogo/catalogos.fxml"));
-            AnchorPane empleado = loader.load();
+            AnchorPane catalogo = loader.load();
 
             if (contentPane != null) {
-                contentPane.getChildren().setAll(empleado);
-                AnchorPane.setTopAnchor(empleado, 0.0);
-                AnchorPane.setBottomAnchor(empleado, 0.0);
-                AnchorPane.setLeftAnchor(empleado, 0.0);
-                AnchorPane.setRightAnchor(empleado, 0.0);
+                contentPane.getChildren().setAll(catalogo);
+                AnchorPane.setTopAnchor(catalogo, 0.0);
+                AnchorPane.setBottomAnchor(catalogo, 0.0);
+                AnchorPane.setLeftAnchor(catalogo, 0.0);
+                AnchorPane.setRightAnchor(catalogo, 0.0);
             }
 
-            // ✅ Aquí movemos la llamada para cambiar el título después de cargar la vista
             if (homeController != null) {
                 homeController.setTitulo("        Registro Catalogos");
             } else {
@@ -78,9 +74,4 @@ public class DashboardController implements Initializable {
             e.printStackTrace();
         }
     }
-
-
-
-
-
 }
