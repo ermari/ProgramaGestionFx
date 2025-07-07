@@ -29,12 +29,12 @@
                 <TreeTableColumn fx:id="colAccion" text="Acciones" prefWidth="150" minWidth="120" />
             </columns>
          <stylesheets>
-            <URL value="@../util/css/tableView.css" />
-            <URL value="@../util/css/tree_table_view_styles.css" />
+            <URL value="@../resources/css/tableView.css" />
+            <URL value="@../resources/css/tree_table_view_styles.css" />
          </stylesheets>
         </TreeTableView>
     </VBox>
-   <JFXButton layoutX="724.0" layoutY="22.0" onAction="#nuevoCatalogo" prefHeight="38.0" prefWidth="150.0" styleClass="add-btn" stylesheets="@../FruitMarket/values/style.css" text="Agregar Catalogo">
+   <JFXButton layoutX="724.0" layoutY="22.0" onAction="#nuevoCatalogo" prefHeight="38.0" prefWidth="150.0" styleClass="add-btn" stylesheets="@../resources/css/style-varios.css" text="Agregar Catalogo">
       <graphic>
          <ImageView fitHeight="22.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -46,14 +46,14 @@
          <Font name="Arial Black" size="10.0" />
       </font>
    </JFXButton>
-   <HBox alignment="CENTER" layoutX="31.0" layoutY="24.0" prefHeight="38.0" prefWidth="692.0" stylesheets="@../FruitMarket/values/style.css">
+   <HBox alignment="CENTER" layoutX="31.0" layoutY="24.0" prefHeight="38.0" prefWidth="692.0" stylesheets="@../resources/css/style-varios.css">
       <children>
          <Label prefHeight="38.0" prefWidth="346.0" text=" Catalogos" textFill="#2c6678">
             <font>
                <Font name="Arial Black" size="18.0" />
             </font>
          </Label>
-         <TextField fx:id="filterField" prefHeight="38.0" prefWidth="668.0" promptText="Buscar Catalogo" styleClass="transparent" stylesheets="@../FruitMarket/values/style.css">
+         <TextField fx:id="filterField" prefHeight="38.0" prefWidth="668.0" promptText="Buscar Catalogo" styleClass="transparent" stylesheets="@../resources/css/style-varios.css">
             <HBox.margin>
                <Insets left="20.0" />
             </HBox.margin>
@@ -61,7 +61,7 @@
                <Font name="Arial" size="13.0" />
             </font>
          </TextField>
-         <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="11.0" styleClass="search-button" stylesheets="@../FruitMarket/values/style.css" text="Buscar" textFill="WHITE" />
+         <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="11.0" styleClass="search-button" stylesheets="@../resources/css/style-varios.css" text="Buscar" textFill="WHITE" />
       </children>
       <styleClass>
          <String fx:value="search-box" />

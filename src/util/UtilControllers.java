@@ -40,7 +40,7 @@ public class UtilControllers {
         alert.initStyle(StageStyle.UTILITY);
         alert.setTitle("Error");
         alert.setHeaderText("Ha ocurrido un error");
-        alert.setContentText(mensaje);
+        alert.setContentText(mensaje + excepcion.getMessage());
 
         // Convertir la excepción a texto
         StringWriter sw = new StringWriter();
@@ -77,7 +77,7 @@ public class UtilControllers {
         alert.setContentText(mensaje);
 
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(UtilControllers.class.getResource("/util/css/alerta.css").toExternalForm());
+        dialogPane.getStylesheets().add(UtilControllers.class.getResource("/resources/css/alerta.css").toExternalForm());
         dialogPane.getStyleClass().add("alerta-exito");
 
         alert.showAndWait();

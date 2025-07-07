@@ -164,3 +164,48 @@
 #nameColumn .column-header {
     -fx-background-color: #27ae60; /* Fondo verde para la cabecera de la columna 'Name' */
 }
+
+/* Estilo para el control de Paginación */
+.pagination {
+    -fx-background-color: #3A3A3A;
+    -fx-padding: 5px 0;
+    -fx-border-color: #4A4A4A;
+    -fx-border-width: 1px 0 0 0; /* Solo borde superior */
+}
+
+.pagination .page-navigation-button {
+    -fx-background-color: #555555;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #E0E0E0;
+}
+
+.pagination .page-navigation-button:hover {
+    -fx-background-color: #007ACC;
+}
+
+.pagination .toggle-button {
+    -fx-background-color: #555555;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #E0E0E0;
+}
+
+.pagination .toggle-button:selected {
+    -fx-background-color: #007ACC;
+    -fx-text-fill: white;
+}
+
+/* Estilo para el Footer */
+.footer {
+    -fx-background-color: #000000; /* ¡Fondo completamente negro! */
+    -fx-text-fill: #F0F0F0; /* Color de texto muy claro para contraste */
+    -fx-font-size: 12px;
+    -fx-padding: 5px 10px;
+    -fx-alignment: CENTER_RIGHT;
+    -fx-border-color: #333333; /* Un borde sutil más oscuro si quieres mantenerlo */
+    -fx-border-width: 1px 0 0 0;
+}
+
+/* Estilo para el Label dentro del Footer si necesitas algo específico */
+.footer Label {
+    -fx-text-fill: #E0E0E0; /* Ligeramente menos blanco que el texto principal del footer */
+}

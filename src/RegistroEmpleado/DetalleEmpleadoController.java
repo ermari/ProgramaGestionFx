@@ -1,103 +1,135 @@
-package RegistroEmpleado;
+package RegistroEmpleado; // ¡Debe coincidir con el paquete de EmpleadoController!
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import util.MensajeUtil;
+import util.MensajeUtil; // Asegúrate de que esta ruta sea correcta
+import util.UtilControllers;
+
+import java.sql.SQLException; // Importar SQLException
+import java.util.Arrays;
 
 public class DetalleEmpleadoController {
 
-    private EmpleadoDao empleadoDao = new EmpleadoDao();
-    private Stage stage;
+    // --- CORREGIDO: Los fx:id del FXML DEBEN COINCIDIR con los nombres de las variables @FXML ---
+    @FXML
+    private TextField nameField; // Coincide con fx:id="nameField"
+    @FXML
+    private TextField emailField; // Coincide con fx:id="emailField"
+    @FXML
+    private TextField deptField;  // Coincide con fx:id="deptField"
+    @FXML
+    private TextField salaryField; // Coincide con fx:id="salaryField"
+    // Ya no necesitas txtFirstName, txtEmail, etc., si no los usas en el FXML.
+
+    private Empleado empleado;
+    private EmpleadoDao empleadoDao = new EmpleadoDao(); // Asumo que esta clase existe y está bien.
+
+    // Referencia al controlador principal de la tabla
     private EmpleadoController empleadoController;
 
-    @FXML private TextField nameField;
-    @FXML private TextField emailField;
-    @FXML private TextField deptField;
-    @FXML private TextField salaryField;
+    // Puedes usar initialize para hacer cosas iniciales si lo necesitas.
+    // @Override
+    // public void initialize(URL url, ResourceBundle rb) {
+    //     // Por ejemplo: salaryField.textProperty().addListener((obs, oldVal, newVal) -> { /* Validar que sea número */ });
+    // }
 
-    private Empleado empleado; // será null si es nuevo
-
-    private Runnable onSaveCallback;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setEmpleadoController(EmpleadoController controller) {
-        this.empleadoController = controller;
-    }
-
-    public void setEmpleado(Empleado emp) {
-        this.empleado = emp;
-
-        if (emp != null) {
-            nameField.setText(emp.getFirstName());
-            emailField.setText(emp.getEmail());
-            deptField.setText(emp.getDepartment());
-            salaryField.setText(String.valueOf(emp.getSalary()));
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+        if (empleado != null && empleado.getEmpID() != 0) {
+            // --- CORREGIDO: Asignar valores a los campos correctos ---
+            nameField.setText(empleado.getFirstName());
+            emailField.setText(empleado.getEmail());
+            deptField.setText(empleado.getDepartment());
+            salaryField.setText(String.valueOf(empleado.getSalary())); // Convertir double a String
+        } else {
+            this.empleado = new Empleado(); // Para un nuevo registro, asegúrate de tener una instancia limpia
+            // --- CORREGIDO: Limpiar los campos correctos ---
+            nameField.setText("");
+            emailField.setText("");
+            deptField.setText("");
+            salaryField.setText("");
         }
     }
 
-    public void setOnSaveCallback(Runnable callback) {
-        this.onSaveCallback = callback;
+    public void setEmpleadoController(EmpleadoController empleadoController) {
+        this.empleadoController = empleadoController;
     }
 
     @FXML
-    private void onGuardar() {
-        String nombre = nameField.getText().trim();
-        String correo = emailField.getText().trim();
-        String depto = deptField.getText().trim();
-        String salarioStr = salaryField.getText().trim();
+    private void onGuardar() throws SQLException { // Coincide con onAction="#onGuardar" en el FXML del botón
+        if (validarCampos()) { // Tu método de validación
+            empleado.setFirstName(nameField.getText()); // Obtener texto de nameField
+            empleado.setEmail(emailField.getText());   // Obtener texto de emailField
+            empleado.setDepartment(deptField.getText()); // Obtener texto de deptField
 
-        if (nombre.isEmpty() || correo.isEmpty() || depto.isEmpty() || salarioStr.isEmpty()) {
-            MensajeUtil.mostrarAlerta(Alert.AlertType.WARNING, "Campos vacíos", "Completa todos los campos", null);
-            return;
-        }
+            try {
+                // Parsear el salario, maneja NumberFormatException
+                empleado.setSalary(Double.parseDouble(salaryField.getText()));
+            } catch (NumberFormatException e) {
 
-        try {
-            double salario = Double.parseDouble(salarioStr);
-            if (salario < 0) throw new NumberFormatException();
-
-            if (empleado == null) {
-                empleado = new Empleado(); // Nuevo empleado
+                UtilControllers.mostrarError("", e);
+                //MensajeUtil.mostrarAlerta(Alert.AlertType.ERROR, "Error de Entrada", "El salario debe ser un número válido.", e.getMessage().toString());
+                return; // Detener la ejecución si el salario no es un número
             }
 
-            empleado.setFirstName(nombre);
-            empleado.setEmail(correo);
-            empleado.setDepartment(depto);
-            empleado.setSalary(salario);
-
-            if (empleado.getEmpID() > 0) {
-                empleadoDao.modificarEmpleado(empleado);
-                MensajeUtil.mostrarAlerta(Alert.AlertType.INFORMATION, "Modificado", "Empleado actualizado correctamente.", null);
+            if (empleado.getEmpID() == 0) { // Asumo que ID 0 significa nuevo empleado
+                empleadoDao.insertar(empleado); // Asumo que tu DAO inserta el empleado
+                MensajeUtil.mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito",  "Empleado registrado correctamente.",null);
             } else {
-                empleadoDao.insertarEmpleado(empleado);
-                MensajeUtil.mostrarAlerta(Alert.AlertType.INFORMATION, "Guardado", "Empleado agregado correctamente.", null);
+                empleadoDao.modificar(empleado); // Asumo que tu DAO actualiza (antes modificar)
+                MensajeUtil.mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Empleado actualizado correctamente.", null);
             }
 
+            // ¡IMPORTANTE! Llama a refrescarTabla del controlador principal
             if (empleadoController != null) {
-                empleadoController.cargarEmpleados(); // Refrescar la tabla
+                empleadoController.cargarEmpleado("","ALL");
             }
 
-            if (onSaveCallback != null) onSaveCallback.run();
+            // Cierra esta ventana después de guardar
+            Stage stage = (Stage) nameField.getScene().getWindow(); // Usar cualquier campo para obtener el Stage
+            stage.close();
 
-            cerrarVentana();
-
-        } catch (NumberFormatException e) {
-            MensajeUtil.mostrarAlerta(Alert.AlertType.ERROR, "Salario inválido", "Debe ser un número positivo", e);
-        } catch (Exception e) {
-            MensajeUtil.mostrarAlerta(Alert.AlertType.ERROR, "Error al guardar", e.getMessage(), e);
         }
     }
 
-    private void cerrarVentana() {
+    // No hay botón "Cancelar" en tu FXML actual, pero si lo añades, puedes usar esto:
+    /*
+    @FXML
+    private void onCancelar() { // Puedes cambiar el nombre del método en el FXML
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
+    }
+    */
+
+    private boolean validarCampos() {
+        String errorMessage = "";
+
+        if (nameField.getText() == null || nameField.getText().trim().isEmpty()) {
+            errorMessage += "El nombre no puede estar vacío.\n";
+        }
+        if (emailField.getText() == null || emailField.getText().trim().isEmpty()) {
+            errorMessage += "El correo electrónico no puede estar vacío.\n";
+        }
+        if (deptField.getText() == null || deptField.getText().trim().isEmpty()) {
+            errorMessage += "El departamento no puede estar vacío.\n";
+        }
+        if (salaryField.getText() == null || salaryField.getText().trim().isEmpty()) {
+            errorMessage += "El salario no puede estar vacío.\n";
+        } else {
+            try {
+                Double.parseDouble(salaryField.getText());
+            } catch (NumberFormatException e) {
+                errorMessage += "El salario debe ser un número válido.\n";
+            }
+        }
+
+        if (errorMessage.isEmpty()) {
+            return true;
+        } else {
+            MensajeUtil.mostrarAlerta(Alert.AlertType.ERROR, "Campos Inválidos", "Por favor, corrija los siguientes errores:", errorMessage);
+            return false;
+        }
     }
 }

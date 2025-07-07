@@ -10,6 +10,9 @@ public class Catalogo {
 
     private String expandible; // "S" o "N"
 
+    public Catalogo(int i, String root, String root1, String catálogoRaíz, int i1, Object o, String s) {
+    }
+
     // Getters y Setters
     public String getExpandible() { return expandible; }
     public void setExpandible(String expandible) { this.expandible = expandible; }

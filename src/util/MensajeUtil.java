@@ -7,12 +7,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.StageStyle;
 
-import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class MensajeUtil {
 
-    public static void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje, Exception ex) {
+    public static void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje, String ex) {
         Alert alert = new Alert(tipo);
         alert.initStyle(StageStyle.UTILITY);
         alert.setTitle(titulo);
@@ -25,18 +24,17 @@ public class MensajeUtil {
         switch (tipo) {
             case INFORMATION:
                 alert.setGraphic(cargarIcono("/resources/icons/check.png"));
-                dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/util/css/estilos-alerta.css").toExternalForm());
+                dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/resources/css/estilos-alerta.css").toExternalForm());
                 dialogPane.getStyleClass().add("alerta-exito");
                 break;
             case ERROR:
                 alert.setGraphic(cargarIcono("/resources/icons/error.png"));
-                dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/util/css/estilos-alerta.css").toExternalForm());
+                dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/resources/css/estilos-alerta.css").toExternalForm());
                 dialogPane.getStyleClass().add("alerta-error");
 
                 if (ex != null) {
                     // Mostrar detalles técnicos expandibles
                     StringWriter sw = new StringWriter();
-                    ex.printStackTrace(new PrintWriter(sw));
                     String exceptionText = sw.toString();
 
                     Label label = new Label("Detalles técnicos:");
@@ -58,12 +56,12 @@ public class MensajeUtil {
                 break;
             case WARNING:
                 alert.setGraphic(cargarIcono("/resources/icons/warning.png"));
-                dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/util/css/estilos-alerta.css").toExternalForm());
+                dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/resources/css/estilos-alerta.css").toExternalForm());
                 dialogPane.getStyleClass().add("alerta-warning");
                 break;
             case CONFIRMATION:
                 alert.setGraphic(cargarIcono("/resources/icons/question.png"));
-                dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/util/css/estilos-alerta.css").toExternalForm());
+                dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/resources/css/estilos-alerta.css").toExternalForm());
                 dialogPane.getStyleClass().add("alerta-confirmacion");
                 break;
             default:
@@ -84,4 +82,6 @@ public class MensajeUtil {
             return null;
         }
     }
+
+
 }

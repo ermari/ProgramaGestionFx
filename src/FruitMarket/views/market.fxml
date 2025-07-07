@@ -24,7 +24,7 @@
    <children>
       <BorderPane layoutX="6.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
-            <VBox prefHeight="200.0" prefWidth="435.0" styleClass="right-bar" stylesheets="@../values/style.css" BorderPane.alignment="CENTER">
+            <VBox prefHeight="200.0" prefWidth="435.0" styleClass="right-bar" stylesheets="@../../resources/css/style-varios.css" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER" prefHeight="110.0" prefWidth="200.0">
                      <children>
@@ -40,12 +40,12 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="65.0" prefWidth="200.0" stylesheets="@../values/style.css" VBox.vgrow="NEVER">
+                  <HBox alignment="CENTER" prefHeight="65.0" prefWidth="200.0" stylesheets="@../../resources/css/style-varios.css" VBox.vgrow="NEVER">
                      <VBox.margin>
                         <Insets left="30.0" right="30.0" />
                      </VBox.margin>
                      <children>
-                        <TextField prefHeight="40.0" prefWidth="235.0" promptText="Type here to search" styleClass="transparent" stylesheets="@../values/style.css">
+                        <TextField prefHeight="40.0" prefWidth="235.0" promptText="Type here to search" styleClass="transparent" stylesheets="@../../resources/css/style-varios.css">
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>
@@ -53,7 +53,7 @@
                               <Font name="Cambria" size="18.0" />
                            </font>
                         </TextField>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="search-button" stylesheets="@../values/style.css" text="Search" textFill="WHITE" />
+                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="search-button" stylesheets="@../../resources/css/style-varios.css" text="Search" textFill="WHITE" />
                      </children>
                      <styleClass>
                         <String fx:value="search-box" />
@@ -61,7 +61,7 @@
                      </styleClass>
                   </HBox>
                   <Pane prefHeight="57.0" prefWidth="435.0" VBox.vgrow="ALWAYS" />
-                  <VBox fx:id="chosenFruitCard" alignment="CENTER" prefHeight="535.0" prefWidth="100.0" stylesheets="@../values/style.css">
+                  <VBox fx:id="chosenFruitCard" alignment="CENTER" prefHeight="535.0" prefWidth="100.0" stylesheets="@../../resources/css/style-varios.css">
                      <VBox.margin>
                         <Insets left="50.0" right="50.0" />
                      </VBox.margin>
@@ -98,7 +98,7 @@
                                     <Font name="Cambria" size="24.0" />
                                  </font>
                               </Label>
-                              <ComboBox prefHeight="45.0" prefWidth="130.0" promptText="1" styleClass="comboBox" stylesheets="@../values/style.css" />
+                              <ComboBox prefHeight="45.0" prefWidth="130.0" promptText="1" styleClass="comboBox" stylesheets="@../../resources/css/style-varios.css" />
                            </children>
                            <VBox.margin>
                               <Insets top="20.0" />
@@ -125,10 +125,10 @@
                                     <Font name="Cambria" size="24.0" />
                                  </font>
                               </Label>
-                              <ComboBox prefHeight="45.0" prefWidth="130.0" promptText="selected" styleClass="comboBox" stylesheets="@../values/style.css" />
+                              <ComboBox prefHeight="45.0" prefWidth="130.0" promptText="selected" styleClass="comboBox" stylesheets="@../../resources/css/style-varios.css" />
                            </children>
                         </HBox>
-                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="270.0" styleClass="add-btn" stylesheets="@../values/style.css" text="ADD TO CART" textFill="#828282">
+                        <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="270.0" styleClass="add-btn" stylesheets="@../../resources/css/style-varios.css" text="ADD TO CART" textFill="#828282">
                            <VBox.margin>
                               <Insets bottom="20.0" top="30.0" />
                            </VBox.margin>
@@ -180,7 +180,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Pane prefHeight="84.0" prefWidth="96.0" />
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="380.0" styleClass="free-delivery-card" stylesheets="@../values/style.css">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="380.0" styleClass="free-delivery-card" stylesheets="@../../resources/css/style-varios.css">
                            <children>
                               <VBox alignment="CENTER" prefHeight="100.0" prefWidth="214.0">
                                  <children>
@@ -204,7 +204,7 @@
                            </children>
                         </HBox>
                         <Pane prefHeight="84.0" prefWidth="96.0" HBox.hgrow="ALWAYS" />
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="336.0" styleClass="shopping-online-card" stylesheets="@../values/style.css">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="336.0" styleClass="shopping-online-card" stylesheets="@../../resources/css/style-varios.css">
                            <children>
                               <VBox alignment="CENTER" prefHeight="100.0" prefWidth="203.0">
                                  <children>
@@ -235,7 +235,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <ScrollPane fx:id="scroll" prefHeight="570.0" prefWidth="785.0" styleClass="transparent" stylesheets="@../values/style.css">
+                        <ScrollPane fx:id="scroll" prefHeight="570.0" prefWidth="785.0" styleClass="transparent" stylesheets="@../../resources/css/style-varios.css">
                            <content>
                               <GridPane fx:id="grid" prefHeight="0.0" prefWidth="0.0">
                                  <rowConstraints>

@@ -17,11 +17,11 @@
 
         <VBox alignment="CENTER" prefHeight="237.0" prefWidth="198.0" spacing="10"
               style="-fx-background-color: #f0f0f0; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);"
-              styleClass="form-grid" stylesheets="@../util/css/formulario.css">
+              styleClass="form-grid" stylesheets="@../resources/css/formulario.css">
 
             <ImageView fitHeight="77.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
                 <image>
-                    <Image url="@/resources/icons/menu-hamburguesa.png" />
+                    <Image url="@/resources/images/empleado.png" />
                 </image>
             </ImageView>
 
@@ -40,7 +40,7 @@
 
             <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Catalogo" />
             <Button fx:id="btnCatalogo" onAction="#abrirCatalogo" prefHeight="45.0" prefWidth="158.0"
-                    styleClass="guardar-button" stylesheets="@../util/css/formulario.css"
+                    styleClass="guardar-button" stylesheets="@../resources/css/formulario.css"
                     text="Registro de Catalogos" />
         </VBox>
 
@@ -72,6 +72,6 @@
     </HBox>
 
     <Label layoutX="11.0" layoutY="35.0" prefHeight="34.0" prefWidth="895.0" style="-fx-background-color: rgb(0, 166, 255);"
-           styleClass="form-label" stylesheets="@../util/css/formulario.css" text="MODULO 1" />
+           styleClass="form-label" stylesheets="@../resources/css/formulario.css" text="MODULO 1" />
 
 </AnchorPane>
