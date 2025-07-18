@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<<<<<<< HEAD
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -14,9 +15,17 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+=======
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Catalogo.RegistroCatalogoController" prefWidth="400" prefHeight="400">
+>>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
 
 <AnchorPane prefHeight="494.0" prefWidth="659.0" stylesheets="@../resources/css/formulario_catalogo.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Catalogo.RegistroCatalogoController">
     <children>
+<<<<<<< HEAD
         <VBox alignment="TOP_CENTER" layoutX="25.0" layoutY="25.0" prefHeight="551.0" prefWidth="615.0" spacing="15.0" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="25.0">
             <children>
                 <Label fx:id="tituloId" styleClass="form-title" text="Registro de Catálogo">
@@ -92,5 +101,31 @@
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
             </padding>
         </VBox>
+=======
+        <GridPane layoutX="20" layoutY="20" hgap="10" vgap="10">
+
+            <Label text="Código:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="codigoField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Valor:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="valorField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Descripción:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="descripcionField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Orden:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextField fx:id="ordenField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label text="Superior:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="comboSuperior" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <Label text="Expandible:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <ToggleButton fx:id="toggleExpandible" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+            <Button text="Guardar" onAction="#guardarCatalogo" GridPane.rowIndex="6" GridPane.columnIndex="1"
+                    maxWidth="Infinity"/>
+
+        </GridPane>
+>>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
     </children>
 </AnchorPane>
