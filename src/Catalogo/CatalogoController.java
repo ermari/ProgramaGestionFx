@@ -48,8 +48,11 @@ public class CatalogoController implements Initializable { // Implementar Initia
     @FXML
     private TreeTableColumn<Catalogo, String> colCodigoPadre;
     @FXML
-    private TreeTableColumn<Catalogo, Void> colAccion; // Columna de acción de tipo Void
+    private TreeTableColumn<Catalogo, Void> colAccion;
 
+    @FXML private TextField filterField;
+
+    // Columna de acción de tipo Void
     private CatalogoDAO catalogoDAO = new CatalogoDAO();
 
     @Override // Sobreescribir el método initialize de Initializable
@@ -88,15 +91,52 @@ public class CatalogoController implements Initializable { // Implementar Initia
         setupRowFactory();
 
         // 6. Cargar los datos iniciales en la tabla
-        refrescar(); // Se debe llamar aquí para que la tabla se llene al iniciar
+        //refrescar(); // Se debe llamar aquí para que la tabla se llene al iniciar
+
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                cargarEnTreeTable(newValue.trim().toLowerCase());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        try {
+            cargarEnTreeTable("");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    /**
-     * Configura la columna de acción para que muestre botones de Editar, Eliminar y Crear Sub-Registro.
-     */
-    /**
-     * Configura la columna de acción para que muestre botones de Editar, Eliminar y Crear Sub-Registro.
-     */
+    public void cargarEnTreeTable(String filtro) throws SQLException {
+        treeTableCatalogos.setRoot(null);
+
+        TreeItem<Catalogo> root = new TreeItem<>(new Catalogo(0, null, "", "Raíz",", ", 0, false));
+        Map<Integer, TreeItem<Catalogo>> mapa = new HashMap<>();
+        mapa.put(0, root);
+
+        List<Catalogo> listaCatalogo = catalogoDAO.obtenerTodos();
+
+        for (Catalogo item : listaCatalogo) {
+            boolean coincideFiltro = filtro == null || filtro.isEmpty()
+                    || item.getCodigo().toLowerCase().contains(filtro)
+                    || item.getValor().toLowerCase().contains(filtro)
+                   ;
+
+            if (!coincideFiltro) continue;
+
+            TreeItem<Catalogo> nodo = new TreeItem<>(item);
+            mapa.put(item.getCatalogoId(), nodo);
+
+            int idPadre = (item.getCatalogoSup() != null) ? item.getCatalogoSup() : 0;
+            TreeItem<Catalogo> padre = mapa.getOrDefault(idPadre, root);
+            padre.getChildren().add(nodo);
+        }
+
+        treeTableCatalogos.setRoot(root);
+        treeTableCatalogos.setShowRoot(false);
+    }
+     // Configura la columna de acción para que muestre botones de Editar, Eliminar y Crear Sub-Registro.
     private void setupActionColumn() {
         Callback<TreeTableColumn<Catalogo, Void>, TreeTableCell<Catalogo, Void>> cellFactory =
                 new Callback<TreeTableColumn<Catalogo, Void>, TreeTableCell<Catalogo, Void>>() {

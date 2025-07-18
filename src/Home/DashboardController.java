@@ -1,10 +1,15 @@
 package Home;
 
+import Comprobantes.BusquedaCatalogoController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -108,49 +113,22 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
-    private void btnGenerarReporte(ActionEvent event) {
+    private void abrirBusquedaCuenta() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Comprobantes/busqueda_catalogo.fxml"));
+        Parent root = loader.load();
 
-        Connection conn = null;
-        try {
-            // 1️⃣ Configuración de conexión a MySQL
-            String url = "jdbc:mysql://localhost:3306/datasoft";
-            String user = "root";           // tu usuario
-            String pass = "123465";    // tu contraseña
+        BusquedaCatalogoController controller = loader.getController();
+        controller.setOnCuentaSeleccionada(cuenta -> {
+          //  campoCuentaDebe.setText(cuenta.getCodigo() + " - " + cuenta.getValor());
+            // puedes guardar también el ID o la entidad completa si lo necesitas
+        });
 
-            // Conectar
-            conn = DriverManager.getConnection(url, user, pass);
-
-            // 2️⃣ Ruta al JRXML
-            String jrxml = "src/Reportes/reporte_simple.jrxml";
-
-            HashMap<String, Object> parameters = new HashMap<>();
-
-            // 💡 Agregar imagen relativa
-            String imagePath = getClass().getResource("/resources/images/Tree.png").toExternalForm();
-            parameters.put("imagen1", imagePath);
-
-            // 3️⃣ Compilar
-            JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);
-
-            // 5️⃣ Llenar el reporte usando la conexión real
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
-
-            // 6️⃣ Mostrar visor
-            JasperViewer viewer = new JasperViewer(jasperPrint, false);
-            viewer.setVisible(true);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // 7️⃣ Cerrar conexión
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root));
+        stage.setTitle("Buscar Cuenta");
+        stage.showAndWait();
     }
+
 
 }

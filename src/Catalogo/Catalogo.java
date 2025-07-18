@@ -11,9 +11,12 @@ public class Catalogo {
     private String expandible; // "S" o "N"
     private String codigoPadre;
 
-    public Catalogo(int i, String root, String root1, String catálogoRaíz, int i1, Object o, String s) {
+    public Catalogo(int i, String root, String root1, String catálogoRaíz,
+                    int i1, Object o, String s) {
     }
 
+    public Catalogo(int catalogoId, Catalogo catalogoSup,
+                    String codigo, String valor, String descripcion, int orden, boolean expandible){}
 
 
 
