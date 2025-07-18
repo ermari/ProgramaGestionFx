@@ -2,13 +2,7 @@ package Catalogo;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-<<<<<<< HEAD
 import javafx.scene.control.*;
-=======
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
@@ -22,12 +16,9 @@ public class RegistroCatalogoController {
     @FXML private TextField ordenField;
     @FXML private ComboBox<Catalogo> comboSuperior;
     @FXML private ToggleButton toggleExpandible;
-<<<<<<< HEAD
     @FXML private TextField codigoPadreField;
     @FXML private Label tituloId;
 
-=======
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
 
     @FXML
     private TextField nivelField;
@@ -41,35 +32,22 @@ public class RegistroCatalogoController {
         List<Catalogo> lista = dao.obtenerTodos();
         comboSuperior.setItems(FXCollections.observableArrayList(lista));
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
         // Inicializar estilo visual
         toggleExpandible.selectedProperty().addListener((obs, oldVal, newVal) -> actualizarToggleEstilo(newVal));
 
         // Estado inicial visual
         toggleExpandible.setSelected(true);
         actualizarToggleEstilo(true);
-<<<<<<< HEAD
 
-=======
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
     }
 
     private void actualizarToggleEstilo(boolean isSelected) {
         if (isSelected) {
-<<<<<<< HEAD
            // toggleExpandible.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
             toggleExpandible.setText("SI");
         } else {
            // toggleExpandible.setStyle("-fx-background-color: lightgray; -fx-text-fill: black;");
-=======
-            toggleExpandible.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
-            toggleExpandible.setText("SI");
-        } else {
-            toggleExpandible.setStyle("-fx-background-color: lightgray; -fx-text-fill: black;");
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
             toggleExpandible.setText("NO");
         }
     }
@@ -78,11 +56,7 @@ public class RegistroCatalogoController {
     public void setCatalogo(Catalogo catalogo) {
         this.catalogo = catalogo;
 
-<<<<<<< HEAD
         if (catalogo != null && catalogo.getCatalogoId() != 0 ) {
-=======
-        if (catalogo != null && catalogo.getCatalogoId() != 0) {
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
             // EDITAR
             codigoField.setText(catalogo.getCodigo());
             valorField.setText(catalogo.getValor());
@@ -105,10 +79,7 @@ public class RegistroCatalogoController {
                 }
             }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
             if ("S".equals(catalogo.getExpandible())) {
                 toggleExpandible.setSelected(true);
             } else {
@@ -121,10 +92,7 @@ public class RegistroCatalogoController {
                 ordenField.setDisable(true);
                 toggleExpandible.setDisable(true);
                 comboSuperior.setDisable(true);
-<<<<<<< HEAD
                 ordenField.setDisable(true);
-=======
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
             } else {
                 ordenField.setDisable(false);
                 toggleExpandible.setDisable(false);
@@ -133,7 +101,6 @@ public class RegistroCatalogoController {
 
         } else {
             // NUEVO (cuando se crea hijo o hermano se pasa un objeto con catalogoSup ya definido)
-<<<<<<< HEAD
             ordenField.textProperty().addListener((obs, oldText, newText) -> {
                 String codigoPadre = codigoPadreField.getText().trim();
 
@@ -155,8 +122,6 @@ public class RegistroCatalogoController {
 
 
 
-=======
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
             ordenField.setText("0");
             toggleExpandible.setSelected(true);
 
@@ -165,7 +130,6 @@ public class RegistroCatalogoController {
                 for (Catalogo item : comboSuperior.getItems()) {
                     if (item.getCatalogoId() == catalogo.getCatalogoSup()) {
                         comboSuperior.setValue(item);
-<<<<<<< HEAD
                         tituloId.setText("REGISTRO DE CUENTA || Cuenta Padre  " + item.getCodigoPadre() + "  " + item.getValor());
                         codigoPadreField.setText( item.getCodigo());
                         nivelField.setText(String.valueOf(item.getNivel() + 1));
@@ -179,21 +143,15 @@ public class RegistroCatalogoController {
 
 
 
-=======
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
                         break;
                     }
                 }
 
                 ordenField.setDisable(false);
                 toggleExpandible.setDisable(false);
-<<<<<<< HEAD
                 comboSuperior.setDisable(false);
                 comboSuperior.setVisible(false);
                 // 🔥 Para hijo y hermano: combo seleccionado y bloqueado
-=======
-                comboSuperior.setDisable(true); // 🔥 Para hijo y hermano: combo seleccionado y bloqueado
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
             } else {
                 // Nuevo padre
                 ordenField.setDisable(true);
@@ -217,10 +175,7 @@ public class RegistroCatalogoController {
         catalogo.setCodigoPadre(codigoPadreField.getText());
         catalogo.setValor(valorField.getText());
         catalogo.setDescripcion(descripcionField.getText());
-<<<<<<< HEAD
         catalogo.setNivel(Integer.parseInt(nivelField.getText()));
-=======
->>>>>>> 2016b4674c35de2756fc7be326de76702f19985f
 
         try {
             catalogo.setOrden(Integer.parseInt(ordenField.getText()));
