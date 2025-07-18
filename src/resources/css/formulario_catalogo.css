@@ -101,3 +101,125 @@
 .button .image-view {
     -fx-effect: null; /* Eliminar cualquier efecto predeterminado en la imagen */
 }
+
+/* diseno para botones*/
+.crear-button {
+    -fx-background-color: linear-gradient(to bottom, #5cb85c 0%, #4cae4c 100%); /* Verde más vibrante */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #4cae4c;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 1);
+    -fx-cursor: hand;
+}
+
+.crear-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #4cae4c 0%, #5cb85c 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 1);
+}
+
+.crear-button:pressed {
+    -fx-background-color: #4cae4c;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);
+    -fx-translate-y: 1px;
+}
+
+.editar-button {
+    -fx-background-color: linear-gradient(to bottom, #337ab7 0%, #2e6da4 100%); /* Azul */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #2e6da4;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 1);
+    -fx-cursor: hand;
+}
+
+.editar-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #2e6da4 0%, #337ab7 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 1);
+}
+
+.regresar-anterior-button {
+    -fx-background-color: linear-gradient(to bottom, #eeeeee 0%, #d0d0d0 100%); /* Gris medio */
+    -fx-text-fill: #333;
+    -fx-font-weight: normal;
+    -fx-border-color: #bbbbbb;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 8px 15px; /* Ajustado el padding para posible ícono */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+    -fx-cursor: hand;
+    -fx-alignment: center-left; /* Alinea el contenido a la izquierda para el icono */
+    -fx-graphic-text-gap: 5; /* Espacio entre el ícono y el texto */
+}
+
+.regresar-anterior-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #d0d0d0 0%, #eeeeee 100%);
+    -fx-border-color: #a0a0a0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.regresar-anterior-button:pressed {
+    -fx-background-color: #c0c0c0;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+    -fx-translate-y: 1px;
+}
+
+.regresar-anterior-button:focused {
+    -fx-focus-color: rgba(150, 150, 255, 0.5); /* Un azul suave para el enfoque */
+    -fx-faint-focus-color: rgba(150, 150, 255, 0.2);
+}
+
+.editar-button:pressed {
+    -fx-background-color: #2e6da4;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);
+    -fx-translate-y: 1px;
+}
+
+
+.eliminar-button {
+    -fx-background-color: linear-gradient(to bottom, #d9534f 0%, #d43f3f 100%); /* Rojo */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #d43f3f;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 1);
+    -fx-cursor: hand;
+}
+
+.eliminar-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #d43f3f 0%, #d9534f 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 1);
+}
+
+.eliminar-button:pressed {
+    -fx-background-color: #d43f3f;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);
+    -fx-translate-y: 1px;
+}
+
+.ver-detalle-button {
+    -fx-background-color: linear-gradient(to bottom, #f0f0f0 0%, #e0e0e0 100%); /* Gris claro */
+    -fx-text-fill: #333;
+    -fx-font-weight: normal; /* Texto normal, no negrita para ser menos "acción" */
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1); /* Sombra más sutil */
+    -fx-cursor: hand;
+}
+
+.ver-detalle-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #e0e0e0 0%, #f0f0f0 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.ver-detalle-button:pressed {
+    -fx-background-color: #d0d0d0;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+    -fx-translate-y: 1px;
+}
+

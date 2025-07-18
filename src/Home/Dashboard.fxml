@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -8,57 +10,49 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="943.0"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Home.DashboardController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="943.0" stylesheets="@../resources/css/style-varios.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Home.DashboardController">
 
-    <HBox layoutX="13.0" layoutY="70.0" prefHeight="144.0" prefWidth="902.0" spacing="20.0">
+    <HBox layoutX="13.0" layoutY="70.0" prefHeight="144.0" prefWidth="902.0" spacing="20.0" styleClass="shadow" stylesheets="@../resources/css/style-varios.css">
 
-        <VBox alignment="CENTER" prefHeight="237.0" prefWidth="198.0" spacing="10"
-              style="-fx-background-color: #f0f0f0; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);"
-              styleClass="form-grid" stylesheets="@../resources/css/formulario.css">
+        <VBox alignment="CENTER" prefHeight="237.0" prefWidth="198.0" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
 
-            <ImageView fitHeight="77.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="84.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@/resources/images/empleado.png" />
                 </image>
             </ImageView>
-
-            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Empleado" />
-            <Button fx:id="btnEmpleado" onAction="#abrirEmpleado" text="Registro de Empleado" />
+            <Button fx:id="btnEmpleado" onAction="#abrirEmpleado" prefHeight="33.0" prefWidth="156.0" styleClass="guardar-button" stylesheets="@../resources/css/style-varios.css" text="Registro de Empleado" />
+         <stylesheets>
+            <URL value="@../resources/css/formulario.css" />
+            <URL value="@../resources/css/style-varios.css" />
+         </stylesheets>
+         <styleClass>
+            <String fx:value="chosen-fruit-card" />
+            <String fx:value="chosen-fruit-card" />
+         </styleClass>
         </VBox>
 
-        <VBox alignment="CENTER" prefHeight="244.0" prefWidth="234.0" spacing="10"
-              style="-fx-background-color: #f0f0f0; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+        <VBox alignment="CENTER" prefHeight="244.0" prefWidth="234.0" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
 
-            <ImageView fitHeight="72.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="82.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@/resources/images/Tree.png" />
                 </image>
             </ImageView>
-
-            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Catalogo" />
-            <Button fx:id="btnCatalogo" onAction="#abrirCatalogo" prefHeight="45.0" prefWidth="158.0"
-                    styleClass="guardar-button" stylesheets="@../resources/css/formulario.css"
-                    text="Registro de Catalogos" />
+            <Button fx:id="btnCatalogo" onAction="#abrirCatalogo" prefHeight="28.0" prefWidth="158.0" styleClass="guardar-button" stylesheets="@../resources/css/formulario.css" text="Plan de Cuenta" />
         </VBox>
 
-        <VBox alignment="CENTER" prefHeight="170.0" prefWidth="217.0" spacing="10"
-              style="-fx-background-color: #f0f0f0; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+        <VBox alignment="CENTER" prefHeight="176.0" prefWidth="218.0" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
 
-            <ImageView fitHeight="48" fitWidth="48" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="71.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@/resources/icons/menu-hamburguesa.png" />
                 </image>
             </ImageView>
-
-            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Cliente" />
-            <Button text="Ingresar" />
+            <Button fx:id="btnCatalogoGestion" onAction="#abrirCatalogoGestion" prefHeight="28.0" prefWidth="158.0" styleClass="guardar-button" stylesheets="@../resources/css/formulario.css" text="Maestro de Catalogo" />
         </VBox>
 
-        <VBox alignment="CENTER" prefHeight="190.0" prefWidth="182.0" spacing="10"
-              style="-fx-background-color: #f0f0f0; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+        <VBox alignment="CENTER" prefHeight="190.0" prefWidth="182.0" spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 20; -fx-background-radius: 10; -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
 
             <ImageView fitHeight="48" fitWidth="48" pickOnBounds="true" preserveRatio="true">
                 <image>
@@ -67,11 +61,10 @@
             </ImageView>
 
             <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Proveedor" />
-            <Button text="Ingresar" />
+            <Button text="Ingresar" onAction="#btnGenerarReporte" />
         </VBox>
     </HBox>
 
-    <Label layoutX="11.0" layoutY="35.0" prefHeight="34.0" prefWidth="895.0" style="-fx-background-color: rgb(0, 166, 255);"
-           styleClass="form-label" stylesheets="@../resources/css/formulario.css" text="MODULO 1" />
+    <Label layoutX="11.0" layoutY="35.0" prefHeight="34.0" prefWidth="902.0" style="-fx-background-color: rgb(0, 166, 255);" styleClass="form-label" stylesheets="@../resources/css/formulario.css" text="MODULO 1" />
 
 </AnchorPane>

@@ -9,7 +9,7 @@ import java.util.List;
 public class CatalogoDAO {
     public List<Catalogo> obtenerTodos() throws SQLException {
         List<Catalogo> lista = new ArrayList<>();
-        String sql = "SELECT * FROM Catalogo ORDER BY orden";
+        String sql = "SELECT * FROM Catalogo ORDER BY catalogo_id";
 
         PreparedStatement ps = BD.BDconexion.getInstance().getConnection().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -20,7 +20,9 @@ public class CatalogoDAO {
                     rs.getString("codigo"),
                     rs.getString("valor"),
                     rs.getString("descripcion"),
-                    rs.getInt("orden")
+                    rs.getInt("orden"),
+                    rs.getInt("nivel"),
+                    rs.getString("codigo_padre")
             );
 
             // AGREGAR: leer el campo expandible
@@ -34,7 +36,7 @@ public class CatalogoDAO {
 
     public Catalogo getPorId(int id) throws SQLException {
         Catalogo catalogo = null;
-        String sql = "SELECT * FROM Catalogo WHERE catalogo_id = ?";
+        String sql = "SELECT * FROM Catalogo WHERE catalogo_id = ? order by  catalogo_id";
         PreparedStatement ps = BD.BDconexion.getInstance().getConnection().prepareStatement(sql);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
@@ -46,18 +48,22 @@ public class CatalogoDAO {
                     rs.getString("codigo"),
                     rs.getString("valor"),
                     rs.getString("descripcion"),
-                    rs.getInt("orden")
-            );
+                    rs.getInt("orden"),
+                    rs.getInt("nivel"),
+                    rs.getString("codigo_padre")
+
+                    );
 
             // AGREGAR: leer el campo expandible
             catalogo.setExpandible(rs.getString("expandible"));
+
         }
 
         return catalogo;
     }
 
     public void insertar(Catalogo cat) throws SQLException {
-        String sql = "INSERT INTO Catalogo (catalogo_sup, codigo, valor, descripcion, orden, expandible) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Catalogo (catalogo_sup, codigo, valor, descripcion, orden, expandible,nivel,codigo_padre) VALUES (?,?,?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = BD.BDconexion.getInstance().getConnection().prepareStatement(sql);
         ps.setObject(1, cat.getCatalogoSup());
         ps.setString(2, cat.getCodigo());
@@ -65,11 +71,13 @@ public class CatalogoDAO {
         ps.setString(4, cat.getDescripcion());
         ps.setInt(5, cat.getOrden());
         ps.setString(6, cat.getExpandible());
+        ps.setInt(7, cat.getNivel());
+        ps.setString(8, cat.getCodigoPadre());
         ps.executeUpdate();
     }
 
     public void actualizar(Catalogo cat) throws SQLException {
-        String sql = "UPDATE Catalogo SET catalogo_sup=?, codigo=?, valor=?, descripcion=?, orden=?, expandible=? WHERE catalogo_id=?";
+        String sql = "UPDATE Catalogo SET catalogo_sup=?, codigo=?, valor=?, descripcion=?, orden=?, expandible=? , nivel=? , codigo_padre=? WHERE catalogo_id=?";
         PreparedStatement ps = BD.BDconexion.getInstance().getConnection().prepareStatement(sql);
         ps.setObject(1, cat.getCatalogoSup());
         ps.setString(2, cat.getCodigo());
@@ -77,7 +85,9 @@ public class CatalogoDAO {
         ps.setString(4, cat.getDescripcion());
         ps.setInt(5, cat.getOrden());
         ps.setString(6, cat.getExpandible());
-        ps.setInt(7, cat.getCatalogoId());
+        ps.setInt(7, cat.getNivel());
+        ps.setString(8, cat.getCodigoPadre());
+        ps.setInt(9 ,cat.getCatalogoId());
         ps.executeUpdate();
     }
 

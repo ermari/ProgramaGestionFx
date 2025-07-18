@@ -9,9 +9,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -43,7 +46,7 @@ public class HomeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         setTitulo("Bienvenido al Sistema");
 
-        Exit.setOnMouseClicked(event -> System.exit(0));
+//Exit.setOnMouseClicked(event -> System.exit(0));
 
         Menu.setOnMouseClicked(event -> {
             TranslateTransition slide = new TranslateTransition(Duration.seconds(0.4), slider);
@@ -85,8 +88,8 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    private void handleBackup() throws IOException {
-        setForm("/FruitMarket/views/market.fxml");
+    private void handleExit() throws IOException {
+        System.exit(0);
     }
 
     public void setForm(String fxml) {
@@ -127,4 +130,7 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
+
 }

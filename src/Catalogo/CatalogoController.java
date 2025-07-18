@@ -1,5 +1,6 @@
 package Catalogo;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable; // Importar Initializable
@@ -14,9 +15,16 @@ import javafx.geometry.Pos;          // Para alinear los botones en el HBox
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;         // Para el CellFactory de la columna de acción
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.net.URL;         // Necesario para Initializable
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -30,14 +38,15 @@ public class CatalogoController implements Initializable { // Implementar Initia
     private TreeTableView<Catalogo> treeTableCatalogos;
     @FXML
     private TreeTableColumn<Catalogo, String> colCodigo;
+
     @FXML
     private TreeTableColumn<Catalogo, String> colValor;
     @FXML
     private TreeTableColumn<Catalogo, String> colDescripcion;
-
     @FXML
     private TreeTableColumn<Catalogo, String> colExpandible;
-
+    @FXML
+    private TreeTableColumn<Catalogo, String> colCodigoPadre;
     @FXML
     private TreeTableColumn<Catalogo, Void> colAccion; // Columna de acción de tipo Void
 
@@ -48,9 +57,9 @@ public class CatalogoController implements Initializable { // Implementar Initia
         // 1. Configurar las factorías de valor para las columnas
         colCodigo.setCellValueFactory(new TreeItemPropertyValueFactory<>("codigo"));
         colValor.setCellValueFactory(new TreeItemPropertyValueFactory<>("valor"));
+        colCodigoPadre.setCellValueFactory(new TreeItemPropertyValueFactory<>("codigoPadre"));
         colDescripcion.setCellValueFactory(new TreeItemPropertyValueFactory<>("descripcion"));
         colExpandible.setCellValueFactory(new TreeItemPropertyValueFactory<>("expandible"));
-
         // 2. Ajustar el ancho de las columnas de forma proporcional al ancho de la tabla
         treeTableCatalogos.widthProperty().addListener((obs, oldVal, newVal) -> {
             double tableWidth = newVal.doubleValue();
@@ -59,9 +68,10 @@ public class CatalogoController implements Initializable { // Implementar Initia
 
             // Ajusta estos porcentajes según tus necesidades (la suma debe ser 1.0 para 100%)
             colCodigo.setPrefWidth(tableWidth * 0.15); // 15%
-            colValor.setPrefWidth(tableWidth * 0.25); // 25%
-            colDescripcion.setPrefWidth(tableWidth * 0.30); // 30%
-            colExpandible.setPrefWidth(tableWidth * 0.10); // 10%
+            colValor.setPrefWidth(tableWidth * 0.20); // 25%
+            colDescripcion.setPrefWidth(tableWidth * .20); // 30%
+            colExpandible.setPrefWidth(tableWidth * 0.15); // 10%
+            colCodigoPadre.setPrefWidth(tableWidth * 0.10); // 15%
             colAccion.setPrefWidth(tableWidth * 0.20); // 20% (necesita suficiente espacio para 3 botones)
         });
 
@@ -84,6 +94,9 @@ public class CatalogoController implements Initializable { // Implementar Initia
     /**
      * Configura la columna de acción para que muestre botones de Editar, Eliminar y Crear Sub-Registro.
      */
+    /**
+     * Configura la columna de acción para que muestre botones de Editar, Eliminar y Crear Sub-Registro.
+     */
     private void setupActionColumn() {
         Callback<TreeTableColumn<Catalogo, Void>, TreeTableCell<Catalogo, Void>> cellFactory =
                 new Callback<TreeTableColumn<Catalogo, Void>, TreeTableCell<Catalogo, Void>>() {
@@ -91,15 +104,17 @@ public class CatalogoController implements Initializable { // Implementar Initia
                     public TreeTableCell<Catalogo, Void> call(final TreeTableColumn<Catalogo, Void> param) {
                         final TreeTableCell<Catalogo, Void> cell = new TreeTableCell<Catalogo, Void>() {
 
-                            // Se crean los botones una sola vez por celda para optimizar el rendimiento
+                            // Los botones se pueden crear aquí o dentro de updateItem.
+                            // Para evitar recrearlos constantemente, los definimos aquí como miembros de la celda.
                             private final Button btnEditar = createButton("/resources/images/edit.png", "Editar");
                             private final Button btnEliminar = createButton("/resources/images/exit.png", "Eliminar");
                             private final Button btnCrearSubRegistro = createButton("/resources/images/Tree.png", "Sub-Registro");
 
                             {
-                                // Asignar las acciones (eventos) a cada botón
+                                // Asignar las acciones (eventos) a cada botón UNA VEZ
                                 btnEditar.setOnAction(event -> {
-                                    Catalogo data = getTreeTableRow().getItem(); // Obtener el objeto Catalogo de la fila
+                                    // Asegúrate de que el item no sea null para evitar NPE si la celda se recicla inesperadamente
+                                    Catalogo data = getTreeTableRow().getItem();
                                     if (data != null) {
                                         abrirFormularioEdicion(data);
                                     }
@@ -115,7 +130,7 @@ public class CatalogoController implements Initializable { // Implementar Initia
                                 btnCrearSubRegistro.setOnAction(event -> {
                                     Catalogo data = getTreeTableRow().getItem();
                                     if (data != null) {
-                                        crearSubRegistro(data); // Llama al método unificado de creación
+                                        crearSubRegistro(data);
                                     }
                                 });
                             }
@@ -126,56 +141,62 @@ public class CatalogoController implements Initializable { // Implementar Initia
                             private Button createButton(String imagePath, String tooltipText) {
                                 Button button = new Button();
                                 try {
-                                    // Asegúrate de que las imágenes estén en el classpath correcto, por ejemplo:
-                                    // src/main/resources/resources/images/edit.png
-                                    // src/main/resources/resources/images/delete.png
-                                    // src/main/resources/resources/images/add.png
                                     ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(imagePath)));
-                                    imageView.setFitHeight(16); // Ajustar tamaño de la imagen
+                                    imageView.setFitHeight(16);
                                     imageView.setFitWidth(16);
                                     button.setGraphic(imageView);
                                 } catch (Exception e) {
                                     System.err.println("No se pudo cargar la imagen: " + imagePath + ". Usando texto de respaldo.");
-                                    button.setText(tooltipText.substring(0, Math.min(tooltipText.length(), 4))); // Usar las primeras 4 letras
+                                    button.setText(tooltipText.substring(0, Math.min(tooltipText.length(), 4)));
                                 }
-                                button.setTooltip(new Tooltip(tooltipText)); // Texto que aparece al pasar el ratón
-                                button.getStyleClass().add("action-button"); // Clase CSS para estilos comunes
+                                button.setTooltip(new Tooltip(tooltipText));
+                                button.getStyleClass().add("action-button");
                                 return button;
                             }
 
                             @Override
                             protected void updateItem(Void item, boolean empty) {
-                                super.updateItem(item, empty);
+                                super.updateItem(item, empty); // Llama al método de la clase padre
+
                                 if (empty) {
-                                    setGraphic(null); // Si la celda está vacía, no mostrar nada
+                                    // Si la celda está vacía (no hay datos de Catalogo para esta fila),
+                                    // asegúrate de que no se muestre ningún gráfico.
+                                    setGraphic(null);
                                 } else {
-                                    Catalogo currentCatalogo = getTreeTableRow().getItem(); // Obtener el objeto Catalogo de la fila actual
-                                    HBox hbox = new HBox(5); // Contenedor horizontal para los botones, con 5px de espacio
-                                    hbox.setAlignment(Pos.CENTER); // Centrar los botones dentro de la celda
+                                    // Si la celda contiene datos (no está vacía),
+                                    // obtenemos el objeto Catalogo asociado a esta fila.
+                                    Catalogo currentCatalogo = getTreeTableRow().getItem();
 
-                                    // Añadir siempre los botones Editar y Eliminar
-                                    hbox.getChildren().addAll(btnEditar, btnEliminar);
+                                    // Es crucial que el 'currentCatalogo' no sea null aquí si 'empty' es false.
+                                    // Si por alguna razón lo es, podríamos mostrar un HBox vacío o manejar el caso.
+                                    if (currentCatalogo != null) {
+                                        // Creamos un nuevo HBox en CADA LLAMADA a updateItem (cuando no es empty).
+                                        // Esto asegura que siempre empezamos con un contenedor limpio para los botones.
+                                        HBox hbox = new HBox(5); // Contenedor horizontal para los botones, con 5px de espacio
+                                        hbox.setAlignment(Pos.CENTER); // Centrar los botones dentro de la celda
 
-                                    // Añadir el botón "Crear Sub-Registro" solo si el catálogo es expandible ("S")
-                                    if (currentCatalogo != null && "S".equals(currentCatalogo.getExpandible())) {
-                                        // Importante: Verifica si el botón ya está en el HBox para evitar duplicados
-                                        if (!hbox.getChildren().contains(btnCrearSubRegistro)) {
+                                        // Añadir siempre los botones Editar y Eliminar
+                                        hbox.getChildren().addAll(btnEditar, btnEliminar);
+
+                                        // Añadir el botón "Crear Sub-Registro" solo si el catálogo es expandible ("S")
+                                        if ("S".equals(currentCatalogo.getExpandible())) {
                                             hbox.getChildren().add(btnCrearSubRegistro);
                                         }
+
+                                        // Establecer el HBox recién configurado como el gráfico de la celda.
+                                        setGraphic(hbox);
                                     } else {
-                                        // Si no es expandible, asegúrate de que el botón de sub-registro no esté presente
-                                        hbox.getChildren().remove(btnCrearSubRegistro);
+                                        // En caso de que currentCatalogo sea null inesperadamente cuando empty es false
+                                        setGraphic(null);
                                     }
-                                    setGraphic(hbox); // Establecer el HBox con los botones como el gráfico de la celda
                                 }
                             }
                         };
-                        return cell; // ¡IMPORTANTE! Retorna la celda aquí
+                        return cell; // ¡IMPORTANTE! Retorna la celda creada
                     }
                 };
         colAccion.setCellFactory(cellFactory); // Asignar el CellFactory a tu columna de acción
     }
-
     /**
      * Configura el TreeTableView sin manejar clics derechos (menú contextual) ni dobles clics.
      */
@@ -196,29 +217,24 @@ public class CatalogoController implements Initializable { // Implementar Initia
      */
     private void cargarDatos() {
         try {
-            List<Catalogo> allCatalogos = catalogoDAO.obtenerTodos(); // Usar catalogoDAO.obtenerTodos()
-            // Mapea cada Catalogo a un TreeItem para construir el árbol
+            List<Catalogo> allCatalogos = catalogoDAO.obtenerTodos();
             Map<Integer, TreeItem<Catalogo>> itemMap = new HashMap<>();
             for (Catalogo cat : allCatalogos) {
                 itemMap.put(cat.getCatalogoId(), new TreeItem<>(cat));
             }
 
-            // Crea un nodo raíz "ficticio" que no se mostrará, pero sirve para organizar
             TreeItem<Catalogo> rootItem = new TreeItem<>(new Catalogo(0, "ROOT", "Root", "Catálogo Raíz", 0, null, "S"));
-            rootItem.setExpanded(true); // Expande la raíz ficticia para ver sus hijos
+            rootItem.setExpanded(true);
 
             for (Catalogo catalogo : allCatalogos) {
                 TreeItem<Catalogo> item = itemMap.get(catalogo.getCatalogoId());
-                // Si el catálogo no tiene superior (o es 0/null), es un elemento raíz de tu estructura
                 if (catalogo.getCatalogoSup() == null || catalogo.getCatalogoSup() == 0) {
                     rootItem.getChildren().add(item);
                 } else {
-                    // Si tiene superior, busca el TreeItem de su padre y añádelo como hijo
                     TreeItem<Catalogo> parentItem = itemMap.get(catalogo.getCatalogoSup());
                     if (parentItem != null) {
                         parentItem.getChildren().add(item);
                     } else {
-                        // Fallback: Si no se encuentra el padre (datos inconsistentes), añádelo a la raíz
                         rootItem.getChildren().add(item);
                         System.err.println("Advertencia: Catálogo con ID " + catalogo.getCatalogoId() + " tiene un superior inválido (" + catalogo.getCatalogoSup() + "). Añadido a la raíz.");
                     }
@@ -228,19 +244,27 @@ public class CatalogoController implements Initializable { // Implementar Initia
             // Ordenar los hijos de cada nodo por su propiedad 'orden'
             rootItem.getChildren().forEach(this::sortTreeItemChildren);
 
+            // --- ¡AQUÍ ESTÁ EL CAMBIO CLAVE! ---
+            // Este bucle recorre CADA UNO de los elementos hijos directos de tu 'rootItem' ficticio.
+            // Como 'rootItem' es tu nodo raíz oculto, sus hijos son los nodos de PRIMER NIVEL
+            // que sí se muestran en tu TreeTable.
+            for (TreeItem<Catalogo> nodoNivel1 : rootItem.getChildren()) {
+                // Para cada uno de esos nodos de primer nivel, le decimos que se expanda.
+                nodoNivel1.setExpanded(true);
+            }
+            // ------------------------------------
+
             treeTableCatalogos.setRoot(rootItem);
             treeTableCatalogos.setShowRoot(false); // Ocultar el nodo raíz ficticio
         } catch (Exception e) {
             e.printStackTrace();
-            // Mostrar una alerta al usuario en caso de error
             new Alert(Alert.AlertType.ERROR, "Error al cargar los datos del catálogo: " + e.getMessage()).showAndWait();
         }
     }
-
     // Método auxiliar recursivo para ordenar los hijos de un TreeItem por su propiedad 'orden'
     private void sortTreeItemChildren(TreeItem<Catalogo> item) {
         if (item != null && !item.getChildren().isEmpty()) {
-            item.getChildren().sort((item1, item2) -> Integer.compare(item1.getValue().getOrden(), item2.getValue().getOrden()));
+            item.getChildren().sort((item1, item2) -> Integer.compare(item1.getValue().getCatalogoId() , item2.getValue().getCatalogoId()));
             item.getChildren().forEach(this::sortTreeItemChildren); // Llamada recursiva para los nietos, etc.
         }
     }
@@ -376,4 +400,51 @@ public class CatalogoController implements Initializable { // Implementar Initia
     public void refrescar() {
         cargarDatos();
     }
+
+    @FXML
+    private void btnGenerarReporte(ActionEvent event) {
+
+        Connection conn = null;
+        try {
+            // 1️⃣ Configuración de conexión a MySQL
+            String url = "jdbc:mysql://localhost:3306/datasoft";
+            String user = "root";           // tu usuario
+            String pass = "123465";    // tu contraseña
+
+            // Conectar
+            conn = DriverManager.getConnection(url, user, pass);
+
+            // 2️⃣ Ruta al JRXML
+            String jrxml = "src/Reportes/reporte_simple.jrxml";
+
+            HashMap<String, Object> parameters = new HashMap<>();
+
+            // 💡 Agregar imagen relativa
+            String imagePath = getClass().getResource("/resources/images/Tree.png").toExternalForm();
+            parameters.put("imagen1", imagePath);
+
+            // 3️⃣ Compilar
+            JasperReport jasperReport = JasperCompileManager.compileReport(jrxml);
+
+            // 5️⃣ Llenar el reporte usando la conexión real
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+
+            // 6️⃣ Mostrar visor
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setVisible(true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 7️⃣ Cerrar conexión
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
 }
