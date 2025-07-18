@@ -42,8 +42,6 @@ public class RegistroCatalogoController {
 
     }
 
-
-
     private void actualizarToggleEstilo(boolean isSelected) {
         if (isSelected) {
            // toggleExpandible.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
