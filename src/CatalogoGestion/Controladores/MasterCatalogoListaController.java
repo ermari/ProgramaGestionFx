@@ -14,6 +14,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -179,6 +180,11 @@ public class MasterCatalogoListaController {
 
                 Stage stage = new Stage();
                 stage.setTitle("Gestión de Detalles para: " + selectedMaster.getNombre());
+                // Agregar ícono al stage
+                stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/images/link_icon-32.png")));
+
+
+
                 stage.setScene(new Scene(root));
                 stage.initModality(Modality.APPLICATION_MODAL); // Opcional: Bloquea la ventana padre
                 stage.showAndWait();

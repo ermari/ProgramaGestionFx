@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="354.0" prefWidth="658.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RegistroEmpleado.DetalleEmpleadoController">
+<AnchorPane id="content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="354.0" prefWidth="658.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RegistroUsuario.DetalleUsuarioController">
    <children>
       <GridPane id="onRoot" hgap="10" layoutX="58.0" layoutY="33.0" prefHeight="236.0" prefWidth="522.0" styleClass="form-grid" stylesheets="@/util/css/formulario.css" vgap="10">
          <padding>

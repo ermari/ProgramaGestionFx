@@ -9,12 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -79,7 +76,7 @@ public class HomeController implements Initializable {
 
     @FXML
     public void handleAdd() throws IOException {
-        setForm("/RegistroEmpleado/Empleado.fxml");
+        setForm("/RegistroUsuario/listaUsuario.fxml");
     }
 
     @FXML

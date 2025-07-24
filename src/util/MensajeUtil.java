@@ -73,15 +73,10 @@ public class MensajeUtil {
     }
 
     private static ImageView cargarIcono(String ruta) {
-        try {
-            ImageView icon = new ImageView(new Image(MensajeUtil.class.getResourceAsStream(ruta)));
-            icon.setFitWidth(32);
-            icon.setFitHeight(32);
-            return icon;
-        } catch (Exception e) {
-            return null;
-        }
+        return null;
     }
 
 
+    public static void mostrarInformacion(String s) {
+    }
 }

@@ -13,28 +13,17 @@ import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class BDconexion {
 
-    private Connection connection;
     private static BDconexion instance;
     private static final String DATABASE = "datasoft";
-    private static final String URL = "jdbc:mysql://localhost:3306/" + DATABASE;
+    private static final String URL = "jdbc:mysql://localhost:3306/" + DATABASE + "?useSSL=false&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "123465";
 
-
-
     private BDconexion() {
-        try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException ex) {
-            Logger.getLogger(BDconexion.class.getName()).log(Level.SEVERE, null, ex);
-            showException(constantes.MENSAJE_ERROR_CONEXION_MYSQL, ex);
-        }
+        // Constructor vacío, no abre conexión aquí
     }
 
     public static BDconexion getInstance() {
@@ -45,14 +34,19 @@ public class BDconexion {
     }
 
     public Connection getConnection() {
-        return connection;
+        try {
+            return DriverManager.getConnection(URL, USER, PASSWORD);  // ✅ NUEVA conexión en cada llamada
+        } catch (SQLException ex) {
+            showException(constantes.MENSAJE_ERROR_CONEXION_MYSQL, ex);
+            return null;
+        }
     }
 
     private void showException(String message, Exception exception) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initStyle(StageStyle.UTILITY);
-        alert.setTitle("Exception");
-        alert.setHeaderText(Alert.AlertType.ERROR.toString());
+        alert.setTitle("Error de Conexión");
+        alert.setHeaderText("Excepción de Base de Datos");
         alert.setContentText(message);
 
         StringWriter sw = new StringWriter();
@@ -65,7 +59,6 @@ public class BDconexion {
         TextArea textArea = new TextArea(exceptionText);
         textArea.setEditable(false);
         textArea.setWrapText(true);
-
         textArea.setMaxWidth(Double.MAX_VALUE);
         textArea.setMaxHeight(Double.MAX_VALUE);
         GridPane.setVgrow(textArea, Priority.ALWAYS);
@@ -77,7 +70,6 @@ public class BDconexion {
         expContent.add(textArea, 0, 1);
 
         alert.getDialogPane().setExpandableContent(expContent);
-
         alert.showAndWait();
     }
 }

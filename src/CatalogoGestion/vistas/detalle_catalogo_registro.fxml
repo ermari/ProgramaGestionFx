@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CatalogoGestion.Controladores.DetalleCatalogoRegistroController">
     <children>
-        <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="280.0" prefWidth="430.0" spacing="15.0" stylesheets="@../../resources/css/formulario_catalogo.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="280.0" prefWidth="430.0" spacing="15.0" styleClass="form-background" stylesheets="@../../resources/css/formulario_catalogo.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <children>
                 <Label text="Registro de Detalle de Catálogo">
                     <font>
@@ -59,8 +59,8 @@
                 </HBox>
                 <HBox alignment="CENTER" spacing="20.0">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#handleGuardar" text="Guardar" />
-                        <Button mnemonicParsing="false" onAction="#handleCancelar" text="Cancelar" />
+                        <Button mnemonicParsing="false" onAction="#handleGuardar" styleClass="crear-button" text="Guardar" />
+                        <Button mnemonicParsing="false" onAction="#handleCancelar" styleClass="ver-detalle-button" stylesheets="@../../resources/css/formulario_catalogo.css" text="Cancelar" />
                     </children>
                     <VBox.margin>
                         <Insets top="10.0" />

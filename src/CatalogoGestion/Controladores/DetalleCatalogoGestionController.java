@@ -171,8 +171,8 @@ public class DetalleCatalogoGestionController {
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 String sql = "DELETE FROM DETALLE_CATALOGO WHERE DETALLE_CATALOGO_ID = ?";
                 try
-                    {
-                        PreparedStatement pstmt = BD.BDconexion.getInstance().getConnection().prepareStatement(sql);
+                {
+                    PreparedStatement pstmt = BD.BDconexion.getInstance().getConnection().prepareStatement(sql);
                     pstmt.setLong(1, selectedDetalle.getDetalleCatalogoId());
                     pstmt.executeUpdate();
                     showAlert(Alert.AlertType.INFORMATION, "Éxito", "Detalle Eliminado", "Detalle eliminado correctamente.");

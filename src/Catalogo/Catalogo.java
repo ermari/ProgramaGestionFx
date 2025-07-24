@@ -8,6 +8,11 @@ public class Catalogo {
     private String descripcion;
     private int orden;
     private int nivel;
+
+    public String getValor() {
+        return valor;
+    }
+
     private String expandible; // "S" o "N"
     private String codigoPadre;
 
@@ -72,9 +77,9 @@ public class Catalogo {
         this.codigo = codigo;
     }
 
-    public String getValor() {
+    /*public Callback<TableColumn.CellDataFeatures<DetalleComprobante, String>, ObservableValue<String>> getValor() {
         return valor;
-    }
+    }*/
 
     public void setValor(String valor) {
         this.valor = valor;

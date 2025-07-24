@@ -32,6 +32,7 @@ public class CatalogoDAO {
         }
 
         return lista;
+
     }
 
     public Catalogo getPorId(int id) throws SQLException {

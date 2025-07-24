@@ -47,7 +47,7 @@
                     <Button mnemonicParsing="false" onAction="#handleNuevoDetalle" styleClass="crear-button" text="Nuevo Detalle" />
                     <Button mnemonicParsing="false" onAction="#handleEditarDetalle" styleClass="editar-button" text="Editar Detalle" />
                     <Button mnemonicParsing="false" onAction="#handleEliminarDetalle" styleClass="eliminar-button" text="Eliminar Detalle" />
-                    <Button mnemonicParsing="false" onAction="#handleVolver" styleClass="regresar-anterior-button" text="Volver a Maestros" />
+                    <Button mnemonicParsing="false" onAction="#handleVolver" styleClass="ver-detalle-button" text="Volver a Maestros" />
                 </children>
                 <VBox.margin>
                     <Insets top="10.0" />

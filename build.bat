@@ -25,7 +25,7 @@ echo ===============================
 echo ==  Copiando archivos FXML  ==
 echo ===============================
 xcopy src\Home\*.fxml bin\Home\ /Y /I
-xcopy src\RegistroEmpleado\*.fxml bin\RegistroEmpleado\ /Y /I
+xcopy src\RegistroUsuario\*.fxml bin\RegistroUsuario\ /Y /I
 xcopy src\FruitMarket\views\*.fxml bin\FruitMarket\views\ /Y /I
 xcopy src\resources\*.* bin\resources\ /E /I /Y
 xcopy src\resources\util\css\*.* bin\util\css\ /E /I /Y
