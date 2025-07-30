@@ -23,6 +23,7 @@ public class Main extends Application {
             Scene scene = new Scene(root);
             primaryStage.setTitle("Mi Aplicación");
             primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
             primaryStage.show();
 
         } catch (Exception e) {

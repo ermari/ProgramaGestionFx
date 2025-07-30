@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="CatalogoGestion.Empresas.Controlador.ListaSucursalController" prefWidth="600" prefHeight="400">
+    <VBox spacing="10">
+        <padding>
+            <Insets top="15" right="15" bottom="15" left="15"/>
+        </padding>
+
+
+        <Label text="Lista de Sucursales"/>
+
+        <TableView fx:id="tableSucursales" prefHeight="300" prefWidth="580">
+            <columns>
+                <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150"/>
+                <TableColumn fx:id="colCodigo" text="Código" prefWidth="100"/>
+                <TableColumn fx:id="colDireccion" text="Dirección" prefWidth="150"/>
+                <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="100"/>
+                <TableColumn fx:id="colEstado" text="Activo" prefWidth="70"/>
+            </columns>
+        </TableView>
+
+        <HBox spacing="10">
+            <Button text="Nueva Sucursal" onAction="#nuevaSucursal"/>
+            <Button text="Editar Sucursal" onAction="#editarSucursal"/>
+            <Button text="Cerrar" onAction="#cerrar"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

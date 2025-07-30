@@ -1,8 +1,8 @@
 // Archivo: src/main/java/com/yourcompany/yourapp/controller/MasterCatalogoListaController.java
-package CatalogoGestion.Controladores;
+package CatalogoGestion.MasterCatalogo.Controladores;
 
 
-import CatalogoGestion.Modelo.MasterCatalogo;
+import CatalogoGestion.MasterCatalogo.Modelo.MasterCatalogo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,7 +19,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -107,7 +106,8 @@ public class MasterCatalogoListaController {
      */
     private void openMasterRegistroForm(MasterCatalogo master) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CatalogoGestion/vistas/master_catalogo_registro.fxml"));
+            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/Comprobantes/Vista/busqueda_catalogo.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CatalogoGestion/MasterCatalogo/vistas/master_catalogo_registro.fxml"));
             Parent root = loader.load();
 
             MasterCatalogoRegistroController controller = loader.getController();
@@ -170,7 +170,7 @@ public class MasterCatalogoListaController {
         MasterCatalogo selectedMaster = masterTable.getSelectionModel().getSelectedItem();
         if (selectedMaster != null) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/CatalogoGestion/vistas/detalle_catalogo_gestion.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/CatalogoGestion/MasterCatalogo/vistas/detalle_catalogo_gestion.fxml"));
               //  FXMLLoader loader = new FXMLLoader(getClass().getResource("/CatalogoGestion/Vistas/detalle_catalogo_gestion.fxml"));
                 Parent root = loader.load();
 

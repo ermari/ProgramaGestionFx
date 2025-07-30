@@ -1,18 +1,14 @@
 package RegistroEmpleado;
 
-import Constantes.constantes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import org.apache.commons.dbcp2.DelegatingResultSet;
-import util.MensajeUtil;
 import util.UtilControllers;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class EmpleadoDao {
+public class EmpleadoDAO {
 
     //metodo listar todos
     public ObservableList<Empleado> listarEmpleado() {
@@ -37,7 +33,7 @@ public class EmpleadoDao {
     }
 
 
-    //metodo eliminar
+    //metodo elminar
     public void eliminarEmpleado(Empleado emp) {
         String sql = "DELETE FROM empleado WHERE EmpID = ?";
         try {

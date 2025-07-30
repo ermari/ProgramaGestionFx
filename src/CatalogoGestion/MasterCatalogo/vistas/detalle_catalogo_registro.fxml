@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CatalogoGestion.Controladores.DetalleCatalogoRegistroController">
+<AnchorPane prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CatalogoGestion.MasterCatalogo.Controladores.DetalleCatalogoRegistroController">
     <children>
         <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="280.0" prefWidth="430.0" spacing="15.0" styleClass="form-background" stylesheets="@../../resources/css/formulario_catalogo.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <children>

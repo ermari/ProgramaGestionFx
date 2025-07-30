@@ -1,0 +1,80 @@
+.root {
+    -fx-background-color: #f8f9fa;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* Título del módulo */
+.label-header {
+    -fx-background-color: #03A9F4;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 0 0 10 10;
+}
+
+/* Contenedor de los botones */
+.card-container {
+    -fx-spacing: 20;
+    -fx-padding: 20;
+    -fx-alignment: center;
+}
+
+/* Estilo para cada "tarjeta" */
+.card {
+    -fx-background-color: white;
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0.5, 0, 4);
+    -fx-background-radius: 15;
+    -fx-min-width: 160px;
+    -fx-min-height: 180px;
+    -fx-max-width: 200px;
+}
+
+/* Imagen de la tarjeta */
+.card-image {
+    -fx-fit-width: 64px;
+    -fx-fit-height: 64px;
+}
+
+/* Botón principal */
+.button-main {
+    -fx-background-color: #03A9F4;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-padding: 8px 15px;
+}
+
+.button-main:hover {
+    -fx-background-color: #0288D1;
+}
+
+/* Botón secundario (como 'Empresa') */
+.button-secondary {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #333;
+    -fx-font-size: 12px;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #d5d5d5;
+}
+
+/* hyperlink-button.css */
+.hyperlink-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #2a73cc; /* Color azul tipo link */
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+.hyperlink-button:hover {
+    -fx-text-fill: #1e4a99;
+}

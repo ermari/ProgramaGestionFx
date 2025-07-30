@@ -1,8 +1,8 @@
-package CatalogoGestion.Controladores;
+package CatalogoGestion.MasterCatalogo.Controladores;
 
 
-import CatalogoGestion.Modelo.DetalleCatalogo;
-import CatalogoGestion.Modelo.MasterCatalogo;
+import CatalogoGestion.MasterCatalogo.Modelo.DetalleCatalogo;
+import CatalogoGestion.MasterCatalogo.Modelo.MasterCatalogo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,7 +19,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -133,7 +132,7 @@ public class DetalleCatalogoGestionController {
      */
     private void openDetalleRegistroForm(DetalleCatalogo detalle, long masterId) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CatalogoGestion/Vistas/detalle_catalogo_registro.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CatalogoGestion/MasterCatalogo/vistas/detalle_catalogo_registro.fxml"));
             Parent root = loader.load();
 
             DetalleCatalogoRegistroController controller = loader.getController();

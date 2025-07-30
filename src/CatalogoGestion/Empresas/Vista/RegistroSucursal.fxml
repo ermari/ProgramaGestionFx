@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="CatalogoGestion.Empresas.Controlador.RegistroSucursalController" prefWidth="400" prefHeight="500">
+
+    <VBox spacing="10">
+        <padding>
+            <Insets top="15" right="15" bottom="15" left="15"/>
+        </padding>
+
+
+
+        <Label text="Registro de Sucursal"/>
+        <TextField fx:id="txtNombre" promptText="Nombre de Sucursal"/>
+        <TextField fx:id="txtCodigo" promptText="Código"/>
+        <TextField fx:id="txtDireccion" promptText="Dirección"/>
+        <TextField fx:id="txtTelefono" promptText="Teléfono"/>
+        <TextField fx:id="txtEmail" promptText="Correo"/>
+        <TextField fx:id="txtCiudad" promptText="Ciudad"/>
+        <TextField fx:id="txtPais" promptText="País"/>
+        <CheckBox fx:id="chkActivo" text="Sucursal activa"/>
+        <HBox spacing="10">
+            <Button text="Guardar" onAction="#guardarSucursal"/>
+            <Button text="Cancelar" onAction="#cancelar"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

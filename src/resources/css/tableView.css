@@ -43,7 +43,7 @@
 
 /* Estilo para todas las cabeceras de columna */
 .table-view .column-header {
-    -fx-background-color: #3498db; /* Fondo azul para las cabeceras */
+    -fx-background-color: #db3490; /* Fondo azul para las cabeceras */
     -fx-text-fill: white; /* Color del texto de las cabeceras */
     -fx-font-weight: bold; /* Texto en negrita */
 

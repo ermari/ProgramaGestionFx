@@ -1,14 +1,13 @@
-package CatalogoGestion.Controladores;
+package CatalogoGestion.MasterCatalogo.Controladores;
 
 
-import CatalogoGestion.Modelo.MasterCatalogo;
+import CatalogoGestion.MasterCatalogo.Modelo.MasterCatalogo;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

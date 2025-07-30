@@ -76,7 +76,7 @@ public class HomeController implements Initializable {
 
     @FXML
     public void handleAdd() throws IOException {
-        setForm("/RegistroUsuario/listaUsuario.fxml");
+        setForm("/RegistroUsuario/Usuarios.fxml");
     }
 
     @FXML
@@ -96,9 +96,11 @@ public class HomeController implements Initializable {
             // Si empieza con "/", es ruta absoluta
             if (fxml.startsWith("/")) {
                 loader = new FXMLLoader(getClass().getResource(fxml));
+
             } else {
                 loader = new FXMLLoader(getClass().getResource("/Home/" + fxml));
             }
+
 
             AnchorPane view = loader.load();
             String nombre = fxml.toLowerCase();

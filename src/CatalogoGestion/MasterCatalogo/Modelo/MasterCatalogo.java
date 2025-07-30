@@ -1,4 +1,4 @@
-package CatalogoGestion.Modelo;
+package CatalogoGestion.MasterCatalogo.Modelo;
 
 import javafx.beans.property.*;
 

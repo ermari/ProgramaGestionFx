@@ -24,7 +24,7 @@ public class DetalleEmpleadoController {
     // Ya no necesitas txtFirstName, txtEmail, etc., si no los usas en el FXML.
 
     private Empleado empleado;
-    private EmpleadoDao empleadoDao = new EmpleadoDao(); // Asumo que esta clase existe y está bien.
+    private EmpleadoDAO empleadoDao = new EmpleadoDAO(); // Asumo que esta clase existe y está bien.
 
     // Referencia al controlador principal de la tabla
     private EmpleadoController empleadoController;
