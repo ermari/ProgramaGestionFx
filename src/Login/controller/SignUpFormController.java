@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main.controller;
+package Login.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,11 +18,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
 import javax.swing.JOptionPane;
-import main.model.Account;
-import main.model.AccountsDAO;
+import Login.model.Account;
+import Login.model.AccountsDAO;
 
-import main.model.Country;
-import main.model.CountryDAO;
+import Login.model.Country;
+import Login.model.CountryDAO;
 import util.UtilControllers;
 
 /**

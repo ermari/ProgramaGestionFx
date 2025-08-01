@@ -20,33 +20,33 @@
             <AnchorPane prefHeight="65.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
                <children>
 
-                  <HBox layoutX="239.0" layoutY="1.0" prefHeight="43.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                  <HBox layoutX="239.0" layoutY="1.0" prefHeight="41.0" prefWidth="298.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
                      <children>
-                        <JFXButton onAction="#handleDashboard" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Dashboard">
+                        <JFXButton onAction="#handleDashboard" prefHeight="30.0" prefWidth="94.0" styleClass="menuItem" text="Dashboard">
                            <graphic>
                               <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
                                  <image>
-                                    <Image url="/resources/images/dash1.png" />
+                                    <Image url="@/resources/images/dash1.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton onAction="#handleReport" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Report">
+                        <JFXButton onAction="#handleReport" prefHeight="30.0" prefWidth="112.0" styleClass="menuItem" text="Report">
                            <graphic>
                               <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
                                  <image>
-                                    <Image url="/resources/images/report1.png" />
+                                    <Image url="@/resources/images/report1.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </JFXButton>
 
 
-                        <JFXButton onAction="#handleExit" prefHeight="38.0" prefWidth="136.0" styleClass="menuItem" text="Exit">
+                        <JFXButton onAction="#handleExit" prefHeight="30.0" prefWidth="90.0" styleClass="menuItem" text="Exit">
                            <graphic>
                               <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
                                  <image>
-                                    <Image url="/resources/images/ExitGris.png" />
+                                    <Image url="@/resources/images/ExitGris.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -59,7 +59,7 @@
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="/resources/images/menu1.png" />
+                              <Image url="@/resources/images/menu1.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -71,7 +71,7 @@
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="/resources/images/menu1.png" />
+                              <Image url="@/resources/images/menu1.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -93,7 +93,7 @@
                            <font><Font name="System Bold" size="15.0" /></font>
                            <graphic>
                               <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
-                                 <image><Image url="/resources/images/dash.png" /></image>
+                                 <image><Image url="@/resources/images/dash.png" /></image>
                               </ImageView>
                            </graphic>
                         </JFXButton>
@@ -102,7 +102,7 @@
                            <font><Font name="System Bold" size="15.0" /></font>
                            <graphic>
                               <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
-                                 <image><Image url="/resources/images/report.png" /></image>
+                                 <image><Image url="@/resources/images/report.png" /></image>
                               </ImageView>
                            </graphic>
                         </JFXButton>
@@ -111,10 +111,12 @@
                            <font><Font name="System Bold" size="15.0" /></font>
                            <graphic>
                               <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
-                                 <image><Image url="/resources/images/ExitGris.png" /></image>
+                                 <image><Image url="@/resources/images/ExitGris.png" /></image>
                               </ImageView>
                            </graphic>
                         </JFXButton>
+                        <Label fx:id="lblNombre" prefHeight="22.0" prefWidth="243.0" text="Label" />
+                        <Label fx:id="lblSucursal" prefHeight="18.0" prefWidth="254.0" text="Label" />
                      </children>
                   </VBox>
                </children>

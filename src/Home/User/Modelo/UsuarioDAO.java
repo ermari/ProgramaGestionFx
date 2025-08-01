@@ -158,4 +158,42 @@ public class UsuarioDAO {
 
         return usuarios;
     }
+
+    public Usuario login(String usuario, String clave) {
+        Usuario usuarioEncontrado = null;
+
+        String sql = "SELECT u.usuario_id, u.nombre_usuario, u.email, u.usuario, u.password, u.sucursal_id " +
+                "FROM usuarios u WHERE u.usuario = ? AND u.password = ?";
+
+        try (Connection conn = BDconexion.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, usuario);
+            stmt.setString(2, clave);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                usuarioEncontrado = new Usuario();
+                usuarioEncontrado.setUsuarioId(rs.getInt("usuario_id"));
+                usuarioEncontrado.setNombreUsuario(rs.getString("nombre_usuario"));
+                usuarioEncontrado.setEmail(rs.getString("email"));
+                usuarioEncontrado.setUsuario(rs.getString("usuario"));
+                usuarioEncontrado.setPassword(rs.getString("password"));
+
+                // ✅ Cargar sucursal usando SucursalDAO
+                int sucursalId = rs.getInt("sucursal_id");
+                if (sucursalId > 0) {
+                    Sucursal sucursal = sucursalDAO.obtenerPorId(sucursalId);
+                    usuarioEncontrado.setSucursal(sucursal);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return usuarioEncontrado;
+    }
+
 }

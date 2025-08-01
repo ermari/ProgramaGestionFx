@@ -26,7 +26,8 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // homeController.setTitulo("Bien Venido al Sistema");
+        //homeController.setTitulo("Bien Venido al Sistema");
+
     }
 
 

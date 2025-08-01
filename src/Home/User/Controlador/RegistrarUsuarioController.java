@@ -205,6 +205,22 @@ public class RegistrarUsuarioController implements Initializable {
             errorMessage.append("Debe seleccionar una sucursal.\n");
         }
 
+        // --- Validación de formato de correo electrónico ---
+        // Solo valida el formato si el campo no está vacío para evitar doble mensaje de error
+        if (txtEmail.getText() != null && !txtEmail.getText().trim().isEmpty()) {
+            String email = txtEmail.getText().trim();
+            // Expresión regular para validar el formato del correo electrónico
+            String emailRegex = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+
+            if (!email.matches(emailRegex)) {
+                errorMessage.append("El formato del correo electrónico no es válido.\n");
+            }
+        }
+
+
+
+
+
         if (errorMessage.isEmpty()) {
             return true;
         } else {

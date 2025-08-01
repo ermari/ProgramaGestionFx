@@ -79,6 +79,48 @@ public class UsuariosController implements Initializable {
         usuario.setCellValueFactory(new PropertyValueFactory<>("usuario"));
         password.setCellValueFactory(new PropertyValueFactory<>("password"));
 
+        password.setCellFactory(column -> new TableCell<Usuario, String>() {
+            @Override
+            protected void updateItem(String password, boolean empty) {
+                super.updateItem(password, empty);
+                if (empty || password == null) {
+                    setText(null);
+                } else {
+                    setText("•".repeat(password.length()));
+                }
+            }
+        });
+
+        /*password.setCellFactory(column -> new TableCell<Usuario, String>() {
+            private final Button btn = new Button("👁");
+
+            {
+                btn.setOnAction(event -> {
+                    Usuario usuario = getTableView().getItems().get(getIndex());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Contraseña");
+                    alert.setContentText(usuario.getPassword());
+                    alert.showAndWait();
+                });
+            }
+
+            @Override
+            protected void updateItem(String password, boolean empty) {
+                super.updateItem(password, empty);
+                if (empty || password == null) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btn);
+                }
+            }
+        });
+*/
+
+
+
+
+
+
         actionsColumn.setStyle("-fx-alignment: CENTER;");
         addActionButtonsToTable();
         cargarUsuario(null, "All");

@@ -1,4 +1,4 @@
-package main.controller;
+package Login.controller;
 
 import java.io.IOException;
 import java.net.URL;
@@ -44,8 +44,8 @@ public class MainViewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         try {
-            signInForm = loadForm("/main/views/SignInForm.fxml");
-            signUpForm = loadForm("/main/views/SignUpForm.fxml");
+            signInForm = loadForm("/Login/views/SignInForm.fxml");
+            signUpForm = loadForm("/Login/views/SignUpForm.fxml");
             containerForm.getChildren().addAll(signInForm, signUpForm);
             signInForm.setVisible(true);
             signUpForm.setVisible(false);

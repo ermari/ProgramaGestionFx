@@ -1,4 +1,4 @@
-package main.model;
+package Login.model;
 
 import java.awt.HeadlessException;
 import java.sql.Connection;

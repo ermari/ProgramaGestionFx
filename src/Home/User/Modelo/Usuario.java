@@ -14,6 +14,13 @@ public class Usuario {
     private final StringProperty password = new SimpleStringProperty();
     private Sucursal sucursal;
 
+    public Usuario(int usuarioId, String nombre, String usuario, String sucursal) {
+    }
+
+    public Usuario() {
+
+    }
+
 
     // --- usuarioId ---
     public int getUsuarioId() {

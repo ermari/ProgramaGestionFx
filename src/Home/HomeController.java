@@ -1,6 +1,9 @@
 package Home;
 
+import Home.User.Modelo.Usuario;
+import Login.model.Sesion;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -33,15 +37,31 @@ public class HomeController implements Initializable {
 
     @FXML
     private Label titulo;
+    @FXML
+    private Label lblNombre;
+    @FXML
+    private Label lblSucursal;
+
+    Usuario usuario = Sesion.getUsuarioActual();
 
     public void setTitulo(String texto) {
         titulo.setText(texto);
         System.out.println("🏷 Título actualizado a: " + texto);
     }
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setTitulo("Bienvenido al Sistema");
+        lblNombre.setText("Usuario: " + usuario.getNombreUsuario());
+        lblNombre.setStyle("-fx-text-fill: orange;");
+        lblSucursal.setText("Sucursal: " + usuario.getSucursal().getNombre());
+        lblSucursal.setStyle("-fx-text-fill: orange;");
+
+        Platform.runLater(() -> {
+            Stage stage = (Stage) contentArea.getScene().getWindow();
+            stage.setMaximized(true);
+        });
 
 //Exit.setOnMouseClicked(event -> System.exit(0));
 

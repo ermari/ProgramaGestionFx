@@ -1,4 +1,4 @@
-package main.controller;
+package Login.controller;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,8 +20,8 @@ import javafx.scene.input.KeyEvent;
 import javax.swing.JOptionPane;
 
 import javafx.stage.Stage;
-import main.model.Account;
-import main.model.AccountsDAO;
+import Login.model.Account;
+import Login.model.AccountsDAO;
 
 
 import util.UtilControllers;

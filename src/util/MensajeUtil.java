@@ -7,6 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.StageStyle;
 
+import java.io.PrintWriter; // ¡Importa esta clase!
 import java.io.StringWriter;
 
 public class MensajeUtil {
@@ -32,10 +33,15 @@ public class MensajeUtil {
                 dialogPane.getStylesheets().add(MensajeUtil.class.getResource("/resources/css/estilos-alerta.css").toExternalForm());
                 dialogPane.getStyleClass().add("alerta-error");
 
-                if (ex != null) {
+                // Añadí la comprobación !ex.trim().isEmpty() para que no muestre la sección expandible si 'ex' solo tiene espacios
+                if (ex != null && !ex.trim().isEmpty()) {
                     // Mostrar detalles técnicos expandibles
                     StringWriter sw = new StringWriter();
-                    String exceptionText = sw.toString();
+                    PrintWriter pw = new PrintWriter(sw); // Crea un PrintWriter para escribir en el StringWriter
+                    pw.print(ex); // ¡Escribe tu mensaje de error (ex) en el StringWriter!
+                    pw.close(); // Cierra el PrintWriter para asegurar que todo se haya escrito
+
+                    String exceptionText = sw.toString(); // ¡Ahora sí, esto contendrá tu mensaje de error!
 
                     Label label = new Label("Detalles técnicos:");
                     TextArea textArea = new TextArea(exceptionText);
@@ -72,11 +78,22 @@ public class MensajeUtil {
         alert.showAndWait();
     }
 
+    // Este es el método modificado para cargar los íconos con un tamaño específico
     private static ImageView cargarIcono(String ruta) {
-        return null;
+        try {
+            Image image = new Image(MensajeUtil.class.getResourceAsStream(ruta));
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(32);   // Ajusta el ancho a 32 píxeles
+            imageView.setFitHeight(32); // Ajusta el alto a 32 píxeles
+            return imageView;
+        } catch (Exception e) {
+            System.err.println("Error al cargar el icono: " + ruta + " - " + e.getMessage());
+            return null; // Si no se encuentra la imagen, devuelve null
+        }
     }
 
-
     public static void mostrarInformacion(String s) {
+        // Implementa este método si planeas usarlo para mensajes de información simples
+        mostrarAlerta(Alert.AlertType.INFORMATION, "Información", s, null);
     }
 }
