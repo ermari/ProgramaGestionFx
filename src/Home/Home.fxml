@@ -107,7 +107,7 @@
                            </graphic>
                         </JFXButton>
 
-                        <JFXButton alignment="BASELINE_LEFT" onAction="#handleExit" prefHeight="38.0" prefWidth="176.0" styleClass="sidebarItem" text="Exit" textFill="WHITE">
+                        <JFXButton alignment="BASELINE_LEFT" onAction="#handleExit" prefHeight="38.0" prefWidth="210.0" styleClass="sidebarItem" text="Exit" textFill="WHITE">
                            <font><Font name="System Bold" size="15.0" /></font>
                            <graphic>
                               <ImageView fitHeight="22.0" fitWidth="22.0" preserveRatio="true">
@@ -115,7 +115,8 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <Label fx:id="lblNombre" prefHeight="22.0" prefWidth="243.0" text="Label" />
+                        <Label fx:id="lblNombre" prefHeight="22.0" prefWidth="243.0" text="user" />
+                        <Label fx:id="lblEmpresa" prefHeight="18.0" prefWidth="254.0" text="Label" />
                         <Label fx:id="lblSucursal" prefHeight="18.0" prefWidth="254.0" text="Label" />
                      </children>
                   </VBox>
@@ -131,7 +132,7 @@
                      <font><Font name="Arial Black" size="18.0" /></font>
                   </Label>
 
-                  <AnchorPane fx:id="contentArea" style="-fx-background-color: #f4f4f4;" VBox.vgrow="ALWAYS" />
+                  <AnchorPane fx:id="contentArea" prefHeight="302.0" prefWidth="486.0" style="-fx-background-color: #f4f4f4;" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </center>

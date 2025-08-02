@@ -122,11 +122,13 @@ public class Empresa {
         this.empresaId = empresaId;
     }
 
+
+
+
     @Override
     public String toString() {
-        return nombre; // o getNombre() según tu implementación
+        return getNombre();  // o el getter que devuelva el nombre real
     }
-
 
 
 

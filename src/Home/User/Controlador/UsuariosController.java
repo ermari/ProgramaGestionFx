@@ -33,6 +33,7 @@ import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class UsuariosController implements Initializable {
 
@@ -43,7 +44,7 @@ public class UsuariosController implements Initializable {
     @FXML private TableColumn<Usuario, String> email;
     @FXML private TableColumn<Usuario, String> usuario;
     @FXML private TableColumn<Usuario, String> password;
-    @FXML private TableColumn<Usuario, String> colSucursal;
+    @FXML private TableColumn<Usuario, String> colSucursales;  // Nota: renombrado para plural
     @FXML private TableColumn<Usuario, Void> actionsColumn;
     @FXML private AnchorPane rootEmpleado;
     @FXML private Pagination pagination;
@@ -69,9 +70,18 @@ public class UsuariosController implements Initializable {
         filterCombo.setItems(FXCollections.observableArrayList(filtroMap.keySet()));
         filterCombo.getSelectionModel().select("Todos Los Usuarios");
 
-        colSucursal.setCellValueFactory(cellData -> {
-            Sucursal suc = cellData.getValue().getSucursal();
-            return new SimpleStringProperty(suc != null ? suc.getNombre() : "");
+        // Mostrar concatenado de nombres de sucursales en la columna colSucursales
+        colSucursales.setCellValueFactory(cellData -> {
+            Usuario usuario = cellData.getValue();
+            if (usuario.getSucursales() != null && !usuario.getSucursales().isEmpty()) {
+                String sucursalesConcatenadas = usuario.getSucursales()
+                        .stream()
+                        .map(Sucursal::getNombre)
+                        .collect(Collectors.joining(", "));
+                return new SimpleStringProperty(sucursalesConcatenadas);
+            } else {
+                return new SimpleStringProperty("");
+            }
         });
 
         nombreUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
@@ -91,38 +101,9 @@ public class UsuariosController implements Initializable {
             }
         });
 
-        /*password.setCellFactory(column -> new TableCell<Usuario, String>() {
-            private final Button btn = new Button("👁");
-
-            {
-                btn.setOnAction(event -> {
-                    Usuario usuario = getTableView().getItems().get(getIndex());
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setHeaderText("Contraseña");
-                    alert.setContentText(usuario.getPassword());
-                    alert.showAndWait();
-                });
-            }
-
-            @Override
-            protected void updateItem(String password, boolean empty) {
-                super.updateItem(password, empty);
-                if (empty || password == null) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(btn);
-                }
-            }
-        });
-*/
-
-
-
-
-
-
         actionsColumn.setStyle("-fx-alignment: CENTER;");
         addActionButtonsToTable();
+
         cargarUsuario(null, "All");
         pagination.setCurrentPageIndex(0);
         pagination.setPageFactory(this::createPage);
@@ -155,6 +136,8 @@ public class UsuariosController implements Initializable {
                                 modificarUsuario(usuario);
                             } catch (IOException ex) {
                                 UtilControllers.mostrarError("Error al cargar el formulario de modificación.", ex);
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
                             }
                         }
                     });
@@ -205,7 +188,7 @@ public class UsuariosController implements Initializable {
 
     public void cargarUsuario(String searchTerm, String filter) {
         try {
-            if (filter == null || filter.equals("Todos Los Usuarios")) {
+            if (filter == null || filter.equals("Todos Los Usuarios") || filter.equals("All")) {
                 masterData.setAll(usuarioDAO.listarTodos());
             } else {
                 masterData.setAll(usuarioDAO.listarUsuarioFiltro(searchTerm, filter));
@@ -258,7 +241,7 @@ public class UsuariosController implements Initializable {
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Agregar Empleado");
+            stage.setTitle("Agregar Usuario");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             cargarUsuario(filterField.getText(), filterCombo.getValue());
@@ -266,10 +249,12 @@ public class UsuariosController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
             UtilControllers.mostrarError("No se pudo cargar el formulario para agregar usuario.", e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private void modificarUsuario(Usuario usuario) throws IOException {
+    private void modificarUsuario(Usuario usuario) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home/User/Vista/RegistrarUsuario.fxml"));
         Parent root = loader.load();
 

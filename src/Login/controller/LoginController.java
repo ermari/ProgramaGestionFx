@@ -1,9 +1,10 @@
 package Login.controller;
 
+import java.util.*;
+import java.util.stream.Collectors;
 
-
+import CatalogoGestion.Empresas.Modelo.Empresa;
 import CatalogoGestion.Empresas.Modelo.Sucursal;
-import Home.HomeController;
 import Home.User.Modelo.Usuario;
 import Home.User.Modelo.UsuarioDAO;
 import Login.model.Sesion;
@@ -12,9 +13,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LoginController {
 
@@ -37,17 +41,52 @@ public class LoginController {
 
         if (usuarioAutenticado != null) {
             try {
+                Sesion.setUsuarioActual(usuarioAutenticado);
 
-                Sesion.setUsuarioActual(usuarioAutenticado); // 🔥 Guardar en sesión
+                List<Sucursal> sucursales = usuarioDAO.obtenerSucursalesDeUsuario(usuarioAutenticado.getUsuarioId());
+                usuarioAutenticado.setSucursales(sucursales);
 
+                // Obtener empresas únicas sin repetidos
+                List<Empresa> empresas = sucursales.stream()
+                        .map(Sucursal::getEmpresa)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.collectingAndThen(
+                                Collectors.toMap(
+                                        Empresa::getEmpresaId,
+                                        e -> e,
+                                        (e1, e2) -> e1 // en caso de colisión, conservar la primera
+                                ),
+                                m -> new ArrayList<>(m.values())
+                        ));
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home/Home.fxml"));
+                Sesion.setEmpresasDisponibles(empresas);
+
+                // Abrir selector modal
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home/User/Vista/SelectorEmpresaSucursal.fxml"));
                 Parent root = loader.load();
 
-                // Aquí podrías pasar usuarioAutenticado al HomeController si lo necesitas
+                Stage stage = new Stage();
+                stage.setTitle("Seleccionar Empresa y Sucursal");
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+
+                // Validar selección
+                Empresa empresaSeleccionada = Sesion.getEmpresaSeleccionada();
+                Sucursal sucursalSeleccionada = Sesion.getSucursalSeleccionada();
+
+                if (empresaSeleccionada == null || sucursalSeleccionada == null) {
+                    lblMensaje.setText("Debe seleccionar empresa y sucursal");
+                    lblMensaje.setStyle("-fx-text-fill: red;");
+                    return;
+                }
+
+                // Aquí cargas Home con datos del usuario y empresa/sucursal seleccionadas
+                FXMLLoader homeLoader = new FXMLLoader(getClass().getResource("/Home/Home.fxml"));
+                Parent homeRoot = homeLoader.load();
 
                 Stage homeStage = new Stage();
-                homeStage.setScene(new Scene(root));
+                homeStage.setScene(new Scene(homeRoot));
                 homeStage.setTitle("Home");
                 homeStage.setMaximized(true);
                 homeStage.show();
@@ -65,7 +104,6 @@ public class LoginController {
             lblMensaje.setStyle("-fx-text-fill: red;");
         }
     }
-
 
 
 }

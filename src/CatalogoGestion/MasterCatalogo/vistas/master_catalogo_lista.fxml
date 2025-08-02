@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" stylesheets="@../../../resources/css/formulario.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CatalogoGestion.MasterCatalogo.Controladores.MasterCatalogoListaController">
+<AnchorPane id="AnchorPane" prefHeight="501.0" prefWidth="895.0" stylesheets="@../../../resources/css/formulario.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CatalogoGestion.MasterCatalogo.Controladores.MasterCatalogoListaController">
     <children>
-        <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="20.0" prefHeight="480.0" prefWidth="680.0" spacing="15.0" AnchorPane.bottomAnchor="0.7999999999999545" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.799999999999955" AnchorPane.topAnchor="20.0">
+        <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="10.0" layoutY="20.0" prefHeight="480.0" prefWidth="680.0" spacing="15.0" AnchorPane.bottomAnchor="0.7999999999999545" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.799999999999955" AnchorPane.topAnchor="20.0">
             <children>
                 <Label text="Listado de Maestros de Catálogos">
                     <font>
@@ -23,12 +23,12 @@
                         <Insets bottom="10.0" />
                     </VBox.margin>
                 </Label>
-                <TableView fx:id="masterTable" prefHeight="337.0" prefWidth="666.0" styleClass="column-header-background">
+                <TableView fx:id="masterTable" prefHeight="338.0" prefWidth="850.0" styleClass="column-header-background">
                     <columns>
-                        <TableColumn fx:id="colMasterId" prefWidth="75.0" text="ID" />
-                        <TableColumn fx:id="colMasterCodigo" prefWidth="150.0" text="Código" />
-                        <TableColumn fx:id="colMasterNombre" prefWidth="250.0" text="Nombre" />
-                        <TableColumn fx:id="colMasterDescripcion" prefWidth="350.0" text="Descripción" />
+                        <TableColumn fx:id="colMasterId" minWidth="1.0" prefWidth="1.0" text="ID" />
+                        <TableColumn fx:id="colMasterCodigo" maxWidth="1.7976931348623157E308" prefWidth="227.99998354911804" text="Código" />
+                        <TableColumn fx:id="colMasterNombre" maxWidth="1.7976931348623157E308" minWidth="168.79998779296875" prefWidth="267.9999237060547" text="Nombre" />
+                        <TableColumn fx:id="colMasterDescripcion" maxWidth="1.7976931348623157E308" minWidth="82.39993286132812" prefWidth="345.0" text="Descripción" />
                     </columns>
                     <VBox.margin>
                         <Insets left="10.0" right="10.0" />

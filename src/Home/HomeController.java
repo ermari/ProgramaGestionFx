@@ -1,5 +1,7 @@
 package Home;
 
+import CatalogoGestion.Empresas.Modelo.Empresa;
+import CatalogoGestion.Empresas.Modelo.Sucursal;
 import Home.User.Modelo.Usuario;
 import Login.model.Sesion;
 import javafx.animation.TranslateTransition;
@@ -42,7 +44,12 @@ public class HomeController implements Initializable {
     @FXML
     private Label lblSucursal;
 
+    @FXML
+    private Label lblEmpresa;
+
     Usuario usuario = Sesion.getUsuarioActual();
+    Sucursal sucursal=Sesion.getSucursalSeleccionada();
+    Empresa empresa=Sesion.getEmpresaSeleccionada();
 
     public void setTitulo(String texto) {
         titulo.setText(texto);
@@ -55,8 +62,12 @@ public class HomeController implements Initializable {
         setTitulo("Bienvenido al Sistema");
         lblNombre.setText("Usuario: " + usuario.getNombreUsuario());
         lblNombre.setStyle("-fx-text-fill: orange;");
-        lblSucursal.setText("Sucursal: " + usuario.getSucursal().getNombre());
+
+        lblSucursal.setText("Sucursal: " + sucursal.getNombre());
         lblSucursal.setStyle("-fx-text-fill: orange;");
+
+        lblEmpresa.setText("Empresa: " + empresa.getNombre());
+        lblEmpresa.setStyle("-fx-text-fill: orange;");
 
         Platform.runLater(() -> {
             Stage stage = (Stage) contentArea.getScene().getWindow();

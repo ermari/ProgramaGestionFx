@@ -1,9 +1,10 @@
 package Home.User.Modelo;
 
-
 import CatalogoGestion.Empresas.Modelo.Sucursal;
-
 import javafx.beans.property.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Usuario {
 
@@ -12,17 +13,24 @@ public class Usuario {
     private final StringProperty email = new SimpleStringProperty();
     private final StringProperty usuario = new SimpleStringProperty();
     private final StringProperty password = new SimpleStringProperty();
-    private Sucursal sucursal;
 
-    public Usuario(int usuarioId, String nombre, String usuario, String sucursal) {
-    }
+    // Lista de sucursales asociadas al usuario
+    private List<Sucursal> sucursales = new ArrayList<>();
 
+    // Constructor vacío
     public Usuario() {
-
     }
 
+    // Constructor auxiliar
+    public Usuario(int usuarioId, String nombre, String usuario, String password) {
+        this.usuarioId.set(usuarioId);
+        this.nombreUsuario.set(nombre);
+        this.usuario.set(usuario);
+        this.password.set(password);
+    }
 
-    // --- usuarioId ---
+    // Getters y setters JavaFX
+
     public int getUsuarioId() {
         return usuarioId.get();
     }
@@ -35,7 +43,6 @@ public class Usuario {
         return usuarioId;
     }
 
-    // --- nombreUsuario ---
     public String getNombreUsuario() {
         return nombreUsuario.get();
     }
@@ -48,7 +55,6 @@ public class Usuario {
         return nombreUsuario;
     }
 
-    // --- email ---
     public String getEmail() {
         return email.get();
     }
@@ -61,7 +67,6 @@ public class Usuario {
         return email;
     }
 
-    // --- usuario ---
     public String getUsuario() {
         return usuario.get();
     }
@@ -74,7 +79,6 @@ public class Usuario {
         return usuario;
     }
 
-    // --- password ---
     public String getPassword() {
         return password.get();
     }
@@ -87,25 +91,24 @@ public class Usuario {
         return password;
     }
 
-    public Sucursal getSucursal() {
-        return sucursal;
+    // --- Lista de sucursales asociadas al usuario ---
+    public List<Sucursal> getSucursales() {
+        return sucursales;
     }
 
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
+    public void setSucursales(List<Sucursal> sucursales) {
+        this.sucursales = sucursales != null ? sucursales : new ArrayList<>();
     }
 
+    // Obtener la sucursal principal (primer elemento o null)
+    public Sucursal getSucursalPrincipal() {
+        return sucursales.isEmpty() ? null : sucursales.get(0);
+    }
 
+    // Añadir una sucursal sin duplicados
+    public void addSucursal(Sucursal sucursal) {
+        if (sucursal != null && !sucursales.contains(sucursal)) {
+            sucursales.add(sucursal);
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
