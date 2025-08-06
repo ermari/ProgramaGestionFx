@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Home.User.Controlador.ListarPermisosController"
+            prefWidth="600" prefHeight="400">
+    <children>
+        <VBox alignment="TOP_CENTER" spacing="15.0" layoutX="10.0" layoutY="10.0"
+              prefHeight="560.0" prefWidth="480.0">
+            <padding>
+                <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
+            </padding>
+
+
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Agregar Permiso" onAction="#abrirFormularioAgregar" />
+                <Region HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="txtBuscarPermiso" promptText="Buscar..." />
+                <Button text="Buscar" onAction="#buscarPermiso"/>
+            </HBox>
+
+            <TableView fx:id="tablePermisos" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="200"/>
+                    <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="250"/>
+                    <TableColumn fx:id="colAcciones" text="Acciones" prefWidth="150"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </children>
+</AnchorPane>

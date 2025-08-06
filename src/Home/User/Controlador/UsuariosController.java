@@ -189,7 +189,7 @@ public class UsuariosController implements Initializable {
     public void cargarUsuario(String searchTerm, String filter) {
         try {
             if (filter == null || filter.equals("Todos Los Usuarios") || filter.equals("All")) {
-                masterData.setAll(usuarioDAO.listarTodos());
+                masterData.setAll(usuarioDAO.listarUsuarios());
             } else {
                 masterData.setAll(usuarioDAO.listarUsuarioFiltro(searchTerm, filter));
             }
@@ -249,8 +249,6 @@ public class UsuariosController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
             UtilControllers.mostrarError("No se pudo cargar el formulario para agregar usuario.", e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -278,7 +276,11 @@ public class UsuariosController implements Initializable {
 
         confirmAlert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                usuarioDAO.eliminar(usuario);
+                try {
+                    usuarioDAO.eliminar(usuario.getUsuarioId());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 MensajeUtil.mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", constantes.MENSAJE_BORRADO, null);
                 cargarUsuario(filterField.getText(), filterCombo.getValue());
             }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Home.User.Controlador.RegistrarRolController"
+            prefWidth="400.0" prefHeight="450.0">
+
+    <children>
+        <VBox alignment="TOP_CENTER" spacing="15.0" layoutX="10.0" layoutY="10.0"
+              prefHeight="560.0" prefWidth="480.0">
+            <padding>
+                <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
+            </padding>
+            <Label text="Nombre del Rol:" />
+            <TextField fx:id="txtNombre" promptText="Nombre del rol" />
+
+            <Label text="Descripción:" />
+            <TextArea fx:id="txtDescripcion" prefHeight="60" wrapText="true" />
+
+            <Label text="Permisos disponibles:" />
+            <ListView fx:id="listViewPermisos" prefHeight="200.0" />
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Guardar" onAction="#guardarRol" />
+                <Button text="Cancelar" onAction="#cerrarVentana" />
+            </HBox>
+        </VBox>
+    </children>
+</AnchorPane>

@@ -4,202 +4,223 @@ import CatalogoGestion.Empresas.Modelo.Empresa;
 import CatalogoGestion.Empresas.Modelo.EmpresaDAO;
 import CatalogoGestion.Empresas.Modelo.Sucursal;
 import CatalogoGestion.Empresas.Modelo.SucursalDAO;
-import Home.User.Modelo.Usuario;
-import Home.User.Modelo.UsuarioDAO;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import Home.User.Modelo.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxListCell;
-import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
-import util.MensajeUtil;
-import util.UtilControllers;
 
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
-public class RegistrarUsuarioController implements Initializable {
+public class RegistrarUsuarioController {
 
     @FXML private TextField txtNombre;
     @FXML private TextField txtEmail;
     @FXML private TextField txtUsuario;
     @FXML private PasswordField txtPasword;
-    @FXML private ComboBox<Empresa> comboEmpresa;
-    @FXML private ListView<Sucursal> listViewSucursales;
 
-    private final EmpresaDAO empresaDAO = new EmpresaDAO();
-    private final SucursalDAO sucursalDAO = new SucursalDAO();
-    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    @FXML private ComboBox<Empresa> comboEmpresa;
+    // --- CAMBIO 1: El ListView ahora es de tipo CheckBox ---
+    @FXML private ListView<CheckBox> listViewSucursales;
+
+    @FXML private ListView<CheckBox> listViewRoles;
+    @FXML private ListView<String> listViewPermisos;
 
     private Usuario usuario;
-    private UsuariosController usuarioController;
+    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private final EmpresaDAO empresaDAO = new EmpresaDAO();
+    private final SucursalDAO sucursalDAO = new SucursalDAO();
+    private final RolDAO rolDAO = new RolDAO();
 
-    private final Set<Integer> sucursalesAsignadasInicial = new HashSet<>();
+    @FXML
+    public void initialize() {
+        try {
+            comboEmpresa.setItems(FXCollections.observableArrayList(empresaDAO.listarEmpresas()));
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        cargarEmpresas();
+            comboEmpresa.setOnAction(e -> {
+                Empresa seleccionada = comboEmpresa.getSelectionModel().getSelectedItem();
+                if (seleccionada != null) {
+                    try {
+                        // --- CAMBIO 2: Llamamos al nuevo método para cargar las sucursales como CheckBoxes ---
+                        cargarSucursales(seleccionada.getEmpresaId());
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
 
-        comboEmpresa.valueProperty().addListener((obs, oldEmpresa, nuevaEmpresa) -> {
-            if (nuevaEmpresa != null) {
-                cargarSucursalesPorEmpresa(nuevaEmpresa.getEmpresaId());
-            } else {
-                listViewSucursales.getItems().clear();
-            }
-        });
+            cargarRoles();
+            // --- CAMBIO 3: Ya no es necesario el modo de selección múltiple ya que cada CheckBox se encarga de su estado ---
+            // listViewSucursales.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+           // listViewRoles.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setUsuario(Usuario usuario) throws SQLException {
+    // --- NUEVO MÉTODO: Carga las sucursales como una lista de CheckBoxes ---
+    private void cargarSucursales(int empresaId) throws SQLException {
+        List<Sucursal> sucursales = sucursalDAO.obtenerPorEmpresa(empresaId);
+        ObservableList<CheckBox> checkBoxes = FXCollections.observableArrayList();
+
+        for (Sucursal sucursal : sucursales) {
+            CheckBox cb = new CheckBox(sucursal.getNombreSucursal());
+            cb.setUserData(sucursal); // Almacenamos el objeto Sucursal en el CheckBox
+            checkBoxes.add(cb);
+        }
+
+        listViewSucursales.setItems(checkBoxes);
+    }
+
+    private void cargarRoles() throws SQLException {
+        List<Rol> roles = rolDAO.listarRoles();
+        ObservableList<CheckBox> checkBoxes = FXCollections.observableArrayList();
+
+        for (Rol rol : roles) {
+            CheckBox cb = new CheckBox(rol.getNombre());
+            cb.setUserData(rol);
+            checkBoxes.add(cb);
+        }
+
+        listViewRoles.setItems(checkBoxes);
+
+    }
+
+    // --- El método actualizarListaRolesSeleccionados ya no es necesario o debe ser revisado ---
+    // El método original parece tener un error lógico, por lo que lo hemos eliminado para simplificar.
+    // Si su propósito es cargar permisos basados en roles, esa lógica debería estar en otro método.
+
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
 
-        if (usuario != null && usuario.getUsuarioId() != 0) {
-            txtNombre.setText(usuario.getNombreUsuario());
-            txtUsuario.setText(usuario.getUsuario());
-            txtEmail.setText(usuario.getEmail());
-            txtPasword.setText(usuario.getPassword());
+        txtNombre.setText(usuario.getNombreUsuario());
+        txtEmail.setText(usuario.getEmail());
+        txtUsuario.setText(usuario.getUsuario());
+        txtPasword.setText(usuario.getPassword());
 
-            List<Sucursal> sucursalesUsuario = usuarioDAO.obtenerSucursalesDeUsuario(usuario.getUsuarioId());
-            usuario.setSucursales(sucursalesUsuario);
-
-            for (Sucursal suc : sucursalesUsuario) {
-                sucursalesAsignadasInicial.add(suc.getSucursalId());
-            }
-
+        try {
+            List<Sucursal> sucursalesUsuario = usuarioDAO.obtenerSucursalesDelUsuario(usuario.getUsuarioId());
             if (!sucursalesUsuario.isEmpty()) {
-                Empresa empresa = sucursalesUsuario.get(0).getEmpresa();
-                comboEmpresa.setValue(empresa);
-                cargarSucursalesPorEmpresa(empresa.getEmpresaId());
-            }
-        } else {
-            this.usuario = new Usuario();
-            txtNombre.clear();
-            txtUsuario.clear();
-            txtEmail.clear();
-            txtPasword.clear();
-            comboEmpresa.getSelectionModel().clearSelection();
-            listViewSucursales.getItems().clear();
-            sucursalesAsignadasInicial.clear();
-        }
-    }
+                Sucursal primera = sucursalesUsuario.get(0);
+                Empresa empresa = empresaDAO.obtenerPorId(primera.getEmpresa().getEmpresaId());
 
-    private void cargarEmpresas() {
-        try {
-            List<Empresa> empresas = empresaDAO.listarEmpresas();
-            comboEmpresa.setItems(FXCollections.observableArrayList(empresas));
-        } catch (SQLException e) {
-            UtilControllers.mostrarError("Error al cargar empresas", e);
-        }
-    }
+                if (empresa != null) {
+                    comboEmpresa.getSelectionModel().select(empresa);
 
-    private void cargarSucursalesPorEmpresa(int empresaId) {
-        try {
-            List<Sucursal> sucursales = sucursalDAO.obtenerPorEmpresa(empresaId);
-            ObservableList<Sucursal> observableList = FXCollections.observableArrayList(sucursales);
-            listViewSucursales.setItems(observableList);
+                    // --- CAMBIO 4: Carga las sucursales como CheckBoxes ---
+                    cargarSucursales(empresa.getEmpresaId());
 
-            listViewSucursales.setCellFactory(CheckBoxListCell.forListView(suc -> {
-                BooleanProperty selected = new SimpleBooleanProperty(sucursalesAsignadasInicial.contains(suc.getSucursalId()));
-                selected.addListener((obs, wasSelected, isNowSelected) -> {
-                    if (isNowSelected) {
-                        usuario.getSucursales().add(suc);
-                    } else {
-                        usuario.getSucursales().removeIf(s -> s.getSucursalId() == suc.getSucursalId());
-                    }
-                });
-                return selected;
-            }, new StringConverter<>() {
-                @Override public String toString(Sucursal sucursal) {
-                    return sucursal.getNombre();
-                }
-                @Override public Sucursal fromString(String string) {
-                    return null;
-                }
-            }));
-
-            if (usuario.getSucursales() != null) {
-                for (Sucursal s : sucursales) {
-                    if (usuario.getSucursales().stream().anyMatch(us -> us.getSucursalId() == s.getSucursalId())) {
-                        // ya manejado por el checkbox binding
+                    // --- CAMBIO 5: Selecciona los CheckBoxes correspondientes a las sucursales del usuario ---
+                    for (CheckBox cb : listViewSucursales.getItems()) {
+                        Sucursal sucursalEnLista = (Sucursal) cb.getUserData();
+                        for (Sucursal sucUsuario : sucursalesUsuario) {
+                            if (sucursalEnLista.getSucursalId() == sucUsuario.getSucursalId()) {
+                                cb.setSelected(true);
+                                break;
+                            }
+                        }
                     }
                 }
             }
-        } catch (SQLException e) {
-            UtilControllers.mostrarError("Error al cargar sucursales", e);
-        }
-    }
 
-    public void setUsuarioController(UsuariosController usuarioController) {
-        this.usuarioController = usuarioController;
+            List<Rol> rolesAsignados = usuarioDAO.obtenerRolesDelUsuario(usuario.getUsuarioId());
+            List<Permiso>permisos =new ArrayList<>();
+            // Crea una lista observable para guardar los nombres de los permisos
+            ObservableList<String> nombresPermisos = FXCollections.observableArrayList();
+
+
+            for (CheckBox cb : listViewRoles.getItems()) {
+                Rol rol = (Rol) cb.getUserData();
+                for (Rol asignado : rolesAsignados) {
+                    if (rol.getRolId() == asignado.getRolId()) {
+                        cb.setSelected(true);
+                        permisos=rolDAO.obtenerPermisosDelRol(rol.getRolId());
+                        for (Permiso permiso : permisos){
+                            nombresPermisos.add(permiso.getNombre());
+                        }
+                        // Asigna la lista completa al ListView
+                        listViewPermisos.setItems(nombresPermisos);
+
+
+                        break;
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void onGuardar() {
+        String nombre = txtNombre.getText();
+        String email = txtEmail.getText();
+        String usuarioTxt = txtUsuario.getText();
+        String password = txtPasword.getText();
+
+        if (nombre.isEmpty() || usuarioTxt.isEmpty() || password.isEmpty()) {
+            mostrarAlerta("Validación", "Nombre, usuario y password son obligatorios.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        // --- CAMBIO 6: Recolecta las sucursales de los CheckBoxes seleccionados ---
+        List<Sucursal> sucursalesSeleccionadas = listViewSucursales.getItems().stream()
+                .filter(CheckBox::isSelected)
+                .map(cb -> (Sucursal) cb.getUserData())
+                .collect(Collectors.toList());
+
+        List<Rol> rolesSeleccionados = listViewRoles.getItems().stream()
+                .filter(CheckBox::isSelected)
+                .map(cb -> (Rol) cb.getUserData())
+                .collect(Collectors.toList());
+
         try {
-            if (!validarCampos()) return;
-
-            usuario.setNombreUsuario(txtNombre.getText().trim());
-            usuario.setEmail(txtEmail.getText().trim());
-            usuario.setUsuario(txtUsuario.getText().trim());
-            usuario.setPassword(txtPasword.getText());
-
-            if (usuario.getUsuarioId() == 0) {
+            if (usuario == null) {
+                usuario = new Usuario();
+                usuario.setNombreUsuario(nombre);
+                usuario.setEmail(email);
+                usuario.setUsuario(usuarioTxt);
+                usuario.setPassword(password);
+                usuario.setSucursales(sucursalesSeleccionadas);
+                usuario.setRoles(rolesSeleccionados);
                 usuarioDAO.insertar(usuario);
-                MensajeUtil.mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Usuario registrado correctamente.", null);
             } else {
-                usuarioDAO.actualizarInteligente(usuario, sucursalesAsignadasInicial);
-                MensajeUtil.mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Usuario actualizado correctamente.", null);
+                usuario.setNombreUsuario(nombre);
+                usuario.setEmail(email);
+                usuario.setUsuario(usuarioTxt);
+                usuario.setPassword(password);
+                usuario.setSucursales(sucursalesSeleccionadas);
+                usuario.setRoles(rolesSeleccionados);
+                usuarioDAO.actualizar(usuario);
             }
 
-            if (usuarioController != null) {
-                usuarioController.cargarUsuario("", "ALL");
-            }
-
-            Stage stage = (Stage) txtNombre.getScene().getWindow();
-            stage.close();
+            cerrarVentana();
 
         } catch (SQLException e) {
-            UtilControllers.mostrarError("Error al guardar usuario", e);
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo guardar el usuario.", Alert.AlertType.ERROR);
         }
     }
 
-    private boolean validarCampos() {
-        StringBuilder errorMessage = new StringBuilder();
+    private void cerrarVentana() {
+        Stage stage = (Stage) txtNombre.getScene().getWindow();
+        stage.close();
+    }
 
-        if (txtNombre.getText() == null || txtNombre.getText().trim().isEmpty())
-            errorMessage.append("El nombre no puede estar vacío.\n");
+    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+    }
 
-        if (txtEmail.getText() == null || txtEmail.getText().trim().isEmpty())
-            errorMessage.append("El correo electrónico no puede estar vacío.\n");
-
-        if (txtUsuario.getText() == null || txtUsuario.getText().trim().isEmpty())
-            errorMessage.append("El usuario no puede estar vacío.\n");
-
-        if (txtPasword.getText() == null || txtPasword.getText().trim().isEmpty())
-            errorMessage.append("El password no puede estar vacío.\n");
-
-        if (comboEmpresa.getValue() == null)
-            errorMessage.append("Debe seleccionar una empresa.\n");
-
-        if (usuario.getSucursales() == null || usuario.getSucursales().isEmpty())
-            errorMessage.append("Debe seleccionar al menos una sucursal.\n");
-
-        if (!txtEmail.getText().trim().matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$"))
-            errorMessage.append("El formato del correo electrónico no es válido.\n");
-
-        if (errorMessage.length() > 0) {
-            MensajeUtil.mostrarAlerta(Alert.AlertType.ERROR, "Campos Inválidos",
-                    "Por favor, corrija los siguientes errores:", errorMessage.toString());
-            return false;
-        }
-
-        return true;
+    public void setUsuarioController(UsuariosController usuariosController) {
     }
 }

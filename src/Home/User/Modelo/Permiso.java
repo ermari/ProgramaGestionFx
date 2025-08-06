@@ -1,7 +1,8 @@
 package Home.User.Modelo;
 
+import javafx.collections.ObservableList;
 
-public class Permiso {
+public class Permiso  {
 
     private int permisoId;
     private String nombre;
@@ -16,6 +17,11 @@ public class Permiso {
         this.descripcion = descripcion;
     }
 
+    public Permiso(String nombre, String descripcion) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
+
     public int getPermisoId() {
         return permisoId;
     }
@@ -25,7 +31,7 @@ public class Permiso {
     }
 
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     public void setNombre(String nombre) {

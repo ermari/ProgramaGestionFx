@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -26,6 +27,22 @@ public class SelectorEmpresaSucursalController {
         if (empresas != null && !empresas.isEmpty()) {
             comboEmpresa.setItems(FXCollections.observableArrayList(empresas));
 
+            // Aplicar cell factory para mostrar el nombre de la empresa en la lista y en el botón
+            comboEmpresa.setCellFactory(lv -> new ListCell<Empresa>() {
+                @Override
+                protected void updateItem(Empresa item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? "" : item.getNombre());
+                }
+            });
+            comboEmpresa.setButtonCell(new ListCell<Empresa>() {
+                @Override
+                protected void updateItem(Empresa item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? "" : item.getNombre());
+                }
+            });
+
             // Seleccionar la primera empresa automáticamente
             comboEmpresa.getSelectionModel().selectFirst();
 
@@ -38,6 +55,23 @@ public class SelectorEmpresaSucursalController {
                         .collect(Collectors.toList());
 
                 comboSucursal.setItems(FXCollections.observableArrayList(sucursales));
+
+                // Aplicar cell factory para sucursales
+                comboSucursal.setCellFactory(lv -> new ListCell<Sucursal>() {
+                    @Override
+                    protected void updateItem(Sucursal item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(empty || item == null ? "" : item.getNombre());
+                    }
+                });
+                comboSucursal.setButtonCell(new ListCell<Sucursal>() {
+                    @Override
+                    protected void updateItem(Sucursal item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(empty || item == null ? "" : item.getNombre());
+                    }
+                });
+
                 if (!comboSucursal.getItems().isEmpty()) {
                     comboSucursal.getSelectionModel().selectFirst();
                 }

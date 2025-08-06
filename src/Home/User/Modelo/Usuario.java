@@ -1,5 +1,6 @@
 package Home.User.Modelo;
 
+import CatalogoGestion.Empresas.Modelo.Empresa;
 import CatalogoGestion.Empresas.Modelo.Sucursal;
 import javafx.beans.property.*;
 
@@ -13,9 +14,26 @@ public class Usuario {
     private final StringProperty email = new SimpleStringProperty();
     private final StringProperty usuario = new SimpleStringProperty();
     private final StringProperty password = new SimpleStringProperty();
-
     // Lista de sucursales asociadas al usuario
     private List<Sucursal> sucursales = new ArrayList<>();
+
+
+    private List<Rol> roles= new ArrayList<>();;
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+
+    private Empresa empresa;
+
+
+
+    private Rol rol;
+    private List<Permiso> permisos = new ArrayList<>();
 
     // Constructor vacío
     public Usuario() {
@@ -110,5 +128,24 @@ public class Usuario {
         if (sucursal != null && !sucursales.contains(sucursal)) {
             sucursales.add(sucursal);
         }
+    }
+
+    public void setRol(Rol rolSeleccionado) {
+    }
+
+    public void setPermisos(ArrayList<Permiso> permisos) {
+    }
+
+    public Rol getRol() {
+        return this.rol;
+    }
+
+    public List<Rol> getRoles() {
+        return this.roles;
+    }
+
+
+    public void setRoles(List<Rol> rols) {
+        this.roles = rols ;
     }
 }

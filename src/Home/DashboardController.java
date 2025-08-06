@@ -1,5 +1,7 @@
 package Home;
 
+import Home.User.Controlador.ListarPermisosController;
+import Home.User.Controlador.ListarRolesController;
 import Home.User.Controlador.UsuariosController;
 import RegistroEmpleado.EmpleadoController;
 import javafx.fxml.FXML;
@@ -37,12 +39,12 @@ public class DashboardController implements Initializable {
     private TextField texto;
 
     @FXML
-    public void abrirEmpleado() {
+    public void abrirRoles() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/RegistroEmpleado/Empleado.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home/User/Vista/Roles.fxml"));
             AnchorPane empleado = loader.load();
 
-            EmpleadoController controller = loader.getController();
+            ListarRolesController controller = loader.getController();
             controller.setHomeController(homeController); // 🔁 aquí pasa el home
 
             if (contentPane != null) {
@@ -62,6 +64,34 @@ public class DashboardController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+        @FXML
+        public void abrirPermiso() {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home/User/Vista/ListarPermisos.fxml"));
+                AnchorPane empleado = loader.load();
+
+                ListarPermisosController controller = loader.getController();
+                controller.setHomeController(homeController); // 🔁 aquí pasa el home
+
+                if (contentPane != null) {
+                    contentPane.getChildren().setAll(empleado);
+                    AnchorPane.setTopAnchor(empleado, 0.0);
+                    AnchorPane.setBottomAnchor(empleado, 0.0);
+                    AnchorPane.setLeftAnchor(empleado, 0.0);
+                    AnchorPane.setRightAnchor(empleado, 0.0);
+                }
+
+                if (homeController != null) {
+                    homeController.setTitulo("        Registro Empleado");
+                } else {
+                    System.err.println("⚠️ homeController es null en abrirEmpleado()");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
     }
 
     @FXML
@@ -202,6 +232,37 @@ public class DashboardController implements Initializable {
         }
     }
 
+
+    @FXML
+    public void abrirEmpleado() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/RegistroEmpleado/empleado.fxml"));
+            AnchorPane empleado = loader.load();
+
+            ListarRolesController controller = loader.getController();
+            controller.setHomeController(homeController); // 🔁 aquí pasa el home
+
+            if (contentPane != null) {
+                contentPane.getChildren().setAll(empleado);
+                AnchorPane.setTopAnchor(empleado, 0.0);
+                AnchorPane.setBottomAnchor(empleado, 0.0);
+                AnchorPane.setLeftAnchor(empleado, 0.0);
+                AnchorPane.setRightAnchor(empleado, 0.0);
+            }
+
+            if (homeController != null) {
+                homeController.setTitulo("        Registro Empleado");
+            } else {
+                System.err.println("⚠️ homeController es null en abrirEmpleado()");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
 
 
 }

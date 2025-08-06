@@ -116,6 +116,12 @@ public class Sucursal {
 
     @Override
     public String toString() {
-        return nombre; // o getNombre()
+        return this.nombre; // o getNombre()
+    }
+    public void setEmpresaId(int empresaId) {
+    }
+
+    public String getNombreSucursal() {
+        return this.nombre;
     }
 }

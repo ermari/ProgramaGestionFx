@@ -105,10 +105,10 @@ public class HomeController implements Initializable {
         setForm("Dashboard.fxml");
     }
 
-    @FXML
+  /*  @FXML
     public void handleAdd() throws IOException {
         setForm("/RegistroUsuario/Usuarios.fxml");
-    }
+    }*/
 
     @FXML
     private void handleReport() throws IOException {

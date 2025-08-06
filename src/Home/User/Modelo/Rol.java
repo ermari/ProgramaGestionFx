@@ -2,18 +2,13 @@
 // Archivo 1: Modelo de Rol
 package Home.User.Modelo;
 
+import java.util.List;
+
 public class Rol {
-    private int rolId;
+
+    private  int rolId;
     private String nombre;
     private String descripcion;
-
-    public int getRolId() {
-        return rolId;
-    }
-
-    public void setRolId(int rolId) {
-        this.rolId = rolId;
-    }
 
     public String getNombre() {
         return nombre;
@@ -29,5 +24,16 @@ public class Rol {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public int getRolId() {
+        return rolId;
+    }
+
+    public void setRolId(int rolId) {
+        this.rolId = rolId;
+    }
+
+    public void setPermisos(List<Permiso> permisos) {
     }
 }

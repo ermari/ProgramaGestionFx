@@ -127,9 +127,7 @@ public class Empresa {
 
     @Override
     public String toString() {
-        return getNombre();  // o el getter que devuelva el nombre real
+        return this.nombre; // o getNombre()
     }
-
-
 
 }

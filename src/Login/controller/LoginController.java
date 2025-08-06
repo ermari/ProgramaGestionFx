@@ -1,5 +1,6 @@
 package Login.controller;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,7 @@ public class LoginController {
     private Label lblMensaje;
 
     @FXML
-    private void onLogin() {
+    private void onLogin() throws SQLException {
         String username = txtUsuario.getText();
         String password = txtPassword.getText();
 
@@ -43,7 +44,7 @@ public class LoginController {
             try {
                 Sesion.setUsuarioActual(usuarioAutenticado);
 
-                List<Sucursal> sucursales = usuarioDAO.obtenerSucursalesDeUsuario(usuarioAutenticado.getUsuarioId());
+                List<Sucursal> sucursales = usuarioDAO.obtenerSucursalesDelUsuario(usuarioAutenticado.getUsuarioId());
                 usuarioAutenticado.setSucursales(sucursales);
 
                 // Obtener empresas únicas sin repetidos
@@ -97,6 +98,8 @@ public class LoginController {
 
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
 
         } else {
