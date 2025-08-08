@@ -17,10 +17,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="content" prefHeight="616.0" prefWidth="609.0" stylesheets="@../../../resources/css/formulario_catalogo.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Home.User.Controlador.RegistrarUsuarioController">
+<AnchorPane id="content" prefHeight="616.0" prefWidth="609.0" stylesheets="@../../../Login/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Home.User.Controlador.RegistrarUsuarioController">
 
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="58.0" layoutY="14.0" prefHeight="616.0" prefWidth="480.0" spacing="15.0">
+      <VBox alignment="TOP_CENTER" layoutX="12.0" layoutY="14.0" prefHeight="616.0" prefWidth="596.0" spacing="15.0" stylesheets="@../../../Login/login.css">
          <padding>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>

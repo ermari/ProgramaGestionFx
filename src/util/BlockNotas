@@ -1,0 +1,21 @@
+PROGRAMAR EL SALIR EN LAS PANTALLAS
+// En el metodo abrir del dashboard Controller
+  MasterCatalogoListaController controller = loader.getController();  //sustituir MasterCatalogoListaController
+   controller.setHomeController(homeController); // 🔁 aquí pasa el home
+
+//En el Controlador del listar
+
+//------------------------------------------------------------------------
+    private HomeController homeController;
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
+    //-------------------------------------------------------------------------
+    @FXML
+    private void salir(ActionEvent event) {
+        if (homeController != null) {
+            homeController.setForm("Dashboard.fxml");
+        }
+    }
+//-----------------------------------------------------------------------------
+

@@ -55,11 +55,12 @@
          <Font name="Arial Black" size="10.0" />
       </font>
    </JFXButton>
-   <Button layoutX="810.0" layoutY="73.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="54.0" styleClass="search-button" stylesheets="@../resources/css/style-varios.css" text="Buscar" textFill="WHITE" />
-   <TextField fx:id="filterField" layoutX="377.0" layoutY="72.0" prefHeight="30.0" prefWidth="426.0" promptText="Buscar Catalogo" styleClass="transparent" stylesheets="@../resources/css/style-varios.css">
+   <Button layoutX="631.0" layoutY="73.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="54.0" styleClass="search-button" stylesheets="@../resources/css/style-varios.css" text="Buscar" textFill="WHITE" />
+   <TextField fx:id="filterField" layoutX="377.0" layoutY="72.0" prefHeight="30.0" prefWidth="281.0" promptText="Buscar Catalogo" styleClass="transparent" stylesheets="@../resources/css/style-varios.css">
       <font>
          <Font name="Arial" size="13.0" />
       </font>
    </TextField>
+   <Button fx:id="btnSalir"   layoutX="784.0" layoutY="73.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#salir" prefHeight="30.0" prefWidth="98.0" styleClass="boton-salir" stylesheets="@/resources/css/formulario.css" text="⮐ Regresar" />
 
 </AnchorPane>

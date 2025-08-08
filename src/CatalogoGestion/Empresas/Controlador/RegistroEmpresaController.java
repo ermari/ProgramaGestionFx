@@ -29,7 +29,7 @@ public class RegistroEmpresaController {
             txtDireccion.setText(empresa.getDireccion());
             txtTelefono.setText(empresa.getTelefono());
             txtEmail.setText(empresa.getEmail());
-            txtRepresentante.setText(empresa.getRepresentanteLegal());
+            txtRepresentante.setText(empresa.getRepresentante());
             txtTipo.setText(empresa.getTipoEmpresa());
             dpFechaConstitucion.setValue(empresa.getFechaConstitucion());
             chkActivo.setSelected(empresa.isEstado());
@@ -53,7 +53,7 @@ public class RegistroEmpresaController {
             empresa.setDireccion(txtDireccion.getText());
             empresa.setTelefono(txtTelefono.getText());
             empresa.setEmail(txtEmail.getText());
-            empresa.setRepresentanteLegal(txtRepresentante.getText());
+            empresa.setRepresentante(txtRepresentante.getText());
             empresa.setTipoEmpresa(txtTipo.getText());
             empresa.setFechaConstitucion(dpFechaConstitucion.getValue());
             empresa.setEstado(chkActivo.isSelected());

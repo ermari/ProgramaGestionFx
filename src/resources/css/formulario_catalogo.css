@@ -125,6 +125,23 @@
     -fx-translate-y: 1px;
 }
 
+
+.buscar-button {
+    -fx-background-color: linear-gradient(to bottom, #a98f39 0%, #2e6da4 100%); /* Azul */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #020a11;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 5, 0, 0, 1);
+    -fx-cursor: hand;
+}
+
+.buscar-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #2e6da4 0%, #337ab7 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 1);
+}
+
 .editar-button {
     -fx-background-color: linear-gradient(to bottom, #337ab7 0%, #2e6da4 100%); /* Azul */
     -fx-text-fill: white;

@@ -32,6 +32,21 @@ public class ListarRolesController {
     private final RolDAO rolDAO = new RolDAO();
     private ObservableList<Rol> listaRoles;
 
+    //------------------------------------------------------------------------
+    private HomeController homeController;
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
+    //-------------------------------------------------------------------------
+    @FXML
+    private void salir(ActionEvent event) {
+        if (homeController != null) {
+            homeController.setForm("Dashboard.fxml");
+        }
+    }
+//-----------------------------------------------------------------------------
+
+
     @FXML
     public void initialize() {
         configurarTabla();
@@ -158,8 +173,5 @@ public class ListarRolesController {
         alert.showAndWait();
     }
 
-    // Si usarás referencia cruzada con HomeController
-    public void setHomeController(HomeController controller) {
-        // implementación si es necesaria
-    }
+
 }

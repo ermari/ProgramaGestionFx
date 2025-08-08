@@ -1,7 +1,9 @@
 package Home.User.Controlador;
 
+import Home.HomeController;
 import Home.User.Modelo.Permiso;
 import Home.User.Modelo.PermisoDAO;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -13,6 +15,7 @@ public class RegistrarPermisoController {
 
     private Permiso permiso;
     private final PermisoDAO permisoDAO = new PermisoDAO();
+
 
     // Método para recibir el permiso en modo edición (puede ser null para nuevo)
     public void setPermiso(Permiso permiso) {

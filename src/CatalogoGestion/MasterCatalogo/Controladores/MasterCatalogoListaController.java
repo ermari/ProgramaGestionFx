@@ -3,8 +3,10 @@ package CatalogoGestion.MasterCatalogo.Controladores;
 
 
 import CatalogoGestion.MasterCatalogo.Modelo.MasterCatalogo;
+import Home.HomeController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,6 +38,21 @@ public class MasterCatalogoListaController {
     @FXML private TableColumn<MasterCatalogo, String> colMasterDescripcion;
 
     private ObservableList<MasterCatalogo> masterData = FXCollections.observableArrayList();
+
+    //------------------------------------------------------------------------
+    private HomeController homeController;
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
+    //-------------------------------------------------------------------------
+    @FXML
+    private void salir(ActionEvent event) {
+        if (homeController != null) {
+            homeController.setForm("Dashboard.fxml");
+        }
+    }
+//-----------------------------------------------------------------------------
+
 
     @FXML
     public void initialize() {

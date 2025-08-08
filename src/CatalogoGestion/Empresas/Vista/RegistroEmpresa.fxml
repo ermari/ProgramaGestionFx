@@ -7,28 +7,51 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="CatalogoGestion.Empresas.Controlador.RegistroEmpresaController">
+<AnchorPane prefHeight="550.0" prefWidth="450.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="CatalogoGestion.Empresas.Controlador.RegistroEmpresaController">
 
-    <VBox prefHeight="558.0" prefWidth="453.0" spacing="10" stylesheets="@../../../resources/css/formulario_catalogo.css">
+    <VBox prefHeight="550.0" prefWidth="450.0" spacing="15" stylesheets="@../../../resources/css/formulario_catalogo.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <padding>
-            <Insets bottom="15" left="15" right="15" top="15" />
+            <Insets bottom="20" left="20" right="20" top="20" />
         </padding>
 
-        <Label text="Registro de Empresa" />
-        <TextField fx:id="txtNombre" promptText="Nombre" />
-        <TextField fx:id="txtRazonSocial" promptText="Razón Social" />
-        <TextField fx:id="txtRuc" promptText="RUC" />
-        <TextField fx:id="txtDireccion" promptText="Dirección" />
-        <TextField fx:id="txtTelefono" promptText="Teléfono" />
-        <TextField fx:id="txtEmail" promptText="Correo" />
-        <TextField fx:id="txtRepresentante" promptText="Representante Legal" />
-        <TextField fx:id="txtTipo" promptText="Tipo de Empresa" />
-        <DatePicker fx:id="dpFechaConstitucion" />
+        <Label styleClass="form-title" text="Registro de Empresa" />
+
+        <GridPane hgap="10" vgap="10">
+            <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <TextField fx:id="txtNombre" promptText="Nombre" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+            <Label text="Razón Social:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <TextField fx:id="txtRazonSocial" promptText="Razón Social" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+            <Label text="RUC:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <TextField fx:id="txtRuc" promptText="RUC" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+            <Label text="Dirección:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <TextField fx:id="txtDireccion" promptText="Dirección" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+            <Label text="Teléfono:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+            <TextField fx:id="txtTelefono" promptText="Teléfono" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+            <Label text="Correo:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+            <TextField fx:id="txtEmail" promptText="Correo" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+            <Label text="Representante Legal:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+            <TextField fx:id="txtRepresentante" promptText="Representante Legal" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+
+            <Label text="Tipo de Empresa:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+            <TextField fx:id="txtTipo" promptText="Tipo de Empresa" GridPane.rowIndex="7" GridPane.columnIndex="1" />
+
+            <Label text="Fecha de Constitución:" GridPane.rowIndex="8" GridPane.columnIndex="0" />
+            <DatePicker fx:id="dpFechaConstitucion" GridPane.rowIndex="8" GridPane.columnIndex="1" />
+        </GridPane>
+
         <CheckBox fx:id="chkActivo" text="Empresa activa" />
-        <HBox spacing="10">
+
+        <HBox alignment="CENTER_RIGHT" spacing="10" VBox.vgrow="ALWAYS">
             <Button onAction="#guardarEmpresa" text="Guardar" />
             <Button onAction="#cancelar" text="Cancelar" />
         </HBox>

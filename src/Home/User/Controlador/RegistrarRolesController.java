@@ -1,10 +1,12 @@
 package Home.User.Controlador;
 
+import Home.HomeController;
 import Home.User.Modelo.Permiso;
 import Home.User.Modelo.Rol;
 import Home.User.Modelo.RolDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -21,6 +23,22 @@ public class RegistrarRolesController {
 
     private final RolDAO rolDAO = new RolDAO();
     private Rol rol;
+
+    //En el Controlador del listar
+
+    //------------------------------------------------------------------------
+    private HomeController homeController;
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
+    //-------------------------------------------------------------------------
+    @FXML
+    private void salir(ActionEvent event) {
+        if (homeController != null) {
+            homeController.setForm("Dashboard.fxml");
+        }
+    }
+//---------------------
 
     @FXML
     public void initialize() {

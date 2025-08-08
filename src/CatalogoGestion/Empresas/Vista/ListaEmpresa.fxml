@@ -7,20 +7,26 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="457.0" prefWidth="1156.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="CatalogoGestion.Empresas.Controlador.ListaEmpresaController">
+<AnchorPane prefHeight="457.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CatalogoGestion.Empresas.Controlador.ListaEmpresaController">
     <VBox spacing="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
-        <HBox spacing="10" stylesheets="@../../../resources/css/tree_table_view_styles.css">
-            <Button onAction="#nuevaEmpresa" text="Nueva Empresa" />
-            <Button onAction="#editarEmpresa" text="Editar Empresa" />
-
-            <Button onAction="#verSucursales" text="Ver Sucursales" />
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Button onAction="#nuevaEmpresa" styleClass="crear-button" stylesheets="@../../../resources/css/formulario_catalogo.css" text="Nueva Empresa" />
+            <Button onAction="#editarEmpresa" styleClass="editar-button" stylesheets="@../../../resources/css/formulario_catalogo.css" text="Editar Empresa" />
+            <Button onAction="#verSucursales" styleClass="ver-detalle-button" stylesheets="@../../../resources/css/formulario_catalogo.css" text="Ver Sucursales" />
+            <Button fx:id="btnSalir" onAction="#salir" styleClass="boton-salir" stylesheets="@/resources/css/formulario.css" text="⮐ Regresar" />
         </HBox>
-        <TableView fx:id="tablaEmpresas" prefHeight="400.0" prefWidth="936.0" stylesheets="@../../../resources/css/tree_table_view_styles.css">
+        <TableView fx:id="tablaEmpresas" prefHeight="400.0" prefWidth="1180.0" stylesheets="@../../../resources/css/tableView.css">
             <columns>
-                <TableColumn fx:id="colNombre" prefWidth="160.00000321865082" text="Nombre" />
-                <TableColumn fx:id="colRuc" minWidth="0.0" prefWidth="0.0" text="RUC" />
-                <TableColumn fx:id="colTipo" prefWidth="212.8000030517578" text="Tipo" />
-                <TableColumn fx:id="colEstado" maxWidth="600.0" prefWidth="567.2000427246094" text="Estado" />
+                <TableColumn fx:id="colNombre" prefWidth="120.0" text="Nombre" />
+                <TableColumn fx:id="colRazonSocial" prefWidth="150.0" text="Razón Social" />
+                <TableColumn fx:id="colRuc" prefWidth="100.0" text="RUC" />
+                <TableColumn fx:id="colDireccion" prefWidth="180.0" text="Dirección" />
+                <TableColumn fx:id="colTelefono" prefWidth="100.0" text="Teléfono" />
+                <TableColumn fx:id="colEmail" prefWidth="150.0" text="Correo" />
+                <TableColumn fx:id="colRepresentante" prefWidth="140.0" text="Representante Legal" />
+                <TableColumn fx:id="colTipo" prefWidth="100.0" text="Tipo" />
+                <TableColumn fx:id="colFechaConstitucion" prefWidth="130.0" text="Fecha de Constitución" />
+                <TableColumn fx:id="colEstado" prefWidth="80.0" text="Estado" />
             </columns>
         </TableView>
     </VBox>

@@ -1,5 +1,6 @@
 package Catalogo;
 
+import Home.HomeController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,6 +55,12 @@ public class CatalogoController implements Initializable { // Implementar Initia
 
     // Columna de acción de tipo Void
     private CatalogoDAO catalogoDAO = new CatalogoDAO();
+    private HomeController homeController;
+
+
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
 
     @Override // Sobreescribir el método initialize de Initializable
     public void initialize(URL url, ResourceBundle rb) {
@@ -484,6 +491,13 @@ public class CatalogoController implements Initializable { // Implementar Initia
                     ex.printStackTrace();
                 }
             }
+        }
+    }
+
+    @FXML
+    private void salir(ActionEvent event) {
+        if (homeController != null) {
+            homeController.setForm("Dashboard.fxml");
         }
     }
 

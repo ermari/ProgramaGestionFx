@@ -26,6 +26,7 @@
                 <Region HBox.hgrow="ALWAYS" />
                 <TextField fx:id="txtBuscarRol" prefHeight="41.0" prefWidth="324.0" promptText="Buscar por nombre..." />
                 <Button onAction="#buscarRol" text="Buscar" />
+            <Button fx:id="btnSalir" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#salir" prefHeight="30.0" prefWidth="114.0" styleClass="boton-salir" stylesheets="@/resources/css/formulario.css" text="⮐ Regresar" />
             </HBox>
 
             <TableView fx:id="tableRoles" prefHeight="327.0" prefWidth="674.0" VBox.vgrow="ALWAYS">

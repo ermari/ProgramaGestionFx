@@ -3,15 +3,17 @@ package CatalogoGestion.Empresas.Controlador;
 import CatalogoGestion.Empresas.Modelo.Empresa;
 import CatalogoGestion.Empresas.Modelo.Sucursal;
 import CatalogoGestion.Empresas.Modelo.SucursalDAO;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -22,6 +24,9 @@ public class ListaSucursalController {
     @FXML private TableColumn<Sucursal, String> colCodigo;
     @FXML private TableColumn<Sucursal, String> colDireccion;
     @FXML private TableColumn<Sucursal, String> colTelefono;
+    @FXML private TableColumn<Sucursal, String> colEmail;
+    @FXML private TableColumn<Sucursal, String> colCiudad;
+    @FXML private TableColumn<Sucursal, String> colPais;
     @FXML private TableColumn<Sucursal, Boolean> colEstado;
 
     private SucursalDAO sucursalDAO = new SucursalDAO();
@@ -36,13 +41,17 @@ public class ListaSucursalController {
 
     @FXML
     public void initialize() {
-        colNombre.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getNombre()));
-        colCodigo.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getCodigo()));
-        colDireccion.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getDireccion()));
-        colTelefono.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTelefono()));
-        colEstado.setCellValueFactory(cellData -> new javafx.beans.property.SimpleBooleanProperty(cellData.getValue().isEstado()));
+        // Enlazar las propiedades de la clase Sucursal a las columnas de la tabla
+        colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNombre()));
+        colCodigo.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCodigo()));
+        colDireccion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDireccion()));
+        colTelefono.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTelefono()));
+        colEmail.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail()));
+        colCiudad.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCiudad()));
+        colPais.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPais()));
 
-        // Para mostrar checkBox en la columna de estado
+        // Manejar el estado como un CheckBox
+        colEstado.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isEstado()));
         colEstado.setCellFactory(tc -> new TableCell<Sucursal, Boolean>() {
             @Override
             protected void updateItem(Boolean activo, boolean empty) {
@@ -63,16 +72,16 @@ public class ListaSucursalController {
     }
 
     private void cargarSucursales() {
-        try {
-            List<Sucursal> lista = sucursalDAO.obtenerPorEmpresa(empresa.getEmpresaId());
-            sucursalesList.setAll(lista);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Aquí podrías mostrar alerta de error
+        if (empresa != null) {
+            try {
+                List<Sucursal> lista = sucursalDAO.obtenerPorEmpresa(empresa.getEmpresaId());
+                sucursalesList.setAll(lista);
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarAlerta("Error al cargar las sucursales desde la base de datos.");
+            }
         }
     }
-
-
 
     @FXML
     private void cerrar() {
@@ -90,7 +99,7 @@ public class ListaSucursalController {
 
     @FXML
     private void nuevaSucursal() {
-        mostrarFormularioSucursal(null);  // null = nueva
+        mostrarFormularioSucursal(null);
     }
 
     @FXML
@@ -109,9 +118,9 @@ public class ListaSucursalController {
             Parent root = loader.load();
 
             RegistroSucursalController controller = loader.getController();
-            controller.setSucursal(sucursal);             // Para editar o nuevo
-            controller.setEmpresa(this.empresa);      // Vincular sucursal a empresa
-            controller.setOnGuardar(this::cargarSucursales);  // Refresca lista al guardar
+            controller.setSucursal(sucursal);
+            controller.setEmpresa(this.empresa);
+            controller.setOnGuardar(this::cargarSucursales);
 
             Stage stage = new Stage();
             stage.setTitle(sucursal == null ? "Nueva Sucursal" : "Editar Sucursal");
@@ -124,8 +133,4 @@ public class ListaSucursalController {
             mostrarAlerta("Error al abrir el formulario de sucursal.");
         }
     }
-
-
-
-
 }

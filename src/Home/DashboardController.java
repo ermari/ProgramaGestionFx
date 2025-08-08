@@ -1,5 +1,9 @@
 package Home;
 
+import Catalogo.CatalogoController;
+import CatalogoGestion.Empresas.Controlador.ListaEmpresaController;
+import CatalogoGestion.MasterCatalogo.Controladores.MasterCatalogoListaController;
+import CatalogoGestion.MasterCatalogo.Controladores.MasterCatalogoRegistroController;
 import Home.User.Controlador.ListarPermisosController;
 import Home.User.Controlador.ListarRolesController;
 import Home.User.Controlador.UsuariosController;
@@ -112,9 +116,9 @@ public class DashboardController implements Initializable {
             }
 
             if (homeController != null) {
-                homeController.setTitulo("        Registro Empleado");
+                homeController.setTitulo("        Registro Usuraio");
             } else {
-                System.err.println("⚠️ homeController es null en abrirEmpleado()");
+                System.err.println("⚠️ homeController es null en abrir formulario Usuario()");
             }
 
         } catch (IOException e) {
@@ -135,6 +139,9 @@ public class DashboardController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Catalogo/catalogos.fxml"));
             AnchorPane catalogo = loader.load();
+
+            CatalogoController controller = loader.getController();
+            controller.setHomeController(homeController); // 🔁 aquí pasa el home
 
 
             if (contentPane != null) {
@@ -188,6 +195,9 @@ public class DashboardController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/CatalogoGestion/MasterCatalogo/vistas/master_catalogo_lista.fxml"));
             AnchorPane catalogo = loader.load();
 
+            MasterCatalogoListaController controller = loader.getController();
+            controller.setHomeController(homeController); // 🔁 aquí pasa el home
+
             if (contentPane != null) {
                 contentPane.getChildren().setAll(catalogo);
                 AnchorPane.setTopAnchor(catalogo, 0.0);
@@ -212,6 +222,10 @@ public class DashboardController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/CatalogoGestion/Empresas/Vista/ListaEmpresa.fxml"));
             AnchorPane catalogo = loader.load();
+
+            ListaEmpresaController controller = loader.getController();  //sustituir MasterCatalogoListaController
+            controller.setHomeController(homeController); // 🔁 aquí pasa el home
+
 
             if (contentPane != null) {
                 contentPane.getChildren().setAll(catalogo);

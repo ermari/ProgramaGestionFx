@@ -2,6 +2,8 @@ package CatalogoGestion.MasterCatalogo.Controladores;
 
 
 import CatalogoGestion.MasterCatalogo.Modelo.MasterCatalogo;
+import Home.HomeController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -160,4 +162,6 @@ public class MasterCatalogoRegistroController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+
 }

@@ -10,12 +10,12 @@ public class Empresa {
     private String direccion;
     private String telefono;
     private String email;
-    private String representanteLegal;
+    private String representante;
     private String tipoEmpresa;
     private LocalDate fechaConstitucion;
     private boolean estado;
 
-    public Empresa(int empresaId, String nombre, String razonSocial, String ruc, String direccion, String telefono, String email, String representanteLegal, String tipoEmpresa, LocalDate fechaConstitucion, boolean estado) {
+    public Empresa(int empresaId, String nombre, String razonSocial, String ruc, String direccion, String telefono, String email, String representante, String tipoEmpresa, LocalDate fechaConstitucion, boolean estado) {
         this.empresaId = empresaId;
         this.nombre = nombre;
         this.razonSocial = razonSocial;
@@ -23,7 +23,7 @@ public class Empresa {
         this.direccion = direccion;
         this.telefono = telefono;
         this.email = email;
-        this.representanteLegal = representanteLegal;
+        this.representante = representante;
         this.tipoEmpresa = tipoEmpresa;
         this.fechaConstitucion = fechaConstitucion;
         this.estado = estado;
@@ -86,13 +86,14 @@ public class Empresa {
         this.email = email;
     }
 
-    public String getRepresentanteLegal() {
-        return representanteLegal;
+    public String getRepresentante() {
+        return representante;
     }
 
-    public void setRepresentanteLegal(String representanteLegal) {
-        this.representanteLegal = representanteLegal;
+    public void setRepresentante(String representante) {
+        this.representante = representante;
     }
+
 
     public String getTipoEmpresa() {
         return tipoEmpresa;

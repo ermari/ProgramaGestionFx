@@ -95,7 +95,7 @@
             <children>
                <ImageView fitHeight="74.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                     <Image url="@../resources/images/empleado.png" />
+                     <Image url="@../resources/images/roles512.png" />
                   </image>
                </ImageView>
                <Button fx:id="btnEmpleado1" onAction="#abrirRoles" prefHeight="34.0" prefWidth="133.0" styleClass="hyperlink-button" text="Roles">
@@ -113,7 +113,7 @@
               <children>
                   <ImageView fitHeight="74.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true">
                       <image>
-                          <Image url="@../resources/images/empleado.png" />
+                          <Image url="@../resources/images/Permiso512.png" />
                       </image>
                   </ImageView>
                   <Button fx:id="btnPermiso" onAction="#abrirPermiso" prefHeight="34.0" prefWidth="133.0" styleClass="hyperlink-button" text="Permisos">

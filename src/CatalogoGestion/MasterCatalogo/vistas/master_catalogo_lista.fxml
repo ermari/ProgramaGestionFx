@@ -13,7 +13,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="501.0" prefWidth="895.0" stylesheets="@../../../resources/css/formulario.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CatalogoGestion.MasterCatalogo.Controladores.MasterCatalogoListaController">
     <children>
-        <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="10.0" layoutY="20.0" prefHeight="480.0" prefWidth="680.0" spacing="15.0" AnchorPane.bottomAnchor="0.7999999999999545" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.799999999999955" AnchorPane.topAnchor="20.0">
+        <VBox alignment="TOP_CENTER" fillWidth="false" layoutY="11.2" prefHeight="479.0" prefWidth="895.0" spacing="15.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="11.0">
             <children>
                 <Label text="Listado de Maestros de Catálogos">
                     <font>
@@ -44,12 +44,12 @@
                         <Button mnemonicParsing="false" onAction="#handleEditarMaster" styleClass="editar-button" text="Editar Maestro" />
                         <Button mnemonicParsing="false" onAction="#handleEliminarMaster" styleClass="eliminar-button" text="Eliminar Maestro" />
                         <Button mnemonicParsing="false" onAction="#handleVerDetalles" styleClass="ver-detalle-button" text="Ver Detalles" />
+                  <Button fx:id="btnSalir" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#salir" prefHeight="35.0" prefWidth="125.0" styleClass="boton-salir" stylesheets="@/resources/css/formulario.css" text="⮐ Regresar" />
                     </children>
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>
                <stylesheets>
-                  <URL value="@../../resources/css/formulario_catalogo.css" />
                   <URL value="@../../../resources/css/formulario_catalogo.css" />
                </stylesheets>
                 </HBox>

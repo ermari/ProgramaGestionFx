@@ -5,6 +5,7 @@ import Home.User.Modelo.Permiso;
 import Home.User.Modelo.PermisoDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,6 +29,20 @@ public class ListarPermisosController {
     @FXML private TextField txtBuscarPermiso;
 
     private final PermisoDAO permisoDAO = new PermisoDAO();
+    //------------------------------------------------------------------------
+    private HomeController homeController;
+    public void setHomeController(HomeController homeController) {
+        this.homeController = homeController;
+    }
+    //-------------------------------------------------------------------------
+    @FXML
+    private void salir(ActionEvent event) {
+        if (homeController != null) {
+            homeController.setForm("Dashboard.fxml");
+        }
+    }
+//-----------------------------------------------------------------------------
+
 
     @FXML
     private void initialize() {
@@ -133,6 +148,5 @@ public class ListarPermisosController {
 
     }
 
-    public void setHomeController(HomeController controller) {
-    }
+
 }

@@ -23,7 +23,7 @@ public class EmpresaDAO {
                 e.setDireccion(rs.getString("direccion"));
                 e.setTelefono(rs.getString("telefono"));
                 e.setEmail(rs.getString("email"));
-                e.setRepresentanteLegal(rs.getString("representante_legal"));
+                e.setRepresentante(rs.getString("representante_legal"));
                 e.setTipoEmpresa(rs.getString("tipo_empresa"));
                 e.setFechaConstitucion(rs.getDate("fecha_constitucion").toLocalDate());
                 e.setEstado(rs.getBoolean("estado"));
@@ -60,7 +60,7 @@ public class EmpresaDAO {
             stmt.setString(4, e.getDireccion());
             stmt.setString(5, e.getTelefono());
             stmt.setString(6, e.getEmail());
-            stmt.setString(7, e.getRepresentanteLegal());
+            stmt.setString(7, e.getRepresentante());
             stmt.setString(8, e.getTipoEmpresa());
             stmt.setDate(9, Date.valueOf(e.getFechaConstitucion()));
             stmt.setBoolean(10, e.isEstado());
@@ -77,7 +77,7 @@ public class EmpresaDAO {
             stmt.setString(4, e.getDireccion());
             stmt.setString(5, e.getTelefono());
             stmt.setString(6, e.getEmail());
-            stmt.setString(7, e.getRepresentanteLegal());
+            stmt.setString(7, e.getRepresentante());
             stmt.setString(8, e.getTipoEmpresa());
             stmt.setDate(9, Date.valueOf(e.getFechaConstitucion()));
             stmt.setBoolean(10, e.isEstado());

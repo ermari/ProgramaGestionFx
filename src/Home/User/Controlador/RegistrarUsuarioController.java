@@ -1,10 +1,16 @@
 package Home.User.Controlador;
 
+// ... (tus importaciones existentes)
+
 import CatalogoGestion.Empresas.Modelo.Empresa;
 import CatalogoGestion.Empresas.Modelo.EmpresaDAO;
 import CatalogoGestion.Empresas.Modelo.Sucursal;
 import CatalogoGestion.Empresas.Modelo.SucursalDAO;
-import Home.User.Modelo.*;
+import Home.User.Modelo.Permiso;
+import Home.User.Modelo.Rol;
+import Home.User.Modelo.RolDAO;
+import Home.User.Modelo.Usuario;
+import Home.User.Modelo.UsuarioDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,7 +19,9 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RegistrarUsuarioController {
@@ -24,7 +32,6 @@ public class RegistrarUsuarioController {
     @FXML private PasswordField txtPasword;
 
     @FXML private ComboBox<Empresa> comboEmpresa;
-    // --- CAMBIO 1: El ListView ahora es de tipo CheckBox ---
     @FXML private ListView<CheckBox> listViewSucursales;
 
     @FXML private ListView<CheckBox> listViewRoles;
@@ -45,7 +52,6 @@ public class RegistrarUsuarioController {
                 Empresa seleccionada = comboEmpresa.getSelectionModel().getSelectedItem();
                 if (seleccionada != null) {
                     try {
-                        // --- CAMBIO 2: Llamamos al nuevo método para cargar las sucursales como CheckBoxes ---
                         cargarSucursales(seleccionada.getEmpresaId());
                     } catch (SQLException ex) {
                         ex.printStackTrace();
@@ -54,23 +60,19 @@ public class RegistrarUsuarioController {
             });
 
             cargarRoles();
-            // --- CAMBIO 3: Ya no es necesario el modo de selección múltiple ya que cada CheckBox se encarga de su estado ---
-            // listViewSucursales.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-           // listViewRoles.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // --- NUEVO MÉTODO: Carga las sucursales como una lista de CheckBoxes ---
     private void cargarSucursales(int empresaId) throws SQLException {
         List<Sucursal> sucursales = sucursalDAO.obtenerPorEmpresa(empresaId);
         ObservableList<CheckBox> checkBoxes = FXCollections.observableArrayList();
 
         for (Sucursal sucursal : sucursales) {
-            CheckBox cb = new CheckBox(sucursal.getNombreSucursal());
-            cb.setUserData(sucursal); // Almacenamos el objeto Sucursal en el CheckBox
+            CheckBox cb = new CheckBox(sucursal.getNombre());
+            cb.setUserData(sucursal);
             checkBoxes.add(cb);
         }
 
@@ -84,16 +86,52 @@ public class RegistrarUsuarioController {
         for (Rol rol : roles) {
             CheckBox cb = new CheckBox(rol.getNombre());
             cb.setUserData(rol);
+
+            // --- CAMBIO CLAVE: Agregar el listener ---
+            cb.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+                actualizarPermisos();
+            });
+            // ------------------------------------------
+
             checkBoxes.add(cb);
         }
 
         listViewRoles.setItems(checkBoxes);
-
     }
 
-    // --- El método actualizarListaRolesSeleccionados ya no es necesario o debe ser revisado ---
-    // El método original parece tener un error lógico, por lo que lo hemos eliminado para simplificar.
-    // Si su propósito es cargar permisos basados en roles, esa lógica debería estar en otro método.
+    /**
+     * Este método se encarga de obtener los permisos de todos los roles seleccionados
+     * y de actualizar la lista de permisos en la interfaz de usuario.
+     */
+    private void actualizarPermisos() {
+        // Obtenemos los roles seleccionados del ListView
+        List<Rol> rolesSeleccionados = listViewRoles.getItems().stream()
+                .filter(CheckBox::isSelected)
+                .map(cb -> (Rol) cb.getUserData())
+                .collect(Collectors.toList());
+
+        // Usamos un Set para evitar permisos duplicados
+        Set<String> nombresPermisos = new HashSet<>();
+
+        try {
+            for (Rol rol : rolesSeleccionados) {
+                // Obtenemos los permisos para cada rol seleccionado
+                List<Permiso> permisosDelRol = rolDAO.obtenerPermisosDelRol(rol.getRolId());
+
+                // Agregamos el nombre de cada permiso al Set
+                for (Permiso permiso : permisosDelRol) {
+                    nombresPermisos.add(permiso.getNombre());
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Error al obtener permisos de los roles.");
+        }
+
+        // Convertimos el Set de nombres a una ObservableList y actualizamos el ListView
+        listViewPermisos.setItems(FXCollections.observableArrayList(new ArrayList<>(nombresPermisos)));
+    }
+
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
@@ -111,11 +149,8 @@ public class RegistrarUsuarioController {
 
                 if (empresa != null) {
                     comboEmpresa.getSelectionModel().select(empresa);
-
-                    // --- CAMBIO 4: Carga las sucursales como CheckBoxes ---
                     cargarSucursales(empresa.getEmpresaId());
 
-                    // --- CAMBIO 5: Selecciona los CheckBoxes correspondientes a las sucursales del usuario ---
                     for (CheckBox cb : listViewSucursales.getItems()) {
                         Sucursal sucursalEnLista = (Sucursal) cb.getUserData();
                         for (Sucursal sucUsuario : sucursalesUsuario) {
@@ -129,28 +164,19 @@ public class RegistrarUsuarioController {
             }
 
             List<Rol> rolesAsignados = usuarioDAO.obtenerRolesDelUsuario(usuario.getUsuarioId());
-            List<Permiso>permisos =new ArrayList<>();
-            // Crea una lista observable para guardar los nombres de los permisos
-            ObservableList<String> nombresPermisos = FXCollections.observableArrayList();
-
 
             for (CheckBox cb : listViewRoles.getItems()) {
                 Rol rol = (Rol) cb.getUserData();
                 for (Rol asignado : rolesAsignados) {
                     if (rol.getRolId() == asignado.getRolId()) {
                         cb.setSelected(true);
-                        permisos=rolDAO.obtenerPermisosDelRol(rol.getRolId());
-                        for (Permiso permiso : permisos){
-                            nombresPermisos.add(permiso.getNombre());
-                        }
-                        // Asigna la lista completa al ListView
-                        listViewPermisos.setItems(nombresPermisos);
-
-
                         break;
                     }
                 }
             }
+
+            // --- LLAMADA INICIAL PARA CARGAR LOS PERMISOS AL INICIO ---
+            actualizarPermisos();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -169,7 +195,6 @@ public class RegistrarUsuarioController {
             return;
         }
 
-        // --- CAMBIO 6: Recolecta las sucursales de los CheckBoxes seleccionados ---
         List<Sucursal> sucursalesSeleccionadas = listViewSucursales.getItems().stream()
                 .filter(CheckBox::isSelected)
                 .map(cb -> (Sucursal) cb.getUserData())
