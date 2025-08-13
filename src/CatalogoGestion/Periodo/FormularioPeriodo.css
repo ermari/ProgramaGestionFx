@@ -1,0 +1,81 @@
+/* Estilos generales del formulario */
+.root {
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-background-color: #f4f7f9;
+}
+
+/* Título del formulario */
+.label-titulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333d45;
+    -fx-alignment: center;
+    -fx-padding: 10px 0 20px 0;
+}
+
+/* Etiquetas de los campos */
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555c63;
+    -fx-alignment: center-left;
+}
+
+/* Campos de texto y DatePicker */
+.text-field, .date-picker {
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d1d8dd;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-padding: 8px 12px;
+    -fx-prompt-text-fill: #999999;
+}
+
+.text-field:focused, .date-picker:focused {
+    -fx-border-color: #007bff;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 123, 255, 0.2), 5, 0, 0, 0);
+}
+
+/* Contenedor de botones */
+.hbox {
+    -fx-alignment: center-right;
+    -fx-spacing: 10px;
+    -fx-padding: 10px 0 0 0;
+}
+
+/* Estilos de los botones */
+.button {
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #007bff;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 20px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #0056b3;
+}
+
+.button:pressed {
+    -fx-background-color: #00428a;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 0);
+}
+
+/* Botón Cancelar */
+.button-cancelar {
+    -fx-background-color: #6c757d;
+}
+
+.button-cancelar:hover {
+    -fx-background-color: #5a6268;
+}
+
+.button-cancelar:pressed {
+    -fx-background-color: #495057;
+}
+
+/* Estilos para el GridPane */
+.grid-pane {
+    -fx-padding: 15px;
+}

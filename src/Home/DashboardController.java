@@ -4,6 +4,8 @@ import Catalogo.CatalogoController;
 import CatalogoGestion.Empresas.Controlador.ListaEmpresaController;
 import CatalogoGestion.MasterCatalogo.Controladores.MasterCatalogoListaController;
 import CatalogoGestion.MasterCatalogo.Controladores.MasterCatalogoRegistroController;
+import CatalogoGestion.Periodo.ListarPeriodoController;
+import CatalogoGestion.TipoCambio.ListarTipoCambioController;
 import Home.User.Controlador.ListarPermisosController;
 import Home.User.Controlador.ListarRolesController;
 import Home.User.Controlador.UsuariosController;
@@ -126,15 +128,64 @@ public class DashboardController implements Initializable {
         }
     }
 
+    @FXML
+    public void abrirPeriodo() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CatalogoGestion/Periodo/ListarPeriodos.fxml"));
+            AnchorPane empleado = loader.load();
 
+            ListarPeriodoController controller = loader.getController();
+            controller.setHomeController(homeController); // 🔁 aquí pasa el home
 
+            if (contentPane != null) {
+                contentPane.getChildren().setAll(empleado);
+                AnchorPane.setTopAnchor(empleado, 0.0);
+                AnchorPane.setBottomAnchor(empleado, 0.0);
+                AnchorPane.setLeftAnchor(empleado, 0.0);
+                AnchorPane.setRightAnchor(empleado, 0.0);
+            }
 
+            if (homeController != null) {
+                homeController.setTitulo("        Registro Empleado");
+            } else {
+                System.err.println("⚠️ homeController es null en abrirEmpleado()");
+            }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-
+    }
 
     @FXML
+    public void abrirTipoCambio() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CatalogoGestion/TipoCambio/ListarTipoCambio.fxml"));
+            AnchorPane anchorPane = loader.load();
+
+            ListarTipoCambioController controller = loader.getController();
+            controller.setHomeController(homeController); // 🔁 aquí pasa el home
+
+            if (contentPane != null) {
+                contentPane.getChildren().setAll(anchorPane);
+                AnchorPane.setTopAnchor(anchorPane, 0.0);
+                AnchorPane.setBottomAnchor(anchorPane, 0.0);
+                AnchorPane.setLeftAnchor(anchorPane, 0.0);
+                AnchorPane.setRightAnchor(anchorPane, 0.0);
+            }
+
+            if (homeController != null) {
+                homeController.setTitulo("        Registro Empleado");
+            } else {
+                System.err.println("⚠️ homeController es null en abrirEmpleado()");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+        @FXML
     public void abrirCatalogo() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Catalogo/catalogos.fxml"));
@@ -253,7 +304,7 @@ public class DashboardController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/RegistroEmpleado/empleado.fxml"));
             AnchorPane empleado = loader.load();
 
-            ListarRolesController controller = loader.getController();
+            EmpleadoController controller = loader.getController();
             controller.setHomeController(homeController); // 🔁 aquí pasa el home
 
             if (contentPane != null) {
@@ -273,9 +324,6 @@ public class DashboardController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
 

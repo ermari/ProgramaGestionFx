@@ -127,6 +127,43 @@
               </children>
           </VBox>
 
+          <VBox alignment="CENTER" prefHeight="153.0" prefWidth="198.0" spacing="10" stylesheets="@../resources/css/dashboard.css">
+              <children>
+                  <ImageView fitHeight="74.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true">
+                      <image>
+                          <Image url="@../resources/images/period512.png" />
+                      </image>
+                  </ImageView>
+                  <Button fx:id="btnPeriodo" onAction="#abrirPeriodo" prefHeight="34.0" prefWidth="133.0" styleClass="hyperlink-button" text="Periodos">
+                      <effect>
+                          <Glow />
+                      </effect>
+                      <cursor>
+                          <Cursor fx:constant="S_RESIZE" />
+                      </cursor>
+                  </Button>
+              </children>
+          </VBox>
+
+          <VBox alignment="CENTER" prefHeight="153.0" prefWidth="198.0" spacing="10" stylesheets="@../resources/css/dashboard.css">
+              <children>
+                  <ImageView fitHeight="74.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true">
+                      <image>
+                          <Image url="@../resources/images/TipoCambio512.png" />
+                      </image>
+                  </ImageView>
+                  <Button fx:id="btnTipoCambio" onAction="#abrirTipoCambio" prefHeight="34.0" prefWidth="133.0" styleClass="hyperlink-button" text="Tipo de Cambio">
+                      <effect>
+                          <Glow />
+                      </effect>
+                      <cursor>
+                          <Cursor fx:constant="S_RESIZE" />
+                      </cursor>
+                  </Button>
+              </children>
+          </VBox>
+
+
 
 
 
