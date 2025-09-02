@@ -3,224 +3,297 @@ package Comprobantes.modelo;
 import BD.BDconexion;
 import Catalogo.Catalogo;
 import Catalogo.CatalogoDAO;
+import CatalogoGestion.Empresas.Modelo.Sucursal;
+import CatalogoGestion.Empresas.Modelo.SucursalDAO;
+import CatalogoGestion.MasterCatalogo.Modelo.DetalleCatalogo;
+import CatalogoGestion.MasterCatalogo.Modelo.DetalleCatalogoDAO;
+import CatalogoGestion.Periodo.Periodo;
+import CatalogoGestion.Periodo.PeriodoDAO;
+import Home.User.Modelo.Usuario;
+import Home.User.Modelo.UsuarioDAO;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.sql.DriverManager.getConnection;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ComprobanteDAO {
 
-    private CatalogoDAO cuentaDAO = new CatalogoDAO(); // Para obtener los objetos Cuenta
+    private final CatalogoDAO cuentaDAO = new CatalogoDAO();
+    private final DetalleCatalogoDAO detalleCatalogoDAO = new DetalleCatalogoDAO();
+    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private final SucursalDAO sucursalDAO = new SucursalDAO();
+    private final CatalogoDAO catalogoDAO = new CatalogoDAO();
+    private final PeriodoDAO periodoDAO = new PeriodoDAO(); // ✅ agregado
 
+    // ================= INSERT ==================
     public void saveComprobante(Comprobante comprobante) throws SQLException {
-        String insertComprobanteSQL = "INSERT INTO comprobantes (fecha, numero_comprobante, concepto) VALUES (?, ?, ?)";
-        String insertDetalleSQL = "INSERT INTO detalle_comprobantes (id_comprobante, id_cuenta, debito, credito, descripcion) VALUES (?, ?, ?, ?,?)";
+        String insertComprobanteSQL = """
+            INSERT INTO comprobante 
+            (fecha_comprobante, numero_comprobante, concepto, usuario_id, sucursal_id, fecha_registro, tipo_documento_id, periodo_id) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """;
 
-        //PreparedStatement ps = BD.BDconexion.getInstance().getConnection().prepareStatement(sql);
+        String insertDetalleSQL = """
+            INSERT INTO detalle_comprobante 
+            (numero_linea, comprobante_id, cuenta_id, descripcion, debito, credito, usuario_id, fecha_registro) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """;
 
-        PreparedStatement stmtComprobante = null;
-        PreparedStatement stmtDetalle = null;
-        ResultSet rs = null;
+        int usuarioId = comprobante.getUsuario().getUsuarioId();
 
-        Connection conn = null;
-        try {
-            conn = BDconexion.getInstance().getConnection();
-            conn.setAutoCommit(false); // Iniciar transacción
+        try (Connection conn = BDconexion.getInstance().getConnection()) {
+            conn.setAutoCommit(false);
 
-            // 1. Insertar el comprobante maestro
-            stmtComprobante = conn.prepareStatement(insertComprobanteSQL, Statement.RETURN_GENERATED_KEYS);
-            stmtComprobante.setDate(1, Date.valueOf(comprobante.getFecha()));
-            stmtComprobante.setString(2, comprobante.getNumeroComprobante());
-            stmtComprobante.setString(3, comprobante.getConcepto());
-            stmtComprobante.executeUpdate();
+            // Insertar comprobante
+            try (PreparedStatement stmtComprobante = conn.prepareStatement(insertComprobanteSQL, Statement.RETURN_GENERATED_KEYS)) {
+                stmtComprobante.setDate(1, Date.valueOf(comprobante.getFecha()));
+                stmtComprobante.setString(2, comprobante.getNumeroComprobante());
+                stmtComprobante.setString(3, comprobante.getConcepto());
+                stmtComprobante.setInt(4, usuarioId);
+                stmtComprobante.setInt(5, comprobante.getSucursal().getSucursalId());
+                stmtComprobante.setDate(6, Date.valueOf(comprobante.getFechaRegistro()));
+                stmtComprobante.setInt(7, comprobante.getTipoDocumento().getDetalleCatalogoId());
+                stmtComprobante.setInt(8, comprobante.getPeriodo().getId());
+                stmtComprobante.executeUpdate();
 
-            rs = stmtComprobante.getGeneratedKeys();
-            int idComprobanteGenerado = 0;
-            if (rs.next()) {
-                idComprobanteGenerado = rs.getInt(1);
-            } else {
-                throw new SQLException("Error al obtener el ID del comprobante generado.");
+                try (ResultSet rs = stmtComprobante.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        comprobante.setIdComprobante(rs.getInt(1));
+                    } else {
+                        throw new SQLException("Error al obtener el ID del comprobante generado.");
+                    }
+                }
             }
-            comprobante.setIdComprobante(idComprobanteGenerado); // Asignar el ID generado al objeto
 
-            // 2. Insertar los detalles del comprobante
-            stmtDetalle = conn.prepareStatement(insertDetalleSQL);
-            for (DetalleComprobante detalle : comprobante.getDetalles()) {
-                stmtDetalle.setInt(1, idComprobanteGenerado);
-                stmtDetalle.setInt(2, detalle.getContableCuenta().getCatalogoId());
-                stmtDetalle.setDouble(3, detalle.getDebito());
-                stmtDetalle.setDouble(4, detalle.getCredito());
-                stmtDetalle.setString(5, detalle.getDescripcion());
-                stmtDetalle.addBatch(); // Agregar al lote para inserción eficiente
+            // Insertar detalles
+            try (PreparedStatement stmtDetalle = conn.prepareStatement(insertDetalleSQL)) {
+                int numeroLinea = 1;
+                for (DetalleComprobante detalle : comprobante.getDetalles()) {
+                    stmtDetalle.setInt(1, numeroLinea++);
+                    stmtDetalle.setInt(2, comprobante.getIdComprobante());
+                    stmtDetalle.setInt(3, detalle.getContableCuenta().getCatalogoId());
+                    stmtDetalle.setString(4, detalle.getDescripcion());
+                    stmtDetalle.setBigDecimal(5, detalle.getDebito());
+                    stmtDetalle.setBigDecimal(6, detalle.getCredito());
+                    stmtDetalle.setInt(7, usuarioId);
+                    stmtDetalle.setDate(8, Date.valueOf(detalle.getFechaRegistro()));
+                    stmtDetalle.addBatch();
+                }
+                stmtDetalle.executeBatch();
             }
-            stmtDetalle.executeBatch(); // Ejecutar todas las inserciones de detalle
 
-            conn.commit(); // Confirmar la transacción
-        } catch (SQLException e) {
-            if (conn != null) {
-                conn.rollback(); // Deshacer en caso de error
-            }
-            throw e; // Re-lanzar la excepción
-        } finally {
-            if (rs != null) rs.close();
-            if (stmtComprobante != null) stmtComprobante.close();
-            if (stmtDetalle != null) stmtDetalle.close();
-            if (conn != null) conn.close();
+            conn.commit();
         }
     }
 
-    // Opcional: Método para cargar un comprobante con sus detalles (ejemplo)
-    public Comprobante getComprobanteById(int idComprobante) throws SQLException {
-        String selectComprobanteSQL = "SELECT id_comprobante, fecha, numero_comprobante, concepto FROM comprobantes WHERE id_comprobante = ?";
-        String selectDetallesSQL = "SELECT id_detalle, id_cuenta, debito, credito FROM detalle_comprobantes WHERE id_comprobante = ?";
+    // ================= SELECT BY ID ==================
+    public Comprobante getById(int idComprobante) throws SQLException {
+        String selectComprobanteSQL = """
+            SELECT comprobante_id, fecha_comprobante, numero_comprobante, concepto, 
+                   usuario_id, sucursal_id, fecha_registro, tipo_documento_id, periodo_id
+            FROM comprobante 
+            WHERE comprobante_id = ?
+        """;
+
+        String selectDetallesSQL = """
+            SELECT detalle_id, numero_linea, cuenta_id, descripcion, 
+                   debito, credito, usuario_id, fecha_registro 
+            FROM detalle_comprobante 
+            WHERE comprobante_id = ?
+        """;
 
         Comprobante comprobante = null;
-        try (Connection conn =BDconexion.getInstance().getConnection()){
-            // Cargar el comprobante maestro
+
+        try (Connection conn = BDconexion.getInstance().getConnection()) {
             try (PreparedStatement stmt = conn.prepareStatement(selectComprobanteSQL)) {
                 stmt.setInt(1, idComprobante);
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
+                        Usuario usuario = usuarioDAO.getById(rs.getInt("usuario_id")).orElse(null);
+                        DetalleCatalogo tipoDocumento = detalleCatalogoDAO.getById(rs.getInt("tipo_documento_id")).orElse(null);
+                        Sucursal sucursal = sucursalDAO.getById(rs.getInt("sucursal_id")).orElse(null);
+                        Periodo periodo = periodoDAO.obtenerPorId(rs.getInt("periodo_id"));
+
+                        Date sqlFecha = rs.getDate("fecha_comprobante");
+                        Date sqlFechaRegistro = rs.getDate("fecha_registro");
+
                         comprobante = new Comprobante(
-                                rs.getInt("id_comprobante"),
-                                rs.getDate("fecha").toLocalDate(),
+                                new SimpleIntegerProperty(rs.getInt("comprobante_id")),
+                                sqlFecha != null ? sqlFecha.toLocalDate() : null,
                                 rs.getString("numero_comprobante"),
-                                rs.getString("concepto")
+                                rs.getString("concepto"),
+                                usuario,
+                                sqlFechaRegistro != null ? sqlFechaRegistro.toLocalDate() : null,
+                                tipoDocumento,
+                                sucursal,
+                                periodo
                         );
                     }
                 }
             }
 
-            // Cargar los detalles si el comprobante existe
+            // Cargar detalles
             if (comprobante != null) {
                 List<DetalleComprobante> detalles = new ArrayList<>();
-                try (PreparedStatement stmt = conn.prepareStatement(selectDetallesSQL)) {
-                    stmt.setInt(1, idComprobante);
-                    try (ResultSet rs = stmt.executeQuery()) {
-                        while (rs.next()) {
-                            int idCuenta = rs.getInt("id_cuenta");
-                            Catalogo cuenta = cuentaDAO.getPorId(idCuenta); // Obtener la cuenta por ID
-                            if (cuenta == null) {
-                                // Manejar el error: cuenta no encontrada (ej. log, lanzar excepción)
-                                System.err.println("Advertencia: Cuenta con ID " + idCuenta + " no encontrada para el detalle " + rs.getInt("id_detalle"));
-                                continue;
-                            }
+                try (PreparedStatement stmtDet = conn.prepareStatement(selectDetallesSQL)) {
+                    stmtDet.setInt(1, idComprobante);
+                    try (ResultSet rsDet = stmtDet.executeQuery()) {
+                        while (rsDet.next()) {
+                            Catalogo cuenta = cuentaDAO.getPorId(rsDet.getInt("cuenta_id"));
+                            Usuario usuarioDetalle = usuarioDAO.getById(rsDet.getInt("usuario_id")).orElse(null);
+
                             DetalleComprobante detalle = new DetalleComprobante(
-                                    rs.getInt("id_detalle"),
-                                    idComprobante,
+                                    rsDet.getInt("detalle_id"),
+                                    rsDet.getInt("numero_linea"),
+                                    comprobante,
                                     cuenta,
-                                    rs.getDouble("debito"),
-                                    rs.getDouble("credito"),
-                                    rs.getString("descripcion")
+                                    rsDet.getString("descripcion"),
+                                    rsDet.getBigDecimal("debito"),
+                                    rsDet.getBigDecimal("credito"),
+                                    usuarioDetalle,
+                                    rsDet.getDate("fecha_registro").toLocalDate()
                             );
-                                   detalles.add(detalle);
+                            detalles.add(detalle);
                         }
                     }
                 }
-                comprobante.setDetalles(detalles);
+                comprobante.setDetalles((ObservableList<DetalleComprobante>) detalles);
             }
         }
         return comprobante;
     }
 
-    // Nuevo método para obtener comprobantes (con filtros opcionales)
+    // ================= SELECT LIST ==================
     public List<Comprobante> obtenerComprobantes(LocalDate fechaInicio, LocalDate fechaFin, String numeroComprobante) throws SQLException {
         List<Comprobante> comprobantes = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT id_comprobante, fecha, numero_comprobante, concepto FROM comprobantes WHERE 1=1");
-        if (fechaInicio != null) {
-            sql.append(" AND fecha >= ?");
-        }
-        if (fechaFin != null) {
-            sql.append(" AND fecha <= ?");
-        }
-        if (numeroComprobante != null && !numeroComprobante.isEmpty()) {
-            sql.append(" AND numero_comprobante LIKE ?"); // Búsqueda parcial
-        }
-        sql.append(" ORDER BY fecha DESC, numero_comprobante ASC");
 
-        try (Connection conn =BDconexion.getInstance().getConnection();
+        StringBuilder sql = new StringBuilder("""
+           SELECT c.comprobante_id, c.fecha_comprobante, c.numero_comprobante,
+                          c.usuario_id, c.fecha_registro, c.tipo_documento_id,
+                          c.sucursal_id, c.periodo_id, c.concepto,
+                          d.debito, d.credito 
+                   FROM comprobante c
+                   JOIN (
+                       SELECT comprobante_id, SUM(debito) AS debito, SUM(credito) AS credito
+                       FROM detalle_comprobante d
+                       GROUP BY comprobante_id
+                   ) d ON c.comprobante_id = d.comprobante_id
+                   WHERE 1=1
+        """);
+
+        if (fechaInicio != null) sql.append(" AND fecha_comprobante >= ?");
+        if (fechaFin != null) sql.append(" AND fecha_comprobante <= ?");
+        if (numeroComprobante != null && !numeroComprobante.isEmpty()) sql.append(" AND numero_comprobante LIKE ?");
+        sql.append(" ORDER BY fecha_comprobante DESC, numero_comprobante ASC");
+
+        try (Connection conn = BDconexion.getInstance().getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
 
             int paramIndex = 1;
-            if (fechaInicio != null) {
-                pstmt.setDate(paramIndex++, Date.valueOf(fechaInicio));
-            }
-            if (fechaFin != null) {
-                pstmt.setDate(paramIndex++, Date.valueOf(fechaFin));
-            }
-            if (numeroComprobante != null && !numeroComprobante.isEmpty()) {
-                pstmt.setString(paramIndex++, "%" + numeroComprobante + "%");
+            if (fechaInicio != null) pstmt.setDate(paramIndex++, Date.valueOf(fechaInicio));
+            if (fechaFin != null) pstmt.setDate(paramIndex++, Date.valueOf(fechaFin));
+            if (numeroComprobante != null && !numeroComprobante.isEmpty()) pstmt.setString(paramIndex++, "%" + numeroComprobante + "%");
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Usuario usuario = usuarioDAO.getById(rs.getInt("usuario_id")).orElse(null);
+                    DetalleCatalogo tipoDocumento = detalleCatalogoDAO.getById(rs.getInt("tipo_documento_id")).orElse(null);
+                    Sucursal sucursal = sucursalDAO.getById(rs.getInt("sucursal_id")).orElse(null);
+                    Periodo periodo = periodoDAO.obtenerPorId(rs.getInt("periodo_id"));
+
+                    Date sqlFecha = rs.getDate("fecha_comprobante");
+                    Date sqlFechaRegistro = rs.getDate("fecha_registro");
+
+                    Comprobante comprobante = new Comprobante(
+                            new SimpleIntegerProperty(rs.getInt("comprobante_id")),
+                            sqlFecha != null ? sqlFecha.toLocalDate() : null,
+                            rs.getString("numero_comprobante"),
+                            rs.getString("concepto"),
+                            usuario,
+                            sqlFechaRegistro != null ? sqlFechaRegistro.toLocalDate() : null,
+                            tipoDocumento,
+                            sucursal,
+                            periodo
+                    );
+
+                    // 👇 asignar débitos y créditos
+                    comprobante.setDebito(rs.getBigDecimal("debito"));
+                    comprobante.setCredito(rs.getBigDecimal("credito"));
+
+                    comprobantes.add(comprobante);
+
+                }
             }
 
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("id_comprobante");
-                LocalDate fecha = rs.getDate("fecha").toLocalDate();
-                String num = rs.getString("numero_comprobante");
-                String conc = rs.getString("concepto");
-                Comprobante comp = new Comprobante(id, fecha, num, conc);
-                // Cargar los detalles para este comprobante
-                comp.setDetalles(obtenerDetallesComprobante(id, conn)); // Pasa la misma conexión para la transacción
-                comprobantes.add(comp);
+            // Cargar detalles de todos los comprobantes en lote
+            if (!comprobantes.isEmpty()) {
+                List<Integer> idsComprobantes = comprobantes.stream()
+                        .map(Comprobante::getIdComprobante)
+                        .toList();
+
+                String placeholders = idsComprobantes.stream().map(id -> "?").collect(Collectors.joining(","));
+                String sqlDetalles = "SELECT detalle_id, numero_linea, comprobante_id, cuenta_id, descripcion, debito, credito, usuario_id, fecha_registro FROM detalle_comprobante WHERE comprobante_id IN (" + placeholders + ")";
+
+                try (PreparedStatement pstmtDetalles = conn.prepareStatement(sqlDetalles)) {
+                    for (int i = 0; i < idsComprobantes.size(); i++) {
+                        pstmtDetalles.setInt(i + 1, idsComprobantes.get(i));
+                    }
+
+                    try (ResultSet rsDetalles = pstmtDetalles.executeQuery()) {
+                        Map<Integer, Comprobante> mapaComprobantes = comprobantes.stream()
+                                .collect(Collectors.toMap(Comprobante::getIdComprobante, comp -> comp));
+
+                        while (rsDetalles.next()) {
+                            int idComp = rsDetalles.getInt("comprobante_id");
+                            Comprobante comp = mapaComprobantes.get(idComp);
+                            if (comp != null) {
+                                Catalogo cuenta = catalogoDAO.getPorId(rsDetalles.getInt("cuenta_id"));
+                                Usuario usuarioDetalle = usuarioDAO.getById(rsDetalles.getInt("usuario_id")).orElse(null);
+
+                                DetalleComprobante detalle = new DetalleComprobante(
+                                        rsDetalles.getInt("detalle_id"),
+                                        rsDetalles.getInt("numero_linea"),
+                                        comp,
+                                        cuenta,
+                                        rsDetalles.getString("descripcion"),
+                                        rsDetalles.getBigDecimal("debito"),
+                                        rsDetalles.getBigDecimal("credito"),
+                                        usuarioDetalle,
+                                        rsDetalles.getDate("fecha_registro").toLocalDate()
+                                );
+                                comp.addDetalle(detalle);
+                            }
+                        }
+                    }
+                }
             }
         }
         return comprobantes;
     }
 
-    // Nuevo método para cargar detalles de un comprobante específico
-    private List<DetalleComprobante> obtenerDetallesComprobante(int idComprobante, Connection conn) throws SQLException {
-        List<DetalleComprobante> detalles = new ArrayList<>();
-        // Asume que tienes un CatalogoDAO o un método para obtener Catalogo por ID
-        // Aquí necesitarías instanciar un CatalogoDAO o pasarlo como parámetro
-        CatalogoDAO catalogoDAO = new CatalogoDAO(); // O inyectarlo
-        String sql = "SELECT id_cuenta, debito, credito FROM detalle_comprobantes WHERE id_comprobante = ?";
-
-        // Utiliza la misma conexión para asegurar que es parte de la misma transacción (si fuera necesario)
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, idComprobante);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                int idCuenta = rs.getInt("id_cuenta");
-                double debito = rs.getDouble("debito");
-                double credito = rs.getDouble("credito");
-
-                // Cargar el objeto Catalogo completo
-                Catalogo cuenta = catalogoDAO.getPorId(idCuenta); // Necesitas este método en tu CatalogoDAO
-                detalles.add(new DetalleComprobante(cuenta, debito, credito, "")); // Asume una descripción vacía al cargar
-            }
-        }
-        return detalles;
-    }
-
-    // Nuevo método para eliminar un comprobante (y sus detalles)
+    // ================= DELETE ==================
     public void eliminarComprobante(int idComprobante) throws SQLException {
-        String sqlDeleteDetalles = "DELETE FROM detalle_comprobantes WHERE id_comprobante = ?";
-        String sqlDeleteComprobante = "DELETE FROM comprobantes WHERE id_comprobante = ?";
+        String sqlDeleteDetalles = "DELETE FROM detalle_comprobante WHERE comprobante_id = ?";
+        String sqlDeleteComprobante = "DELETE FROM comprobante WHERE comprobante_id = ?";
 
-        try (Connection conn =BDconexion.getInstance().getConnection()) {
-            conn.setAutoCommit(false); // Iniciar transacción
+        try (Connection conn = BDconexion.getInstance().getConnection()) {
+            conn.setAutoCommit(false);
 
-            // Eliminar detalles primero
             try (PreparedStatement pstmtDetalles = conn.prepareStatement(sqlDeleteDetalles)) {
                 pstmtDetalles.setInt(1, idComprobante);
                 pstmtDetalles.executeUpdate();
             }
 
-            // Luego eliminar el comprobante
             try (PreparedStatement pstmtComprobante = conn.prepareStatement(sqlDeleteComprobante)) {
                 pstmtComprobante.setInt(1, idComprobante);
                 pstmtComprobante.executeUpdate();
             }
 
-            conn.commit(); // Confirmar transacción
-        } catch (SQLException e) {
-            // Manejar rollback
-            throw e;
+            conn.commit();
         }
     }
-
-
 }

@@ -11,12 +11,12 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400" prefWidth="800.0" stylesheets="@../../../Login/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Home.User.Controlador.ListarRolesController">
+<AnchorPane prefHeight="400" prefWidth="800.0" stylesheets="@../../../resources/css/formulario_catalogo.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Home.User.Controlador.ListarRolesController">
 
     <children>
-        <VBox spacing="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Button fx:id="btnAgregarRol" onAction="#abrirFormularioAgregar" styleClass="primary-button" text="Agregar Rol">
+        <VBox fillWidth="false" spacing="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" spacing="10">
+                <Button fx:id="btnAgregarRol" onAction="#abrirFormularioAgregar" styleClass="crear-button" text="Agregar Rol">
                     <graphic>
                         <ImageView fitHeight="16" fitWidth="16" pickOnBounds="true" preserveRatio="true">
                             <Image url="@../../../resources/images/add.png" />
@@ -24,12 +24,12 @@
                     </graphic>
                 </Button>
                 <Region HBox.hgrow="ALWAYS" />
-                <TextField fx:id="txtBuscarRol" prefHeight="41.0" prefWidth="324.0" promptText="Buscar por nombre..." />
-                <Button onAction="#buscarRol" text="Buscar" />
-            <Button fx:id="btnSalir" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#salir" prefHeight="30.0" prefWidth="114.0" styleClass="boton-salir" stylesheets="@/resources/css/formulario.css" text="⮐ Regresar" />
+                <TextField fx:id="txtBuscarRol" prefHeight="38.0" prefWidth="472.0" promptText="Buscar por nombre..." />
+                <Button fx:id="btnBuscar" maxHeight="-Infinity" onAction="#buscarRol" prefHeight="26.0" prefWidth="75.0" styleClass="buscar-button" text="Buscar" />
+            <Button fx:id="btnSalir" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#salir" prefHeight="28.0" prefWidth="81.0" styleClass="salir-button" text="⮐ Regresar" />
             </HBox>
 
-            <TableView fx:id="tableRoles" prefHeight="327.0" prefWidth="674.0" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tableRoles" prefHeight="327.0" prefWidth="784.0" stylesheets="@../../../resources/css/tableView.css" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="colNombre" prefWidth="196.00000607967377" text="Nombre" />
                     <TableColumn fx:id="colDescripcion" prefWidth="360.7999572753906" text="Descripción" />

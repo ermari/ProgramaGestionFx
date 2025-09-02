@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -28,6 +30,8 @@ public class ListarRolesController {
     @FXML private TableColumn<Rol, Void> colAcciones;
     @FXML private TextField txtBuscarRol;
     @FXML private Button btnAgregarRol;
+
+    @FXML private Button btnBuscar;
 
     private final RolDAO rolDAO = new RolDAO();
     private ObservableList<Rol> listaRoles;
@@ -49,6 +53,7 @@ public class ListarRolesController {
 
     @FXML
     public void initialize() {
+        btnBuscar.setGraphic(resizeIcon("/resources/images/buscar32.png"));
         configurarTabla();
         cargarRoles();
     }
@@ -58,13 +63,19 @@ public class ListarRolesController {
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
         colAcciones.setCellFactory(param -> new TableCell<>() {
-            private final Button btnEditar = new Button("✏");
-            private final Button btnEliminar = new Button("🗑");
+            private final Button btnEditar = new Button("Editar");
+            private final Button btnEliminar = new Button("Eliminar");
             private final HBox pane = new HBox(10, btnEditar, btnEliminar);
 
             {
+                btnEditar.setGraphic(resizeIcon("/resources/images/editar32.png"));
+                btnEliminar.setGraphic(resizeIcon("/resources/images/eliminar32_1.png"));
+
                 btnEditar.setTooltip(new Tooltip("Editar rol"));
                 btnEliminar.setTooltip(new Tooltip("Eliminar rol"));
+
+                btnEditar.getStyleClass().add("editar-button");
+                btnEliminar.getStyleClass().add("eliminar-button");
 
                 btnEditar.setOnAction(event -> {
                     Rol rol = getTableView().getItems().get(getIndex());
@@ -84,6 +95,23 @@ public class ListarRolesController {
             }
         });
     }
+
+    private ImageView resizeIcon(String path) {
+        ImageView icon = new ImageView(safeLoadImage(path));
+        icon.setFitWidth(24);
+        icon.setFitHeight(18);
+        return icon;
+    }
+
+    private Image safeLoadImage(String path) {
+        try {
+            return new Image(getClass().getResourceAsStream(path));
+        } catch (Exception e) {
+            System.err.println("No se pudo cargar la imagen: " + path);
+            return new Image("https://via.placeholder.com/18.png");
+        }
+    }
+
 
     private void cargarRoles() {
         try {

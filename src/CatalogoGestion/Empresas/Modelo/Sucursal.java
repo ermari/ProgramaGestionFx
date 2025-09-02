@@ -30,6 +30,9 @@ public class Sucursal {
 
     }
 
+    public Sucursal(int sucursalId, String codigo, String nombre) {
+    }
+
     public int getSucursalId() {
         return sucursalId;
     }

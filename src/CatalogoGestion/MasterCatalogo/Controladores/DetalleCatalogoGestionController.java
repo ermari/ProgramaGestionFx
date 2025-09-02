@@ -3,6 +3,8 @@ package CatalogoGestion.MasterCatalogo.Controladores;
 
 import CatalogoGestion.MasterCatalogo.Modelo.DetalleCatalogo;
 import CatalogoGestion.MasterCatalogo.Modelo.MasterCatalogo;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -83,11 +85,11 @@ public class DetalleCatalogoGestionController {
 
             while (rs.next()) {
                 detalleData.add(new DetalleCatalogo(
-                        rs.getLong("DETALLE_CATALOGO_ID"),
-                        rs.getLong("MASTER_CATALOGO_ID"),
-                        rs.getString("CODIGO_ITEM"),
-                        rs.getString("NOMBRE_ITEM"),
-                        rs.getString("VALOR_ADICIONAL")
+                        new SimpleLongProperty(rs.getLong("DETALLE_CATALOGO_ID")),
+                        new SimpleLongProperty(rs.getLong("MASTER_CATALOGO_ID")),
+                        new SimpleStringProperty(rs.getString("CODIGO_ITEM")),
+                        new SimpleStringProperty(rs.getString("NOMBRE_ITEM")),
+                        new SimpleStringProperty(rs.getString("VALOR_ADICIONAL"))
                 ));
             }
         } catch (SQLException e) {

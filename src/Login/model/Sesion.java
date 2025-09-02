@@ -1,5 +1,6 @@
 package Login.model;
 
+import CatalogoGestion.Periodo.Periodo;
 import Home.User.Modelo.Usuario;
 import CatalogoGestion.Empresas.Modelo.Empresa;
 import CatalogoGestion.Empresas.Modelo.Sucursal;
@@ -13,6 +14,7 @@ public class Sesion {
     private static List<Empresa> empresasDisponibles;
     private static Empresa empresaSeleccionada;
     private static Sucursal sucursalSeleccionada;
+
 
     // Usuario actual
     public static void setUsuarioActual(Usuario usuario) {

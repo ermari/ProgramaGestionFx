@@ -21,7 +21,7 @@
          <Font name="Bodoni MT Black Italic" size="16.0" />
       </font>
       <textFill>
-         <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+         <RadialGradient centerX="0.8451327201539436" radius="0.5">
             <stops>
                <Stop>
                   <color>

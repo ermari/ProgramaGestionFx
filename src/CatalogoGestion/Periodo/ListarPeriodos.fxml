@@ -28,7 +28,7 @@
                     <Button mnemonicParsing="false" onAction="#nuevoPeriodo" styleClass="crear-button" text="Nuevo" />
                     <Button mnemonicParsing="false" onAction="#editarPeriodo" styleClass="editar-button" text="Editar" />
                     <Button mnemonicParsing="false" onAction="#eliminarPeriodo" styleClass="eliminar-button" text="Eliminar" />
-               <Button fx:id="btnSalir" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#salir" prefHeight="35.0" prefWidth="114.0" styleClass="regresar-anterior-button" stylesheets="@/resources/css/formulario.css" text="⮐ Regresar" />
+               <Button fx:id="btnSalir" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#salir" prefHeight="26.0" prefWidth="82.0" styleClass="salir-button" stylesheets="@/resources/css/formulario.css" text="⮐ Regresar" />
                 </children>
             </HBox>
         </children>

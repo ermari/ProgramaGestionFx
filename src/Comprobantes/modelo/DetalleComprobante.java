@@ -1,60 +1,101 @@
 package Comprobantes.modelo;
 
-
 import Catalogo.Catalogo;
+import Home.User.Modelo.Usuario;
 import javafx.beans.property.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 public class DetalleComprobante {
-    private final IntegerProperty idDetalle; // ID en la base de datos
-    private final IntegerProperty idComprobante; // Clave foránea al comprobante
-    private final ObjectProperty<Catalogo> contableCuenta; // Objeto Cuenta del catálogo
-    private final DoubleProperty debito;
-    private final DoubleProperty credito;
-    private final StringProperty descripcion;
 
-    // Constructor para cargar desde DB
-    public DetalleComprobante(int idDetalle, int idComprobante, Catalogo cuenta, double debito, double credito, String descripcion) {
-        this.idDetalle = new SimpleIntegerProperty(idDetalle);
-        this.idComprobante = new SimpleIntegerProperty(idComprobante);
-        this.contableCuenta = new SimpleObjectProperty<>(cuenta);
-        this.debito = new SimpleDoubleProperty(debito);
-        this.credito = new SimpleDoubleProperty(credito);
-        this.descripcion = new SimpleStringProperty(descripcion); // ✅ Aquí estaba el fallo
+    private final IntegerProperty detalleId = new SimpleIntegerProperty(0);
+    private final IntegerProperty numeroLinea = new SimpleIntegerProperty(0);
+    private final ObjectProperty<Comprobante> comprobante = new SimpleObjectProperty<>();
+    private final ObjectProperty<Catalogo> contableCuenta = new SimpleObjectProperty<>();
+    private final StringProperty descripcion = new SimpleStringProperty("");
+    private final ObjectProperty<BigDecimal> debito = new SimpleObjectProperty<>(BigDecimal.ZERO);
+    private final ObjectProperty<BigDecimal> credito = new SimpleObjectProperty<>(BigDecimal.ZERO);
+    private final ObjectProperty<Usuario> usuario = new SimpleObjectProperty<>();
+    private final ObjectProperty<LocalDate> fechaRegistro = new SimpleObjectProperty<>(LocalDate.now());
+
+
+
+
+    // ✅ Constructor completo (cuando cargas de la DB)
+    public DetalleComprobante(int detalleId, int numeroLinea, Comprobante comprobante, Catalogo contableCuenta,
+                              String descripcion, BigDecimal debito, BigDecimal credito, Usuario usuario, LocalDate fechaRegistro) {
+        setDetalleId(detalleId);
+        setNumeroLinea(numeroLinea);
+        setComprobante(comprobante);
+        setContableCuenta(contableCuenta);
+        setDescripcion(descripcion);
+        setDebito(debito != null ? debito : BigDecimal.ZERO);
+        setCredito(credito != null ? credito : BigDecimal.ZERO);
+        setUsuario(usuario);
+        setFechaRegistro(fechaRegistro != null ? fechaRegistro : LocalDate.now());
     }
 
-    // Constructor para nuevo detalle (sin ID todavía)
-    public DetalleComprobante(Catalogo cuenta, double debito, double credito, String descripcion) {
-        this(0, 0, cuenta, debito, credito,descripcion);
+    // ✅ Constructor práctico (para nuevas partidas)
+    public DetalleComprobante(Catalogo contableCuenta, BigDecimal debito, BigDecimal credito, String descripcion) {
+        this(0, 0, null, contableCuenta, descripcion,
+                debito != null ? debito : BigDecimal.ZERO,
+                credito != null ? credito : BigDecimal.ZERO,
+                null, LocalDate.now());
     }
 
-    // --- Getters para los valores ---
-    public int getIdDetalle() { return idDetalle.get(); }
-    public int getIdComprobante() { return idComprobante.get(); }
-    public Catalogo getContableCuenta() { return contableCuenta.get(); }
-    public double getDebito() { return debito.get(); }
-    public double getCredito() { return credito.get(); }
-    public String getDescripcion() { return descripcion.get(); }
+    // ✅ Constructor rápido usando double
+    public DetalleComprobante(Catalogo contableCuenta, double debito, double credito, String descripcion) {
+        this(contableCuenta, BigDecimal.valueOf(debito), BigDecimal.valueOf(credito), descripcion);
+    }
 
+    // ✅ Constructor vacío (para nueva fila en la tabla)
+    public DetalleComprobante() {
+        this(null, BigDecimal.ZERO, BigDecimal.ZERO, "");
+    }
 
-    // --- Getters para las Properties ---
-    public IntegerProperty idDetalleProperty() { return idDetalle; }
-    public IntegerProperty idComprobanteProperty() { return idComprobante; }
+    // --- Properties para la UI ---
+    public IntegerProperty detalleIdProperty() { return detalleId; }
+    public IntegerProperty numeroLineaProperty() { return numeroLinea; }
+    public ObjectProperty<Comprobante> comprobanteProperty() { return comprobante; }
     public ObjectProperty<Catalogo> contableCuentaProperty() { return contableCuenta; }
-    public DoubleProperty debitoProperty() { return debito; }
-    public DoubleProperty creditoProperty() { return credito; }
     public StringProperty descripcionProperty() { return descripcion; }
+    public ObjectProperty<BigDecimal> debitoProperty() { return debito; }
+    public ObjectProperty<BigDecimal> creditoProperty() { return credito; }
+    public ObjectProperty<Usuario> usuarioProperty() { return usuario; }
+    public ObjectProperty<LocalDate> fechaRegistroProperty() { return fechaRegistro; }
 
+    // --- Getters y Setters ---
+    public int getDetalleId() { return detalleId.get(); }
+    public void setDetalleId(int detalleId) { this.detalleId.set(detalleId); }
 
-    // --- Setters ---
-    public void setIdDetalle(int idDetalle) { this.idDetalle.set(idDetalle); }
-    public void setIdComprobante(int idComprobante) { this.idComprobante.set(idComprobante); }
+    public int getNumeroLinea() { return numeroLinea.get(); }
+    public void setNumeroLinea(int numeroLinea) { this.numeroLinea.set(numeroLinea); }
+
+    public Comprobante getComprobante() { return comprobante.get(); }
+    public void setComprobante(Comprobante comprobante) { this.comprobante.set(comprobante); }
+
+    public Catalogo getContableCuenta() { return contableCuenta.get(); }
     public void setContableCuenta(Catalogo contableCuenta) { this.contableCuenta.set(contableCuenta); }
-    public void setDebito(double debito) { this.debito.set(debito); }
-    public void setCredito(double credito) { this.credito.set(credito); }
+
+    public String getDescripcion() { return descripcion.get(); }
     public void setDescripcion(String descripcion) { this.descripcion.set(descripcion); }
 
-    // Método auxiliar para obtener el nombre de la cuenta (útil para la columna de nombre)
-    public String getNombreCuenta() {
-        return (contableCuenta.get() != null) ? contableCuenta.get().getValor() : "";
-    }
+    public BigDecimal getDebito() { return debito.get(); }
+    public void setDebito(BigDecimal debito) { this.debito.set(debito != null ? debito : BigDecimal.ZERO); }
+
+    public double getDebitoAsDouble() { return getDebito().doubleValue(); }
+    public void setDebito(double debito) { this.debito.set(BigDecimal.valueOf(debito)); }
+
+    public BigDecimal getCredito() { return credito.get(); }
+    public void setCredito(BigDecimal credito) { this.credito.set(credito != null ? credito : BigDecimal.ZERO); }
+
+    public double getCreditoAsDouble() { return getCredito().doubleValue(); }
+    public void setCredito(double credito) { this.credito.set(BigDecimal.valueOf(credito)); }
+
+    public Usuario getUsuario() { return usuario.get(); }
+    public void setUsuario(Usuario usuario) { this.usuario.set(usuario); }
+
+    public LocalDate getFechaRegistro() { return fechaRegistro.get(); }
+    public void setFechaRegistro(LocalDate fechaRegistro) { this.fechaRegistro.set(fechaRegistro != null ? fechaRegistro : LocalDate.now()); }
 }

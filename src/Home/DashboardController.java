@@ -75,17 +75,17 @@ public class DashboardController implements Initializable {
         public void abrirPermiso() {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home/User/Vista/ListarPermisos.fxml"));
-                AnchorPane empleado = loader.load();
+                AnchorPane anchorPane = loader.load();
 
                 ListarPermisosController controller = loader.getController();
                 controller.setHomeController(homeController); // 🔁 aquí pasa el home
 
                 if (contentPane != null) {
-                    contentPane.getChildren().setAll(empleado);
-                    AnchorPane.setTopAnchor(empleado, 0.0);
-                    AnchorPane.setBottomAnchor(empleado, 0.0);
-                    AnchorPane.setLeftAnchor(empleado, 0.0);
-                    AnchorPane.setRightAnchor(empleado, 0.0);
+                    contentPane.getChildren().setAll(anchorPane);
+                    AnchorPane.setTopAnchor(anchorPane, 0.0);
+                    AnchorPane.setBottomAnchor(anchorPane, 0.0);
+                    AnchorPane.setLeftAnchor(anchorPane, 0.0);
+                    AnchorPane.setRightAnchor(anchorPane, 0.0);
                 }
 
                 if (homeController != null) {

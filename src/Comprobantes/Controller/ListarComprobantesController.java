@@ -14,12 +14,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class ComprobantesGrabadosController {
+public class ListarComprobantesController {
 
     @FXML private DatePicker fechaInicioPicker;
     @FXML private DatePicker fechaFinPicker;
@@ -28,8 +31,8 @@ public class ComprobantesGrabadosController {
     @FXML private TableColumn<Comprobante, LocalDate> fechaColumn;
     @FXML private TableColumn<Comprobante, String> numeroColumn;
     @FXML private TableColumn<Comprobante, String> conceptoColumn;
-    @FXML private TableColumn<Comprobante, Double> totalDebitosColumn;
-    @FXML private TableColumn<Comprobante, Double> totalCreditosColumn;
+    @FXML private TableColumn<Comprobante, BigDecimal> totalDebitosColumn;
+    @FXML private TableColumn<Comprobante, BigDecimal> totalCreditosColumn;
 
     private ComprobanteDAO comprobanteDAO = new ComprobanteDAO();
     private ObservableList<Comprobante> listaComprobantes = FXCollections.observableArrayList();
@@ -40,38 +43,46 @@ public class ComprobantesGrabadosController {
         fechaColumn.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         numeroColumn.setCellValueFactory(new PropertyValueFactory<>("numeroComprobante"));
         conceptoColumn.setCellValueFactory(new PropertyValueFactory<>("concepto"));
-        totalDebitosColumn.setCellValueFactory(new PropertyValueFactory<>("totalDebitos"));
-        totalCreditosColumn.setCellValueFactory(new PropertyValueFactory<>("totalCreditos"));
+        //totalDebitosColumn.setCellValueFactory(new PropertyValueFactory<>("totalDebitos"));
+        //totalCreditosColumn.setCellValueFactory(new PropertyValueFactory<>("totalCreditos"));
+
+        totalDebitosColumn.setCellValueFactory(cellData -> cellData.getValue().debitoProperty());
+        totalCreditosColumn.setCellValueFactory(cellData -> cellData.getValue().creditoProperty());
 
         // Formatear las columnas de moneda a 2 decimales
-        totalDebitosColumn.setCellFactory(tc -> new TableCell<Comprobante, Double>() {
+        NumberFormat format = new DecimalFormat("#,##0.0000");
+        totalDebitosColumn.setCellFactory(col -> new TableCell<>() {
             @Override
-            protected void updateItem(Double item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
+            protected void updateItem(BigDecimal value, boolean empty) {
+                super.updateItem(value, empty);
+                if (empty || value == null) {
                     setText(null);
                 } else {
-                    setText(String.format("%.2f", item));
+                    setText(format.format(value));
                 }
             }
         });
-        totalCreditosColumn.setCellFactory(tc -> new TableCell<Comprobante, Double>() {
+
+        totalCreditosColumn.setCellFactory(col -> new TableCell<>() {
             @Override
-            protected void updateItem(Double item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
+            protected void updateItem(BigDecimal value, boolean empty) {
+                super.updateItem(value, empty);
+                if (empty || value == null) {
                     setText(null);
                 } else {
-                    setText(String.format("%.2f", item));
+                    setText(format.format(value));
                 }
             }
         });
 
 
-        comprobantesTable.setItems(listaComprobantes);
+
 
         // Cargar todos los comprobantes al inicio
         cargarComprobantes();
+
+        comprobantesTable.setItems(listaComprobantes);
+
 
         // Opcional: Doble clic para editar
         comprobantesTable.setOnMouseClicked(event -> {
@@ -113,14 +124,14 @@ public class ComprobantesGrabadosController {
         Comprobante seleccionado = comprobantesTable.getSelectionModel().getSelectedItem();
         if (seleccionado != null) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Comprobantes/Vista/registro_comprobante.fxml")); // Ruta a tu FXML de registro
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Comprobantes/Vista/RegistrarComprobante.fxml")); // Ruta a tu FXML de registro
                 Parent root = loader.load();
 
                 // Obtener el controlador de la ventana de registro
                 RegistroComprobanteController registroController = loader.getController();
 
                 // Pasar el comprobante seleccionado para editar
-                registroController.cargarComprobanteParaEdicion(seleccionado); // Necesitarás crear este método en RegistroComprobanteController
+                //registroController.cargarComprobanteParaEdicion(seleccionado); // Necesitarás crear este método en RegistroComprobanteController
 
                 Stage stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
@@ -172,4 +183,35 @@ public class ComprobantesGrabadosController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    @FXML
+    private void AgregerComprobante() {
+
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Comprobantes/Vista/RegistrarComprobante.fxml")); // Ruta a tu FXML de registro
+                Parent root = loader.load();
+
+                // Obtener el controlador de la ventana de registro
+                RegistroComprobanteController registroController = loader.getController();
+
+                // Pasar el comprobante seleccionado para editarregistroController.cargarComprobanteParaEdicion(seleccionado); // Necesitarás crear este método en RegistroComprobanteController
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setScene(new Scene(root));
+                stage.setTitle("Agregar Comprobante");
+                stage.showAndWait();
+
+
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Error de Carga", "No se pudo abrir la ventana de edición: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+    }
+
+    @FXML
+    private void salir() {
+        cargarComprobantes();
+    }
+
 }

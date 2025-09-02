@@ -9,17 +9,48 @@ public class DetalleCatalogo {
     private final StringProperty nombreItem;
     private final StringProperty valorAdicional;
 
-    public DetalleCatalogo() {
-        this(0L, 0L, null, null, null); // Default constructor
-    }
-
-    public DetalleCatalogo(Long detalleCatalogoId, Long masterCatalogoId, String codigoItem, String nombreItem, String valorAdicional) {
-        this.detalleCatalogoId = new SimpleLongProperty(detalleCatalogoId);
-        this.masterCatalogoId = new SimpleLongProperty(masterCatalogoId);
+    // Nuevo constructor corregido
+    public DetalleCatalogo(int id, String codigoItem, String nombreItem) {
+        this.detalleCatalogoId = new SimpleLongProperty(id);
         this.codigoItem = new SimpleStringProperty(codigoItem);
         this.nombreItem = new SimpleStringProperty(nombreItem);
-        this.valorAdicional = new SimpleStringProperty(valorAdicional);
+        // Las otras propiedades necesitan ser inicializadas también, si es necesario.
+        // Por ejemplo, puedes inicializarlas con valores predeterminados o nulos.
+        this.masterCatalogoId = new SimpleLongProperty();
+        this.valorAdicional = new SimpleStringProperty();
     }
+
+
+
+    public DetalleCatalogo(StringProperty codigoItem, LongProperty detalleCatalogoId, LongProperty masterCatalogoId, StringProperty nombreItem, StringProperty valorAdicional) {
+        this.codigoItem = codigoItem;
+        this.detalleCatalogoId = detalleCatalogoId;
+        this.masterCatalogoId = masterCatalogoId;
+        this.nombreItem = nombreItem;
+        this.valorAdicional = valorAdicional;
+    }
+
+
+
+    public DetalleCatalogo(int detalleCatalogoId, String codigoItem, String nombreItem, LongProperty detalleCatalogoId1, LongProperty masterCatalogoId, StringProperty codigoItem1, StringProperty nombreItem1, StringProperty valorAdicional) {
+        this.detalleCatalogoId = detalleCatalogoId1;
+        this.masterCatalogoId = masterCatalogoId;
+        this.codigoItem = codigoItem1;
+        this.nombreItem = nombreItem1;
+        this.valorAdicional = valorAdicional;
+    }
+
+    public DetalleCatalogo(LongProperty detalleCatalogoId1, LongProperty masterCatalogoId1, StringProperty codigoItem1, StringProperty nombreItem1, StringProperty valorAdicional1) {
+        this.detalleCatalogoId = detalleCatalogoId1;
+        this.masterCatalogoId = masterCatalogoId1;
+        this.codigoItem = codigoItem1;
+        this.nombreItem = nombreItem1;
+        this.valorAdicional = valorAdicional1;
+
+    }
+
+
+
 
     // Getters for properties
     public LongProperty detalleCatalogoIdProperty() {
@@ -43,8 +74,8 @@ public class DetalleCatalogo {
     }
 
     // Getters and Setters for values
-    public long getDetalleCatalogoId() {
-        return detalleCatalogoId.get();
+    public int getDetalleCatalogoId() {
+        return (int) detalleCatalogoId.get();
     }
 
     public void setDetalleCatalogoId(long detalleCatalogoId) {
@@ -82,4 +113,10 @@ public class DetalleCatalogo {
     public void setValorAdicional(String valorAdicional) {
         this.valorAdicional.set(valorAdicional);
     }
+
+    @Override
+    public String toString() {
+        return (nombreItem != null) ? nombreItem.get() : "";
+    }
+    
 }

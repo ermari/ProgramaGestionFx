@@ -9,6 +9,7 @@ public class Periodo {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private boolean estado;
+    private String descripcion; // NUEVO CAMPO
 
     // Constructor vacío
     public Periodo() {
@@ -66,8 +67,26 @@ public class Periodo {
         this.fechaFin = fechaFin;
     }
 
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getDesdeFechaInicio() {
+        return "Desde " + (fechaInicio != null ? fechaInicio.toString() : "");
+    }
+
+    /**
+     * @return
+     */
     @Override
     public String toString() {
-        return nombre;
+        return nombre + " (" + getDesdeFechaInicio() + ")";
     }
+
+
 }

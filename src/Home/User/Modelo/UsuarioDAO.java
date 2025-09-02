@@ -7,10 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class UsuarioDAO {
 
@@ -35,9 +32,42 @@ public class UsuarioDAO {
             }
         }
         return lista;
-
-
     }
+
+    /**
+     * Obtiene un usuario de la base de datos por su ID.
+     *
+     * @param id El ID del usuario a buscar.
+     * @return Un objeto Optional que contiene el usuario si se encuentra,
+     * o un Optional vacío si no existe.
+     * @throws SQLException Si ocurre un error de base de datos.
+     */
+    public Optional<Usuario> getById(int id) throws SQLException {
+        String sql = "SELECT usuario_id, nombre_usuario, email, usuario, password FROM usuarios WHERE usuario_id = ?";
+        Usuario usuarioEncontrado = null;
+
+        try (Connection conn = BDconexion.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Establece el valor del ID en el placeholder (?)
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Si se encuentra un resultado, crea el objeto Usuario
+                    usuarioEncontrado = new Usuario(
+                            rs.getInt("usuario_id"),
+                            rs.getString("nombre_usuario"),
+                            rs.getString("email"),
+                            rs.getString("usuario"),
+                            rs.getString("password")
+                    );
+                }
+            }
+        }
+        return Optional.ofNullable(usuarioEncontrado);
+    }
+
 
     public void insertar(Usuario usuario) throws SQLException {
         String sql = "INSERT INTO usuarios (nombre_usuario, email, usuario, password) VALUES (?, ?, ?, ?)";

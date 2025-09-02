@@ -109,10 +109,44 @@ public class PeriodoDAO {
      */
     private Periodo crearPeriodoDesdeResultSet(ResultSet rs) throws SQLException {
         Periodo periodo = new Periodo();
-        periodo.setId(rs.getInt("id"));
+        periodo.setId(rs.getInt("periodo_id"));
         periodo.setNombre(rs.getString("nombre"));
         periodo.setFechaInicio(rs.getDate("fecha_inicio").toLocalDate());
         periodo.setFechaFin(rs.getDate("fecha_fin").toLocalDate());
         return periodo;
     }
+
+    /**
+     * Obtiene un periodo Activo
+     * @return El objeto Periodo, o null si no se encuentra.
+     * @throws SQLException Si ocurre un error de SQL.
+     */
+    public List<Periodo> obtenerPeriodosActivos() throws SQLException {
+        String sql = "SELECT periodo_id, nombre, fecha_inicio, fecha_fin, estado, " +
+                "CONCAT('Desde ', DATE_FORMAT(fecha_inicio, '%d/%m/%Y'), " +
+                "' hasta ', DATE_FORMAT(fecha_fin, '%d/%m/%Y')) AS descripcion " +
+                "FROM periodo WHERE estado = 1";
+
+        List<Periodo> periodos = new ArrayList<>();
+
+        try (Connection conn = BDconexion.getInstance().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Periodo p = new Periodo();
+                p.setId(rs.getInt("periodo_id"));
+                p.setNombre(rs.getString("nombre"));
+                p.setFechaInicio(rs.getDate("fecha_inicio").toLocalDate());
+                p.setFechaFin(rs.getDate("fecha_fin").toLocalDate());
+                p.setDescripcion(rs.getString("descripcion")); // <-- aquí ya viene la concatenación
+                periodos.add(p);
+            }
+        }
+
+        return periodos;
+    }
+
+
+
 }

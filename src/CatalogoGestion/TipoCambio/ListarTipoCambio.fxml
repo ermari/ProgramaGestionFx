@@ -28,7 +28,7 @@
                     <Button mnemonicParsing="false" onAction="#nuevoTipoCambio" styleClass="crear-button" text="Nuevo" />
                     <Button mnemonicParsing="false" onAction="#editarTipoCambio" styleClass="editar-button" text="Editar" />
                     <Button mnemonicParsing="false" onAction="#eliminarTipoCambio" styleClass="eliminar-button" text="Eliminar" />
-                    <Button fx:id="btnSalir" onAction="#salir" prefHeight="38.0" prefWidth="149.0" styleClass="regresar-anterior-button" stylesheets="@/resources/css/formulario.css" text="⮐ Regresar" />
+                    <Button fx:id="btnSalir" onAction="#salir" prefHeight="26.0" prefWidth="82.0" styleClass="salir-button" stylesheets="@/resources/css/formulario.css" text="⮐ Regresar" />
                 </children>
             </HBox>
         </children>

@@ -55,6 +55,8 @@ public class ListarPermisosController {
             private final HBox contenedor = new HBox(5, btnEditar, btnEliminar);
 
             {
+                btnEditar.getStyleClass().add("editar-button");
+                btnEliminar.getStyleClass().add("eliminar-button");
                 btnEditar.setOnAction(e -> abrirFormularioPermiso(getTableView().getItems().get(getIndex())));
                 btnEliminar.setOnAction(e -> eliminarPermiso(getTableView().getItems().get(getIndex())));
             }
@@ -62,9 +64,15 @@ public class ListarPermisosController {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                setGraphic(empty ? null : contenedor);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(contenedor);
+                }
             }
         });
+
+
 
         cargarPermisos();
     }

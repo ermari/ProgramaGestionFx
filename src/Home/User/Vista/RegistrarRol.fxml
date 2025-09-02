@@ -9,41 +9,29 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="565.0" prefWidth="530.0" stylesheets="@../../../Login/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Home.User.Controlador.RegistrarRolController">
 
     <children>
-        <VBox alignment="TOP_CENTER" layoutY="5.0" prefHeight="560.0" prefWidth="480.0" spacing="15.0" stylesheets="@../../../Login/login.css">
+        <VBox alignment="TOP_CENTER" layoutY="5.0" prefHeight="560.0" prefWidth="524.0" spacing="15.0" stylesheets="@../../../Login/login.css">
             <padding>
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
             </padding>
-            <Label text="Nombre del Rol:" textFill="#dcd1d1" />
+         <Label prefHeight="18.0" prefWidth="490.0" styleClass="title" text="Nombre del Rol:">
+            <font>
+               <Font size="19.0" />
+            </font>
+         </Label>
             <TextField fx:id="txtNombre" promptText="Nombre del rol" />
-
-            <Label text="Descripción:">
-            <textFill>
-               <LinearGradient endX="1.0" endY="1.0">
-                  <stops>
-                     <Stop>
-                        <color>
-                           <Color red="0.6631578803062439" green="0.6115789413452148" blue="0.6115789413452148" opacity="0.699999988079071" />
-                        </color>
-                     </Stop>
-                     <Stop offset="1.0">
-                        <color>
-                           <Color red="1.0" green="1.0" blue="1.0" />
-                        </color>
-                     </Stop>
-                  </stops>
-               </LinearGradient>
-            </textFill></Label>
+         <Label prefHeight="18.0" prefWidth="488.0" styleClass="title" text="Descripcion" />
             <TextArea fx:id="txtDescripcion" prefHeight="60" wrapText="true" />
 
-            <Label text="Permisos disponibles:" textFill="#dcd9d2" />
-            <ListView fx:id="listViewPermisos" prefHeight="200.0" />
+            <Label ellipsisString="" graphicTextGap="10.0" prefHeight="18.0" prefWidth="498.0" styleClass="title" text="Permisos disponibles:" textFill="#080603" textOverrun="CLIP">
+            <font>
+               <Font name="Arial Black" size="16.0" />
+            </font></Label>
+            <ListView fx:id="listViewPermisos" prefHeight="264.0" prefWidth="494.0" />
 
             <HBox alignment="CENTER_RIGHT" spacing="10">
                 <Button onAction="#guardarRol" text="Guardar" />

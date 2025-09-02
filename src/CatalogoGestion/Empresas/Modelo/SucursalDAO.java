@@ -1,14 +1,44 @@
 package CatalogoGestion.Empresas.Modelo;
 
 import BD.BDconexion;
+import Home.User.Modelo.Usuario;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SucursalDAO {
+
+
+    public Optional<Sucursal> getById(int id) throws SQLException {
+        String sql = "SELECT sucursal_id, empresa_id, nombre, codigo, direccion, telefono, email," +
+                " ciudad, pais, estado, fecha_registro FROM datasoft.sucursal  WHERE sucursal_id = ?";
+        Sucursal sucursal = null;
+
+        try (Connection conn = BDconexion.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // Establece el valor del ID en el placeholder (?)
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Si se encuentra un resultado, crea el objeto Usuario
+                    sucursal = new Sucursal(
+                            rs.getInt("sucursal_id"),
+                            rs.getString("codigo"),
+                            rs.getString("nombre")
+                    );
+                }
+            }
+        }
+        return Optional.ofNullable(sucursal);
+    }
+
 
     // Se mantiene la conexión en el DAO, pero cada método debe manejarla
     // de forma segura con try-with-resources para cerrar los recursos.

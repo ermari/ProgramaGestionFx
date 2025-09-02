@@ -2,12 +2,16 @@ package Home.User.Modelo;
 
 import CatalogoGestion.Empresas.Modelo.Empresa;
 import CatalogoGestion.Empresas.Modelo.Sucursal;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Usuario {
+public class Usuario extends ObjectProperty<LocalDate> {
 
     private final IntegerProperty usuarioId = new SimpleIntegerProperty();
     private final StringProperty nombreUsuario = new SimpleStringProperty();
@@ -19,6 +23,9 @@ public class Usuario {
 
 
     private List<Rol> roles= new ArrayList<>();;
+
+    public Usuario(int usuarioId, String nombreUsuario, String email, String usuario, String password) {
+    }
 
     public Empresa getEmpresa() {
         return empresa;
@@ -147,5 +154,60 @@ public class Usuario {
 
     public void setRoles(List<Rol> rols) {
         this.roles = rols ;
+    }
+
+    @Override
+    public void bind(ObservableValue<? extends LocalDate> observableValue) {
+
+    }
+
+    @Override
+    public void unbind() {
+
+    }
+
+    @Override
+    public boolean isBound() {
+        return false;
+    }
+
+    @Override
+    public Object getBean() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return "";
+    }
+
+    @Override
+    public LocalDate get() {
+        return null;
+    }
+
+    @Override
+    public void set(LocalDate localDate) {
+
+    }
+
+    @Override
+    public void addListener(ChangeListener<? super LocalDate> changeListener) {
+
+    }
+
+    @Override
+    public void removeListener(ChangeListener<? super LocalDate> changeListener) {
+
+    }
+
+    @Override
+    public void addListener(InvalidationListener invalidationListener) {
+
+    }
+
+    @Override
+    public void removeListener(InvalidationListener invalidationListener) {
+
     }
 }

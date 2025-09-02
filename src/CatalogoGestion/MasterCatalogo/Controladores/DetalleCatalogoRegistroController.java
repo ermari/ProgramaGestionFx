@@ -91,7 +91,8 @@ public class DetalleCatalogoRegistroController {
                     ResultSet rs = pstmt.getGeneratedKeys();
                     if (rs.next()) {
                         long newId = rs.getLong(1);
-                        detalleCatalogo = new DetalleCatalogo(newId, masterCatalogoId, codigoItem, nombreItem, valorAdicional);
+
+                       // detalleCatalogo = new DetalleCatalogo(newId, masterCatalogoId, codigoItem, nombreItem, valorAdicional);
                     }
                     showAlert(Alert.AlertType.INFORMATION, "Éxito", "Detalle Guardado", "Nuevo detalle creado correctamente.");
 
