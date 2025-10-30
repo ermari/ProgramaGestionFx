@@ -27,6 +27,7 @@ public class Comprobante {
     private final ObjectProperty<BigDecimal> debito = new SimpleObjectProperty<>(BigDecimal.ZERO);
     private final ObjectProperty<BigDecimal> credito = new SimpleObjectProperty<>(BigDecimal.ZERO);
 
+
     public BigDecimal getDebito() {
         return debito.get();
     }
@@ -51,9 +52,13 @@ public class Comprobante {
         return credito;
     }
 
+    public Periodo getPeriodo() {
+        return periodo.get();
+    }
 
-
-
+    public DetalleCatalogo getTipoDocumento() {
+        return tipoDocumento.get();
+    }
 
     // ✅ Lista observable desde el inicio
     private final ObjectProperty<ObservableList<DetalleComprobante>> detalles;
@@ -154,7 +159,6 @@ public class Comprobante {
     public void setFechaRegistro(LocalDate fechaRegistro) { this.fechaRegistro.set(fechaRegistro); }
     public ObjectProperty<LocalDate> fechaRegistroProperty() { return fechaRegistro; }
 
-    public DetalleCatalogo getTipoDocumento() { return tipoDocumento.get(); }
     public void setTipoDocumento(DetalleCatalogo tipoDocumento) { this.tipoDocumento.set(tipoDocumento); }
     public ObjectProperty<DetalleCatalogo> tipoDocumentoProperty() { return tipoDocumento; }
 
@@ -162,7 +166,8 @@ public class Comprobante {
     public void setSucursal(Sucursal sucursal) { this.sucursal.set(sucursal); }
     public ObjectProperty<Sucursal> sucursalProperty() { return sucursal; }
 
-    public Periodo getPeriodo() { return periodo.get(); }
+
     public void setPeriodo(Periodo periodo) { this.periodo.set(periodo); }
+
     public ObjectProperty<Periodo> periodoProperty() { return periodo; }
 }

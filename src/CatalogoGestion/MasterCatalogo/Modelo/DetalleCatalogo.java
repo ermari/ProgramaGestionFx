@@ -118,5 +118,6 @@ public class DetalleCatalogo {
     public String toString() {
         return (nombreItem != null) ? nombreItem.get() : "";
     }
-    
+
+
 }

@@ -13,6 +13,7 @@ import RegistroEmpleado.EmpleadoController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
@@ -23,6 +24,8 @@ import java.util.ResourceBundle;
 public class DashboardController implements Initializable {
     private AnchorPane contentPane;
     private HomeController homeController;
+
+
 
     public void setContentPane(AnchorPane contentPane) {
         this.contentPane = contentPane;
@@ -75,7 +78,7 @@ public class DashboardController implements Initializable {
         public void abrirPermiso() {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Home/User/Vista/ListarPermisos.fxml"));
-                AnchorPane anchorPane = loader.load();
+                Parent anchorPane = loader.load();
 
                 ListarPermisosController controller = loader.getController();
                 controller.setHomeController(homeController); // 🔁 aquí pasa el home

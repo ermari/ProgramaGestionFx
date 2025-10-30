@@ -61,6 +61,8 @@ public class RegistroComprobanteController {
 
     @FXML private Label totalDebitosLabel;
     @FXML private Label totalCreditosLabel;
+    @FXML private Label lbEmpresa;
+
     // Propiedades observables
     private final ObjectProperty<BigDecimal> totalDebitos = new SimpleObjectProperty<>(BigDecimal.ZERO);
     private final ObjectProperty<BigDecimal> totalCreditos = new SimpleObjectProperty<>(BigDecimal.ZERO);
@@ -80,9 +82,22 @@ public class RegistroComprobanteController {
     Empresa empresa=Sesion.getEmpresaSeleccionada();
 
 
+
+
+    private Runnable onSaveCallback; // ✅ callback
+
+    public void setOnSaveCallback(Runnable callback) {
+        this.onSaveCallback = callback;
+    }
+
+    @FXML private Button btnGuardar;
+
     @FXML
     public void initialize() {
         try {
+
+            lbEmpresa.setText((empresa.getNombre()));
+
             // Cargar catálogo de cuentas
             List<Catalogo> todasLasCuentas = cuentaDAO.obtenerTodos();
             catalogoCuentasObservable = FXCollections.observableArrayList(todasLasCuentas);
@@ -128,12 +143,12 @@ public class RegistroComprobanteController {
             cbPeriodo.setConverter(new StringConverter<>() {
                 @Override
                 public String toString(Periodo p) {
-                    return p != null ? p.getDescripcion() : "";
+                    return p != null ? p.getNombre() : "";
                 }
 
                 @Override
                 public Periodo fromString(String string) {
-                    return lista.stream().filter(p -> p.getDescripcion().equals(string)).findFirst().orElse(null);
+                    return lista.stream().filter(p -> p.getNombre().equals(string)).findFirst().orElse(null);
                 }
             });
 
@@ -150,8 +165,8 @@ public class RegistroComprobanteController {
 
         partidasTable.setEditable(true);
         partidasTable.setItems(listaDetalles);
+         setupTableColumns();
 
-        setupTableColumns();
 
         // Vincular labels
         totalDebitosLabel.textProperty().bind(Bindings.createStringBinding(
@@ -380,37 +395,95 @@ public class RegistroComprobanteController {
         }
     }
 
+
+    public void cargarComprobanteParaEdicion(Comprobante comprobante) throws SQLException {
+        this.comprobanteActual = comprobante;
+
+        // Campos básicos
+        fechaComprobantePicker.setValue(comprobante.getFecha());
+        numeroComprobanteField.setText(comprobante.getNumeroComprobante());
+        conceptoArea.setText(comprobante.getConcepto());
+
+
+        // ObservableList<Periodo> lista = FXCollections.observableArrayList(periodoDAO.obtenerPeriodosActivos());
+        //cbPeriodo.setItems(lista);
+
+        // Detalles
+        listaDetalles.setAll(comprobante.getDetalles());
+
+        // 1️⃣ Bind de ComboBoxes usando el método genérico
+        bindComboBox(cbTipoComprobante, comprobante.tipoDocumentoProperty(),
+                detalleCatalogoDAO.obtenerPorCodigoMaster("TIPO_COMPROBANTE"));
+
+        bindComboBox(cbPeriodo, comprobante.periodoProperty(),
+                periodoDAO.listarPeriodos());
+
+        // Si tuvieras otro ComboBox como sucursal:
+        // bindComboBox(cbSucursal, comprobante.sucursalProperty(),
+        //        sucursalDAO.listarSucursales());
+
+        // ⚡️ Aquí recalculamos después de cargar los detalles
+        recalcularTotales();
+    }
+
     @FXML
     private void guardarComprobante() {
         if (!validarFormulario()) return;
 
-        //Construir el objeto de comprobante Para enviar.
-        Comprobante comprobante = new Comprobante(
-                fechaComprobantePicker.getValue(),
-                numeroComprobanteField.getText().trim(),
-                conceptoArea.getText().trim(),
-                usuario,
-                cbTipoComprobante.getSelectionModel().getSelectedItem(),
-                sucursal,
-                cbPeriodo.getSelectionModel().getSelectedItem()
-        );
-
-        //detalles
-        listaDetalles.forEach(comprobante::addDetalle);
-
         try {
-            comprobanteDAO.saveComprobante(comprobante);
-            showAlert(Alert.AlertType.INFORMATION, "Guardado", "Comprobante guardado exitosamente.");
-            limpiarFormulario();
+            if (comprobanteActual == null) {
+                // 👉 Caso NUEVO comprobante
+                Comprobante comprobante = new Comprobante(
+                        fechaComprobantePicker.getValue(),
+                        numeroComprobanteField.getText().trim(),
+                        conceptoArea.getText().trim(),
+                        usuario,
+                        cbTipoComprobante.getSelectionModel().getSelectedItem(),
+                        sucursal,
+                        cbPeriodo.getSelectionModel().getSelectedItem()
+                );
+
+                listaDetalles.forEach(comprobante::addDetalle);
+                comprobanteDAO.saveComprobante(comprobante);
+
+                showAlert(Alert.AlertType.INFORMATION, "Guardado", "Comprobante guardado exitosamente.");
+            } else {
+                // 👉 Caso MODIFICAR comprobante
+                comprobanteActual.setFecha(fechaComprobantePicker.getValue());
+                comprobanteActual.setNumeroComprobante(numeroComprobanteField.getText().trim());
+                comprobanteActual.setConcepto(conceptoArea.getText().trim());
+                comprobanteActual.setTipoDocumento(cbTipoComprobante.getSelectionModel().getSelectedItem());
+                comprobanteActual.setPeriodo(cbPeriodo.getSelectionModel().getSelectedItem());
+                comprobanteActual.setUsuario(usuario);
+                comprobanteActual.setSucursal(sucursal);
+
+                comprobanteActual.getDetalles().setAll(listaDetalles); // reemplaza detalles
+
+                comprobanteDAO.updateComprobante(comprobanteActual);
+
+                showAlert(Alert.AlertType.INFORMATION, "Actualizado", "Comprobante actualizado correctamente.");
+
+            }
+
+
+            // ✅ Notificar al controlador padre que se guardó
+            if (onSaveCallback != null) {
+                onSaveCallback.run();
+            }
+
+
+            // Cerrar la ventana modal
+            Stage stage = (Stage) btnGuardar.getScene().getWindow();
+            stage.close();
+
+
+            //limpiarFormulario();
+            //comprobanteActual = null; // reseteamos después de guardar
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Error", "No se pudo guardar: " + e.getMessage());
         }
-
-
-
-        showAlert(Alert.AlertType.INFORMATION, "Guardado", "Comprobante guardado exitosamente.");
-        limpiarFormulario();
     }
+
 
     private String generarNumeroComprobante() {
         return "COMP-" + LocalDate.now().getYear() + "-" + (System.currentTimeMillis() % 100000);
@@ -486,13 +559,27 @@ public class RegistroComprobanteController {
         return valor.setScale(4, RoundingMode.HALF_UP).toPlainString();
     }
 
-    public void cargarComprobanteParaEdicion(Comprobante comprobante) {
-        this.comprobanteActual = comprobante;
-        fechaComprobantePicker.setValue(comprobante.getFecha());
-        numeroComprobanteField.setText(comprobante.getNumeroComprobante());
-        conceptoArea.setText(comprobante.getConcepto());
-        listaDetalles.setAll(comprobante.getDetalles());
+
+
+
+    private <T> void bindComboBox(ComboBox<T> comboBox, ObjectProperty<T> propiedad, List<T> items) {
+        // 1️⃣ Cargar los ítems
+        ObservableList<T> observableItems = FXCollections.observableArrayList(items);
+        comboBox.setItems(observableItems);
+
+        // 2️⃣ Seleccionar el objeto que coincide con la propiedad
+        if (propiedad.get() != null) {
+            T seleccionado = observableItems.stream()
+                    .filter(item -> item.equals(propiedad.get()))
+                    .findFirst()
+                    .orElse(null);
+            comboBox.getSelectionModel().select(seleccionado);
+        }
+
+        // 3️⃣ Bind bidireccional
+        comboBox.valueProperty().bindBidirectional(propiedad);
     }
+
 
 
     public class BigDecimalEditingCell extends TableCell<DetalleComprobante, BigDecimal> {

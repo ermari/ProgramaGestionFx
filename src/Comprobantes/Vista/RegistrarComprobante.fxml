@@ -17,14 +17,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@../../Login/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Comprobantes.Controller.RegistroComprobanteController">
-    <VBox alignment="TOP_CENTER" prefHeight="628.0" prefWidth="813.0" spacing="15.0" AnchorPane.bottomAnchor="-28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-12.799999999999955" AnchorPane.topAnchor="0.0">
+<AnchorPane prefHeight="658.0" prefWidth="857.0" stylesheets="@../../resources/css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Comprobantes.Controller.RegistroComprobanteController">
+    <VBox alignment="TOP_CENTER" prefHeight="717.0" prefWidth="857.0" spacing="15.0" AnchorPane.bottomAnchor="-59.200000000000045" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
         </padding>
-        <Label prefHeight="21.0" prefWidth="333.0" text="Registro de Comprobante Contable">
+      <Label fx:id="lbEmpresa" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="22.0" prefWidth="873.0" text="Empresa">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+        <Label maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="872.0" text="Registro de Comprobante Contable" textFill="#000000de">
             <font>
-                <Font name="System Bold" size="20.0" />
+                <Font name="System Bold" size="12.0" />
             </font>
         </Label>
         <GridPane fx:id="periodo" hgap="10.0" prefHeight="94.0" prefWidth="728.0" vgap="10.0">
@@ -38,8 +43,8 @@
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints maxHeight="98.59998168945313" minHeight="10.0" prefHeight="26.000006103515624" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="132.39999389648438" minHeight="10.0" prefHeight="22.000012207031247" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="134.4000030517578" minHeight="0.0" prefHeight="27.599987792968747" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="132.39999389648438" minHeight="10.0" prefHeight="31.000006103515616" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="134.4000030517578" minHeight="0.0" prefHeight="17.399993896484375" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <Label text="Concepto:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
@@ -64,10 +69,10 @@
             </font>
         </Label>
 
-        <TableView fx:id="partidasTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="774.0" VBox.vgrow="ALWAYS">
+        <TableView fx:id="partidasTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="834.0" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="selectCta" minWidth="30.0" prefWidth="30.0" text="Cta." />
-                <TableColumn fx:id="cuentaColumn" minWidth="80.0" prefWidth="100.0" text="Cuenta" />
+                <TableColumn fx:id="selectCta" minWidth="30.0" prefWidth="63.19998013973236" text="Cta." />
+                <TableColumn fx:id="cuentaColumn" minWidth="48.0" prefWidth="48.0" text="Cuenta" />
                 <TableColumn fx:id="nombreCuentaColumn" minWidth="150.0" prefWidth="250.0" text="Nombre Cuenta" />
                 <TableColumn fx:id="debitoColumn" minWidth="100.0" prefWidth="120.0" text="Débito" />
                 <TableColumn fx:id="creditoColumn" minWidth="100.0" prefWidth="120.0" text="Crédito" />
@@ -77,37 +82,32 @@
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
         </TableView>
+        <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="22.0" prefWidth="700.0" spacing="20.0">
+            <children>
+            <Label fx:id="lbTotal" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="100.0" prefHeight="22.0" prefWidth="159.0" text="Total Debito/Credito">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+                <Label fx:id="totalDebitosLabel" alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="80.0" prefHeight="18.0" prefWidth="114.0" snapToPixel="false" text="0.00" wrapText="true">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+                <Label fx:id="totalCreditosLabel" alignment="BOTTOM_RIGHT" minWidth="80.0" prefHeight="18.0" prefWidth="103.0" text="0.00" HBox.hgrow="SOMETIMES">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
         <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="26.0" prefWidth="707.0" spacing="10.0">
             <children>
                 <Button onAction="#agregarLinea" text="Agregar Línea" />
                 <Button onAction="#eliminarLinea" text="Eliminar Línea" />
-                <Button onAction="#guardarComprobante" text="Guardar Comprobante" />
+                <Button fx:id="btnGuardar" onAction="#guardarComprobante" text="Guardar Comprobante" />
                 <Button onAction="#limpiarFormulario" text="Limpiar" />
                 <Button onAction="#cancelar" text="Cancelar" />
-            </children>
-        </HBox>
-        <HBox alignment="CENTER_RIGHT" spacing="20.0">
-            <children>
-                <Label text="Total Débitos:">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-                <Label fx:id="totalDebitosLabel" minWidth="80.0" text="0.00">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-                <Label text="Total Créditos:">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-                <Label fx:id="totalCreditosLabel" minWidth="80.0" text="0.00">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
             </children>
         </HBox>
     </VBox>

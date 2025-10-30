@@ -153,7 +153,7 @@ public class CatalogoController implements Initializable { // Implementar Initia
 
                             // Los botones se pueden crear aquí o dentro de updateItem.
                             // Para evitar recrearlos constantemente, los definimos aquí como miembros de la celda.
-                            private final Button btnEditar = createButton("/resources/images/edit.png", "Editar");
+                            private final Button btnEditar = createButton("/resources/icons/edit.png", "Editar");
                             private final Button btnEliminar = createButton("/resources/images/exit.png", "Eliminar");
                             private final Button btnCrearSubRegistro = createButton("/resources/images/Tree.png", "Sub-Registro");
 

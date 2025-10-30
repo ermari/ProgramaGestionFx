@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="494.0" prefWidth="659.0" stylesheets="@../resources/css/formulario_catalogo.css"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Catalogo.RegistroCatalogoController">
+    <children>
+        <VBox alignment="TOP_CENTER" layoutX="25.0" layoutY="25.0" prefHeight="551.0" prefWidth="615.0" spacing="15.0"
+              AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="19.0"
+              AnchorPane.topAnchor="25.0">
+            <children>
+                <Label fx:id="tituloId" styleClass="form-title" text="Registro de Catálogo">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </VBox.margin>
+                </Label>
+
+                <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="354.0" prefHeight="30.0" prefWidth="350.0"
+                      spacing="10.0" styleClass="input-row">
+                    <children>
+                        <Label prefHeight="20.0" prefWidth="110.0" text="Código Padre:" />
+                        <TextField id="codigoPadreField" fx:id="codigoPadreField" prefHeight="30.0" prefWidth="88.0"
+                                   promptText="Ingrese el código" />
+                        <ComboBox id="comboSuperior" fx:id="comboSuperior" prefHeight="29.0" prefWidth="397.0"
+                                  promptText="Seleccione superior" HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="26.0" prefWidth="579.0" spacing="10.0"
+                      styleClass="input-row">
+                    <children>
+                        <Label prefWidth="90.0" text="Código:" />
+                        <TextField fx:id="codigoField" prefHeight="34.0" prefWidth="110.0" promptText="Ingrese el código"
+                                   HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0"
+                      styleClass="input-row">
+                    <children>
+                        <Label prefWidth="90.0" text="Valor:" />
+                        <TextField fx:id="valorField" promptText="Ingrese el valor" HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" prefHeight="300.0" prefWidth="561.0" spacing="10.0"
+                      styleClass="input-row">
+                    <children>
+                        <Label prefHeight="75.0" prefWidth="87.0" text="Descripción:" />
+                        <TextArea fx:id="descripcionField" prefHeight="129.0" prefWidth="507.0" wrapText="true" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0"
+                      styleClass="input-row">
+                    <children>
+                        <Label prefWidth="90.0" text="Orden:" />
+                        <TextField fx:id="ordenField" prefHeight="38.0" prefWidth="146.0" promptText="Ingrese el orden"
+                                   HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0"
+                      styleClass="input-row">
+                    <children>
+                        <Label prefWidth="90.0" text="Nivel:" />
+                        <TextField fx:id="nivelField" prefHeight="38.0" prefWidth="146.0"
+                                   promptText="Ingrese el número de nivel" HBox.hgrow="ALWAYS" />
+                        <Label prefWidth="90.0" text="Expandible:" />
+                        <ToggleButton fx:id="toggleExpandible" text="No" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0"
+                      styleClass="input-row" />
+
+                <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0" spacing="10.0">
+                    <children>
+                        <Button onAction="#guardarCatalogo" prefHeight="35.0" prefWidth="120.0"
+                                styleClass="primary-button" text="Guardar">
+                            <graphic>
+                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../resources/images/save1.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </VBox.margin>
+                </HBox>
+
+                <Region VBox.vgrow="ALWAYS" />
+            </children>
+            <padding>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>

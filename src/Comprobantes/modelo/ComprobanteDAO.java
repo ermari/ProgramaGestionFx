@@ -90,6 +90,83 @@ public class ComprobanteDAO {
         }
     }
 
+    // ================= UPDATE ==================
+    public void updateComprobante(Comprobante comprobante) throws SQLException {
+        String updateComprobanteSQL = """
+        UPDATE comprobante 
+        SET fecha_comprobante = ?, 
+            numero_comprobante = ?, 
+            concepto = ?, 
+            usuario_id = ?, 
+            sucursal_id = ?, 
+            fecha_registro = ?, 
+            tipo_documento_id = ?, 
+            periodo_id = ?
+        WHERE comprobante_id = ?
+    """;
+
+        String deleteDetallesSQL = "DELETE FROM detalle_comprobante WHERE comprobante_id = ?";
+
+        String insertDetalleSQL = """
+        INSERT INTO detalle_comprobante 
+        (numero_linea, comprobante_id, cuenta_id, descripcion, debito, credito, usuario_id, fecha_registro) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    """;
+
+        int usuarioId = comprobante.getUsuario().getUsuarioId();
+
+        try (Connection conn = BDconexion.getInstance().getConnection()) {
+            conn.setAutoCommit(false);
+
+            // 🔹 1. Actualizar comprobante
+            try (PreparedStatement stmtUpdate = conn.prepareStatement(updateComprobanteSQL)) {
+                stmtUpdate.setDate(1, Date.valueOf(comprobante.getFecha()));
+                stmtUpdate.setString(2, comprobante.getNumeroComprobante());
+                stmtUpdate.setString(3, comprobante.getConcepto());
+                stmtUpdate.setInt(4, usuarioId);
+                stmtUpdate.setInt(5, comprobante.getSucursal().getSucursalId());
+                stmtUpdate.setDate(6, Date.valueOf(comprobante.getFechaRegistro()));
+                stmtUpdate.setInt(7, comprobante.getTipoDocumento().getDetalleCatalogoId());
+                stmtUpdate.setInt(8, comprobante.getPeriodo().getId());
+                stmtUpdate.setInt(9, comprobante.getIdComprobante());
+                stmtUpdate.executeUpdate();
+            }
+
+            // 🔹 2. Eliminar detalles previos
+            try (PreparedStatement stmtDelete = conn.prepareStatement(deleteDetallesSQL)) {
+                stmtDelete.setInt(1, comprobante.getIdComprobante());
+                stmtDelete.executeUpdate();
+            }
+
+            // 🔹 3. Insertar nuevamente los detalles
+            try (PreparedStatement stmtDetalle = conn.prepareStatement(insertDetalleSQL)) {
+                int numeroLinea = 1;
+                for (DetalleComprobante detalle : comprobante.getDetalles()) {
+                    stmtDetalle.setInt(1, numeroLinea++);
+                    stmtDetalle.setInt(2, comprobante.getIdComprobante());
+                    stmtDetalle.setInt(3, detalle.getContableCuenta().getCatalogoId());
+                    stmtDetalle.setString(4, detalle.getDescripcion());
+                    stmtDetalle.setBigDecimal(5, detalle.getDebito());
+                    stmtDetalle.setBigDecimal(6, detalle.getCredito());
+                    stmtDetalle.setInt(7, usuarioId);
+                    stmtDetalle.setDate(8, Date.valueOf(detalle.getFechaRegistro()));
+                    stmtDetalle.addBatch();
+                }
+
+
+
+
+
+
+                stmtDetalle.executeBatch();
+            }
+
+            conn.commit();
+        }
+    }
+
+
+
     // ================= SELECT BY ID ==================
     public Comprobante getById(int idComprobante) throws SQLException {
         String selectComprobanteSQL = """

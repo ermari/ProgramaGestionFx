@@ -52,7 +52,7 @@ public class HomeController implements Initializable {
     Empresa empresa=Sesion.getEmpresaSeleccionada();
 
     public void setTitulo(String texto) {
-        titulo.setText(texto);
+      //  titulo.setText(texto);
         System.out.println("🏷 Título actualizado a: " + texto);
     }
 

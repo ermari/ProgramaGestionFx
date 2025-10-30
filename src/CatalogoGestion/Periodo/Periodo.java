@@ -1,10 +1,11 @@
 package CatalogoGestion.Periodo;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Periodo {
 
-    private int id;
+    private Integer id;
     private String nombre;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
@@ -35,11 +36,11 @@ public class Periodo {
     }
 
     // Getters y Setters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -80,13 +81,22 @@ public class Periodo {
         return "Desde " + (fechaInicio != null ? fechaInicio.toString() : "");
     }
 
-    /**
-     * @return
-     */
+
+
     @Override
     public String toString() {
         return nombre + " (" + getDesdeFechaInicio() + ")";
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Periodo periodo)) return false;
+        return estado == periodo.estado && Objects.equals(id, periodo.id) && Objects.equals(nombre, periodo.nombre) && Objects.equals(fechaInicio, periodo.fechaInicio) && Objects.equals(fechaFin, periodo.fechaFin) && Objects.equals(descripcion, periodo.descripcion);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, fechaInicio, fechaFin, estado, descripcion);
+    }
 }

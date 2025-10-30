@@ -1,0 +1,165 @@
+/* --- ESTILOS GENERALES DE LA TREETABLEVIEW Y BORDES --- */
+
+/* Elimina el borde general de la TreeTableView */
+.tree-table-view {
+    -fx-background-color: transparent; /* Fondo transparente para no mostrar un "borde" de fondo */
+    -fx-border-width: 0; /* Elimina el borde exterior de la tabla */
+}
+
+/* Elimina el borde de la región de las cabeceras de las columnas */
+.tree-table-view .column-header-background {
+    -fx-border-width: 0;
+}
+
+/* Elimina los bordes de las celdas individuales y define el tipo de letra */
+.tree-table-view .tree-table-cell {
+    -fx-border-width: 0; /* Elimina todos los bordes de cada celda */
+    -fx-padding: 5px; /* Puedes ajustar el padding según necesites para el espacio del texto */
+    -fx-alignment: CENTER-LEFT; /* Alineación por defecto del texto en las celdas */
+
+    /* --- CAMBIOS PARA EL TIPO DE LETRA DE LAS FILAS --- */
+    -fx-font-family: "Arial"; /* Cambia a la fuente que desees, por ejemplo, "Verdana", "Times New Roman" */
+    -fx-font-size: 13px;       /* Cambia el tamaño de la fuente */
+    -fx-font-weight: normal;  /* Define el grosor de la fuente (normal, bold, etc.) */
+}
+
+/* Elimina los bordes de las filas. Es una buena práctica por si acaso. */
+.tree-table-view .tree-table-row-cell {
+    -fx-border-width: 0;
+}
+
+/* Elimina el borde de las celdas cuando la fila está seleccionada */
+.tree-table-view .tree-table-row-cell:selected .tree-table-cell {
+    -fx-border-width: 0;
+}
+
+
+/* --- ESTILOS PARA CABECERAS DE COLUMNAS --- */
+
+/* Estilo para todas las cabeceras de columna */
+.tree-table-view .column-header {
+    -fx-background-color: #3498db; /* Fondo azul para las cabeceras */
+    -fx-text-fill: white; /* Color del texto de las cabeceras */
+    -fx-font-weight: bold; /* Texto en negrita */
+    -fx-pref-height: 40px; /* Aumenta la altura del encabezado */
+}
+
+/* Estilo para el texto dentro de las cabeceras */
+.tree-table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-padding: 0;
+    -fx-alignment: CENTER; /* Centra el texto vertical y horizontalmente */
+}
+
+/* Estilo para una cabecera de columna específica (si tienes un fx:id como 'nameColumn') */
+/* Si tu columna de nombre en TreeTableView tiene un fx:id="nameColumn" en FXML */
+#nameColumn .column-header {
+    -fx-background-color: #27ae60; /* Fondo verde para la cabecera de la columna 'Name' */
+}
+
+
+/* --- ESTILOS PARA FILAS (ROW FACTORY) --- */
+
+/* Colores alternos para las filas */
+/* NOTA: Para filas alternas en TreeTableView, la implementación del RowFactory es ligeramente diferente
+   para tener en cuenta la jerarquía, pero las clases CSS siguen siendo las mismas. */
+.tree-table-row-cell.even-row {
+    -fx-background-color: #f0f0f0; /* Gris claro para filas pares */
+}
+
+.tree-table-row-cell.odd-row {
+    -fx-background-color: #ffffff; /* Blanco para filas impares */
+}
+
+/* Resaltar fila basada en una condición (ej. Ciudad "New York") */
+.tree-table-row-cell.highlight-row {
+    -fx-background-color: #aed6f1; /* Azul claro para filas resaltadas */
+    -fx-font-weight: bold; /* Texto en negrita para filas resaltadas */
+}
+
+/* Estilo para la fila seleccionada (anula los colores alternos cuando se selecciona una fila) */
+.tree-table-row-cell:selected {
+    -fx-background-color: #85c1e9; /* Azul más oscuro para filas seleccionadas */
+    -fx-background-insets: 0;
+    -fx-table-cell-border-color: #85c1e9;
+}
+
+/* Asegura que las celdas dentro de una fila seleccionada no tengan un fondo que oculte el color de la fila */
+.tree-table-row-cell:selected .tree-table-cell {
+    -fx-background-color: transparent;
+}
+
+
+/* --- ESTILOS PARA CELDAS ESPECÍFICAS (CELL FACTORY) --- */
+
+/* Estilo para las celdas de la columna 'Name' (si usas styleClass="name-column-style") */
+.name-column-style {
+    -fx-text-fill: darkblue; /* Texto azul oscuro */
+    -fx-font-size: 14px; /* Tamaño de fuente más grande */
+}
+
+/* Estilo para celdas específicas basadas en su contenido (ej. Ciudad "New York") */
+.tree-table-cell.new-york-cell {
+    -fx-background-color: #fcf3cf; /* Amarillo claro para celdas de "New York" */
+    -fx-text-fill: #b9770e; /* Texto amarillo-marrón para celdas de "New York" */
+    -fx-font-weight: bold; /* Texto en negrita */
+}
+
+/* Alineación para la columna 'Name' (si tienes un fx:id como 'nameColumn') */
+#nameColumn {
+    -fx-alignment: CENTER; /* Centra el contenido de la columna 'Name' */
+    -fx-background-color: #d1f2eb; /* Fondo verde claro para las celdas de la columna 'Name' */
+}
+
+
+/* --- ESTILOS ESPECÍFICOS PARA TREETABLEVIEW --- */
+
+/* Estilo para el icono de expansión/colapso (el triángulo/flecha) */
+.tree-table-view .tree-disclosure-node .arrow {
+    -fx-background-color: darkgray; /* Color de la flecha */
+    -fx-shape: "M 0 0 L 4 4 L 8 0 Z"; /* Forma de la flecha (apuntando hacia abajo) */
+}
+
+/* Estilo para el ícono cuando está expandido */
+.tree-table-view .tree-disclosure-node:expanded .arrow {
+    -fx-shape: "M 0 8 L 4 4 L 8 8 Z"; /* Forma de la flecha cuando está expandido (apuntando hacia arriba) */
+}
+
+/* Puedes ajustar el tamaño o padding del área del disclosure node */
+.tree-table-view .tree-disclosure-node {
+    -fx-padding: 0 5 0 0; /* Padding para ajustar el espacio */
+}
+
+
+/* --- ESTILOS PARA BARRAS DE DESPLAZAMIENTO (OPCIONAL) --- */
+
+/* Estilo del fondo de la barra de desplazamiento (el riel) */
+.tree-table-view .scroll-bar {
+    -fx-background-color: #f5f5f5;
+}
+
+/* Estilo para el 'pulgar' de la barra de desplazamiento (la parte que se mueve) */
+.tree-table-view .scroll-bar .thumb {
+    -fx-background-color: #a0a0a0;
+    -fx-background-radius: 5;
+}
+
+/* Estilo para los botones de incremento/decremento (las flechas) */
+.tree-table-view .scroll-bar .increment-button,
+.tree-table-view .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* Estilo para las flechas dentro de los botones de incremento/decremento */
+.tree-table-view .scroll-bar .increment-arrow,
+.tree-table-view .scroll-bar .decrement-arrow {
+    -fx-shape: "M 0 0 L 4 4 L 8 0 Z"; /* Puedes cambiar la forma de la flecha si lo deseas */
+    -fx-background-color: #606060;
+}
+
+.tree-table-view .column-header .label {
+    -fx-alignment: CENTER-LEFT;
+    /* Opcional: añade padding si el texto está muy pegado al borde */
+    -fx-padding: 0 0 0 5px;
+}

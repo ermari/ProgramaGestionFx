@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -19,6 +21,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
+
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 
 public class ListarPermisosController {
 
@@ -53,10 +57,20 @@ public class ListarPermisosController {
             private final Button btnEditar = new Button("Editar");
             private final Button btnEliminar = new Button("Eliminar");
             private final HBox contenedor = new HBox(5, btnEditar, btnEliminar);
+            // 🔹 Icono Editar
+            Image imgEditar = new Image(getClass().getResourceAsStream("/resources/icons/edit.png"));
+            ImageView iconEditar = new ImageView(imgEditar);
 
             {
+
+
+                iconEditar.setFitWidth(18);
+                iconEditar.setFitHeight(18);
+                btnEditar.setGraphic(iconEditar);
+
                 btnEditar.getStyleClass().add("editar-button");
                 btnEliminar.getStyleClass().add("eliminar-button");
+
                 btnEditar.setOnAction(e -> abrirFormularioPermiso(getTableView().getItems().get(getIndex())));
                 btnEliminar.setOnAction(e -> eliminarPermiso(getTableView().getItems().get(getIndex())));
             }
@@ -116,8 +130,6 @@ public class ListarPermisosController {
             mostrarAlerta("Error", "No se pudo abrir el formulario.", Alert.AlertType.ERROR);
         }
     }
-
-
 
     private void eliminarPermiso(Permiso permiso) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

@@ -128,9 +128,6 @@
          <center>
             <VBox spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="titulo" alignment="TOP_LEFT" maxWidth="Infinity" style="-fx-background-color: #0A4969;" textFill="#d6c1cd" textOverrun="CLIP" HBox.hgrow="ALWAYS">
-                     <font><Font name="Arial Black" size="18.0" /></font>
-                  </Label>
 
                   <AnchorPane fx:id="contentArea" prefHeight="302.0" prefWidth="486.0" style="-fx-background-color: #f4f4f4;" VBox.vgrow="ALWAYS" />
                </children>

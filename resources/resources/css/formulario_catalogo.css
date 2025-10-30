@@ -1,0 +1,207 @@
+/* Estilos generales del fondo del formulario */
+.form-background {
+    -fx-background-color: #f7f7f7; /* Un gris muy claro */
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 0); /* Sombra suave */
+}
+
+/* Título del formulario */
+.form-title {
+    -fx-text-fill: #333333;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10px 0;
+    -fx-border-color: transparent transparent #eeeeee transparent; /* Línea divisoria suave */
+    -fx-border-width: 1px;
+}
+
+/* Estilos para las etiquetas */
+.label {
+    -fx-text-fill: #555555;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Estilos para TextField y ComboBox */
+.text-field, .combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px 10px;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: #4CAF50; /* Verde vibrante al enfocar */
+    -fx-background-insets: 0;
+    -fx-background-radius: 5px;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+.combo-box .arrow {
+    -fx-background-color: #555555;
+}
+
+/* Estilos para ToggleButton */
+.toggle-button {
+    -fx-background-color: #cccccc;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 5px 15px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #4CAF50; /* Verde cuando seleccionado */
+    -fx-text-fill: white;
+}
+
+
+/* Estilos para las imágenes dentro de los botones */
+.button .image-view {
+    -fx-effect: null; /* Eliminar cualquier efecto predeterminado en la imagen */
+}
+
+/* diseno para botones   CONF BOTONES*/
+.crear-button {
+    -fx-background-color: linear-gradient(to bottom, #5cb85c 0%, #4cae4c 100%); /* Verde más vibrante */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #4cae4c;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 1);
+    -fx-cursor: hand;
+    -fx-font-size: 11px; /* Un tamaño de fuente más pequeño */
+    -fx-padding: 4 6;    /* Un relleno (padding) más ajustado */
+
+}
+.crear-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #4cae4c 0%, #5cb85c 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 1);
+}
+.crear-button:pressed {
+    -fx-background-color: #4cae4c;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);
+    -fx-translate-y: 1px;
+}
+
+.buscar-button {
+    -fx-background-color: linear-gradient(to bottom, #d7f143 0%, #678096 100%); /* Azul */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #ecec6b;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 5, 0, 0, 1);
+    -fx-cursor: hand;
+    -fx-font-size: 11px; /* Un tamaño de fuente más pequeño */
+    -fx-padding: 4 6;    /* Un relleno (padding) más ajustado */
+}
+
+.buscar-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #2e6da4 0%, #337ab7 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 1);
+}
+
+.salir-button {
+    -fx-background-color: linear-gradient(to bottom, #a98f39 0%, #2e6da4 100%); /* Azul */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #020a11;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 5, 0, 0, 1);
+    -fx-cursor: hand;
+    -fx-font-size: 11px; /* Un tamaño de fuente más pequeño */
+    -fx-padding: 4 6;    /* Un relleno (padding) más ajustado */
+}
+
+.salir-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #2e6da4 0%, #337ab7 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 1);
+}
+
+
+
+
+
+
+.editar-button {
+    -fx-background-color: linear-gradient(to bottom, #337ab7 0%, #2e6da4 100%); /* Azul */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #2e6da4;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 1);
+    -fx-cursor: hand;
+    -fx-font-size: 11px; /* Un tamaño de fuente más pequeño */
+    -fx-padding: 4 6;    /* Un relleno (padding) más ajustado */
+    }
+
+.editar-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #2e6da4 0%, #337ab7 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 1);
+}
+
+.editar-button:pressed {
+    -fx-background-color: #2e6da4;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);
+    -fx-translate-y: 1px;
+
+}
+
+
+.eliminar-button {
+    -fx-background-color: linear-gradient(to bottom, #d9534f 0%, #d43f3f 100%); /* Rojo */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-color: #d43f3f;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 1);
+    -fx-cursor: hand;
+    -fx-font-size: 11px; /* Un tamaño de fuente más pequeño */
+    -fx-padding: 4 6;    /* Un relleno (padding) más ajustado */
+}
+
+.eliminar-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #d43f3f 0%, #d9534f 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 1);
+}
+
+.eliminar-button:pressed {
+    -fx-background-color: #d43f3f;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);
+    -fx-translate-y: 1px;
+}
+
+.ver-detalle-button {
+    -fx-background-color: linear-gradient(to bottom, #000000 0%, #222222 100%);
+    -fx-text-fill: white;
+     -fx-font-weight: bold;
+    -fx-border-color: #444;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 3, 0, 0, 1);
+    -fx-cursor: hand;
+}
+
+.ver-detalle-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #222222 0%, #444444 100%);
+}
+
+.ver-detalle-button:pressed {
+    -fx-background-color: #d0d0d0;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);
+    -fx-translate-y: 1px;
+}
+

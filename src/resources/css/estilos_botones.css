@@ -1,0 +1,28 @@
+/* Botón Editar */
+.editar-button {
+    -fx-background-color: linear-gradient(to bottom right, #b999cc, #cc91c9);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-padding: 5 15 5 15;
+}
+
+/* Botón Eliminar */
+.eliminar-button {
+    -fx-background-color: linear-gradient(to bottom right, #ea8082, #eb6565);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-padding: 5 15 5 15;
+}
+
+/* Efecto hover para ambos botones */
+.editar-button:hover {
+    -fx-background-color: #5dade2;
+}
+
+.eliminar-button:hover {
+    -fx-background-color: #ec7063;
+}

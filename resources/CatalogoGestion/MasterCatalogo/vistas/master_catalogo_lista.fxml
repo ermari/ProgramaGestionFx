@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="501.0" prefWidth="895.0" stylesheets="@../../../resources/css/formulario_catalogo.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CatalogoGestion.MasterCatalogo.Controladores.MasterCatalogoListaController">
+    <children>
+        <VBox alignment="TOP_CENTER" fillWidth="false" layoutY="11.2" prefHeight="479.0" prefWidth="895.0" spacing="15.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="11.0">
+            <children>
+                <Label text="Listado de Maestros de Catálogos">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </Label>
+                <TableView fx:id="masterTable" prefHeight="338.0" prefWidth="850.0" styleClass="column-header-background" stylesheets="@../../../resources/css/tableView.css">
+                    <columns>
+                        <TableColumn fx:id="colMasterId" minWidth="1.0" prefWidth="1.0" text="ID" />
+                        <TableColumn fx:id="colMasterCodigo" maxWidth="1.7976931348623157E308" prefWidth="227.99998354911804" text="Código" />
+                        <TableColumn fx:id="colMasterNombre" maxWidth="1.7976931348623157E308" minWidth="168.79998779296875" prefWidth="267.9999237060547" text="Nombre" />
+                        <TableColumn fx:id="colMasterDescripcion" maxWidth="1.7976931348623157E308" minWidth="82.39993286132812" prefWidth="345.0" text="Descripción" />
+                    </columns>
+                    <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                    </VBox.margin>
+                </TableView>
+                <HBox alignment="CENTER" spacing="20.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#handleNuevoMaster" styleClass="crear-button" text="Nuevo Maestro" />
+                        <Button mnemonicParsing="false" onAction="#handleEditarMaster" styleClass="editar-button" text="Editar Maestro" />
+                        <Button mnemonicParsing="false" onAction="#handleEliminarMaster" styleClass="eliminar-button" text="Eliminar Maestro" />
+                        <Button mnemonicParsing="false" onAction="#handleVerDetalles" styleClass="ver-detalle-button" text="Ver Detalles" />
+                  <Button fx:id="btnSalir" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#salir" prefHeight="29.0" prefWidth="82.0" styleClass="salir-button" text="⮐ Regresar" />
+                    </children>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+               <stylesheets>
+                  <URL value="@../../../resources/css/formulario_catalogo.css" />
+               </stylesheets>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>

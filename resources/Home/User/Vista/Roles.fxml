@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400" prefWidth="800.0" stylesheets="@../../../resources/css/formulario_catalogo.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Home.User.Controlador.ListarRolesController">
+
+    <children>
+        <VBox fillWidth="false" spacing="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" spacing="10">
+                <Button fx:id="btnAgregarRol" onAction="#abrirFormularioAgregar" styleClass="crear-button" text="Agregar Rol">
+                    <graphic>
+                        <ImageView fitHeight="16" fitWidth="16" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../../resources/images/add.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Region HBox.hgrow="ALWAYS" />
+                <TextField fx:id="txtBuscarRol" prefHeight="38.0" prefWidth="472.0" promptText="Buscar por nombre..." />
+                <Button fx:id="btnBuscar" maxHeight="-Infinity" onAction="#buscarRol" prefHeight="26.0" prefWidth="75.0" styleClass="buscar-button" text="Buscar" />
+            <Button fx:id="btnSalir" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#salir" prefHeight="28.0" prefWidth="81.0" styleClass="salir-button" text="⮐ Regresar" />
+            </HBox>
+
+            <TableView fx:id="tableRoles" prefHeight="327.0" prefWidth="784.0" stylesheets="@../../../resources/css/tableView.css" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNombre" prefWidth="196.00000607967377" text="Nombre" />
+                    <TableColumn fx:id="colDescripcion" prefWidth="360.7999572753906" text="Descripción" />
+                    <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="222.4000244140625" text="Acciones" />
+                </columns>
+            </TableView>
+
+        </VBox>
+    </children>
+</AnchorPane>

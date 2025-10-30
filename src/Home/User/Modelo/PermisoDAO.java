@@ -186,7 +186,6 @@ public class PermisoDAO {
 
         try (Connection conn = BDconexion.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, permisoId);
             ps.executeUpdate();
         }

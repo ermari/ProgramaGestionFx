@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="570.0" prefWidth="856.0" stylesheets="@../../../resources/css/formulario_catalogo.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Home.User.Controlador.ListarPermisosController">
+    <children>
+        <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="560.0" prefWidth="822.0" spacing="15.0">
+            <padding>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            </padding>
+
+
+
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Button onAction="#abrirFormularioAgregar" prefHeight="23.0" prefWidth="102.0" styleClass="crear-button" text="Agregar Permiso">
+               <font>
+                  <Font size="10.0" />
+               </font></Button>
+                <Region HBox.hgrow="ALWAYS" />
+                <TextField fx:id="txtBuscarPermiso" prefHeight="26.0" prefWidth="357.0" promptText="Buscar..." />
+                <Button fx:id="btnBuscar" onAction="#buscarPermiso" prefHeight="31.0" prefWidth="76.0" styleClass="buscar-button" stylesheets="@../../../resources/css/formulario_catalogo.css" text="Buscar">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font></Button>
+            <Button fx:id="btnSalir" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#salir" prefHeight="27.0" prefWidth="86.0" styleClass="salir-button" text="⮐ Regresar" />
+            </HBox>
+
+            <TableView fx:id="tablePermisos" prefHeight="488.0" prefWidth="630.0" stylesheets="@../../../resources/css/tableView.css" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNombre" prefWidth="311.19999998807907" text="Nombre" />
+                    <TableColumn fx:id="colDescripcion" prefWidth="299.199951171875" text="Descripción" />
+                    <TableColumn fx:id="colAcciones" prefWidth="180.79998779296875" text="Acciones" />
+                </columns>
+            </TableView>
+        </VBox>
+    </children>
+</AnchorPane>

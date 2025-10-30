@@ -131,7 +131,7 @@ public class ListarComprobantesController {
                 RegistroComprobanteController registroController = loader.getController();
 
                 // Pasar el comprobante seleccionado para editar
-                //registroController.cargarComprobanteParaEdicion(seleccionado); // Necesitarás crear este método en RegistroComprobanteController
+                registroController.cargarComprobanteParaEdicion(seleccionado); // Necesitarás crear este método en RegistroComprobanteController
 
                 Stage stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
@@ -142,7 +142,7 @@ public class ListarComprobantesController {
                 // Después de cerrar la ventana de edición, recargar la lista de comprobantes
                 cargarComprobantes();
 
-            } catch (IOException e) {
+            } catch (IOException | SQLException e) {
                 showAlert(Alert.AlertType.ERROR, "Error de Carga", "No se pudo abrir la ventana de edición: " + e.getMessage());
                 e.printStackTrace();
             }
@@ -186,28 +186,28 @@ public class ListarComprobantesController {
 
     @FXML
     private void AgregerComprobante() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Comprobantes/Vista/RegistrarComprobante.fxml"));
+            Parent root = loader.load();
 
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Comprobantes/Vista/RegistrarComprobante.fxml")); // Ruta a tu FXML de registro
-                Parent root = loader.load();
+            RegistroComprobanteController registroController = loader.getController();
 
-                // Obtener el controlador de la ventana de registro
-                RegistroComprobanteController registroController = loader.getController();
+            // ✅ pasar callback
+            registroController.setOnSaveCallback(this::cargarComprobantes);
 
-                // Pasar el comprobante seleccionado para editarregistroController.cargarComprobanteParaEdicion(seleccionado); // Necesitarás crear este método en RegistroComprobanteController
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setScene(new Scene(root));
-                stage.setTitle("Agregar Comprobante");
-                stage.showAndWait();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.setTitle("Agregar Comprobante");
+            stage.show();
 
-
-            } catch (IOException e) {
-                showAlert(Alert.AlertType.ERROR, "Error de Carga", "No se pudo abrir la ventana de edición: " + e.getMessage());
-                e.printStackTrace();
-            }
-
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Error de Carga", "No se pudo abrir la ventana de registro: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+
+
 
     @FXML
     private void salir() {
